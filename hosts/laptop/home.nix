@@ -67,6 +67,7 @@
       btop
       nautilus
       pavucontrol
+      nwg-look
       # Just cool
       peaclock
       cbonsai

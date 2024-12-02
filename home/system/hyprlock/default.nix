@@ -29,22 +29,13 @@ in {
         {
           # Day-Month-Date
           monitor = "";
-          text = ''cmd[update:1000] echo -e "$(date +"%A, %B %d")"'';
-          color = foreground;
-          font_size = 28;
-          font_family = font + " Bold";
-          position = "0, 490";
-          halign = "center";
-          valign = "center";
-        }
-        # Time
-        {
-          monitor = "";
           text = ''cmd[update:1000] echo "<span>$(date +"%I:%M")</span>"'';
+          shadow_passes = "1";
+          shadow_boost = "0.5";
           color = foreground;
-          font_size = 160;
-          font_family = "steelfish outline regular";
-          position = "0, 370";
+          font_size = "65";
+          font_family = font + " Bold";
+          position = "0, 300";
           halign = "center";
           valign = "center";
         }

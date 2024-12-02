@@ -2,7 +2,7 @@
   wayland.windowManager.hyprland.settings = {
     bind = [
       "$mod,T, exec, ${pkgs.kitty}/bin/kitty" # Kitty
-      "$mod,E, exec, ${pkgs.nautilus}/bin/thunar" # Thunar
+      "$mod,E, exec, ${pkgs.nautilus}/bin/nautilus" # Thunar
       #  "$mod,B, exec, ${pkgs.qutebrowser}/bin/qutebrowser" # Qutebrowser
       "$mod,K, exec, ${pkgs.bitwarden}/bin/bitwarden" # Bitwarden
       "$mod,L, exec, ${pkgs.hyprlock}/bin/hyprlock" # Lock
