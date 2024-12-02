@@ -68,6 +68,7 @@
       nautilus
       pavucontrol
       nwg-look
+      obs-studio
       # Just cool
       peaclock
       cbonsai
