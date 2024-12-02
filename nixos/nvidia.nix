@@ -11,6 +11,7 @@ in {
       "nvidia-drm.modeset=1"
       "nvidia_drm.fbdev=1"
       "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
+      "acpi_backlight=native"
     ];
   environment.variables = {
     # GBM_BACKEND = "nvidia-drm"; # If crash in firefox, remove this line
