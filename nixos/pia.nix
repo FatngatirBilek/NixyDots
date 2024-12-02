@@ -6,5 +6,5 @@
   #
   # The secret you provide to `authUserPassFile` should be a multiline string with
   # a single username on the first line a single password on the second line.
-  services.pia.authUserPassFile = "/home/hadi/.config/pia/pia.ovpn";
+  services.pia.authUserPassFile = "/home/fathirbimashabri/.config/pia/pia.ovpn";
 }

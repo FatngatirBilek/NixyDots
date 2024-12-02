@@ -21,12 +21,14 @@
     ../../nixos/pia.nix
 
     # Choose your theme here
-    ../../themes/stylix/pinky.nix
+    ../../themes/stylix/nixy.nix
 
     ./hardware-configuration.nix
     ./variables.nix
   ];
   programs.ssh.startAgent = true;
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
   home-manager.users."${config.var.username}" = import ./home.nix;
   services.flatpak.enable = true;
   # Don't touch this

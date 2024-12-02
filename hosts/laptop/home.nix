@@ -78,6 +78,7 @@
       fastfetch
       # Backup
       vscode
+      gnome-tweaks
       zed-editor
     ];
 
