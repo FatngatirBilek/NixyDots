@@ -61,7 +61,7 @@ let
         sudo /run/current-system/bin/switch-to-configuration boot
       elif [[ $1 == "remote" ]];then
         cd ~/.config/nixos && git add . && git commit -m "update" && git push
-        ssh jack -S -C "cd /home/hadi/.config/nixos && git pull && sudo -S nixos-rebuild switch --flake ~/.config/nixos#jack"
+        ssh fathirbimashabri -S -C "cd /home/fathirbimashabri/.config/nixos && git pull && sudo -S nixos-rebuild switch --flake ~/.config/nixos#nixos"
       elif [[ $1 == "loop" ]];then
         while true; do
           nixy

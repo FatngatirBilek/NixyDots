@@ -3,5 +3,6 @@
     nixd
     gns3-gui
     gns3-server
+    winbox4
   ];
 }
