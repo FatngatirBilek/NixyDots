@@ -69,6 +69,7 @@
       pavucontrol
       nwg-look
       obs-studio
+      networkmanagerapplet
       # Just cool
       peaclock
       cbonsai
