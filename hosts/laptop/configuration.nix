@@ -19,6 +19,7 @@
     ../../nixos/variables-config.nix
     ../../nixos/docker.nix
     ../../nixos/pia.nix
+    ../../nixos/personal.nix
 
     # Choose your theme here
     ../../themes/stylix/nixy.nix
