@@ -1,3 +1,7 @@
 { pkgs, ... }: {
-  environment.systemPackages = with pkgs; [ nixd ];
+  environment.systemPackages = with pkgs; [
+    nixd
+    gns3-gui
+    gns3-server
+  ];
 }
