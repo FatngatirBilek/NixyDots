@@ -8,8 +8,8 @@
       + "/.config/nixos"; # The path of the nixos configuration directory
 
     keyboardLayout = "us";
-    
-    myapikey= "09b330e1e15e454f8b7120845241611";
+
+    weather = "09b330e1e15e454f8b7120845241611";
     location = "Klaten";
     timeZone = "Asia/Jakarta";
     defaultLocale = "en_US.UTF-8";

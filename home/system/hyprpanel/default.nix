@@ -22,7 +22,7 @@ let
   transparent = config.var.theme.bar.transparent;
   position = config.var.theme.bar.position;
 
-  weather = config.var.myapikey;
+  weather = config.var.weather;
   location = config.var.location;
   username = config.var.username;
 in {
