@@ -22,7 +22,7 @@ let
   transparent = config.var.theme.bar.transparent;
   position = config.var.theme.bar.position;
 
-  location = config.var.myapikey;
+  weather = config.var.myapikey;
   location = config.var.location;
   username = config.var.username;
 in {
@@ -144,7 +144,7 @@ in {
           "theme.osd.margins": "0px 0px 0px 10px",
           "theme.osd.muted_zero": true,
           "menus.clock.weather.location": "${location}",
-          "menus.clock.weather.key": "${myapikey}",
+          "menus.clock.weather.key": "${weather}",
           "menus.clock.weather.unit": "metric",
           "menus.dashboard.powermenu.avatar.image": "/home/${username}/.profile_picture.png",
           "menus.dashboard.powermenu.confirmation": false,
