@@ -27,6 +27,7 @@
     ./hardware-configuration.nix
     ./variables.nix
   ];
+  time.hardwareClockInLocalTime = true;
   programs.ssh.startAgent = true;
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
