@@ -19,7 +19,7 @@
     ../../nixos/variables-config.nix
     ../../nixos/docker.nix
     ../../nixos/pia.nix
-    ../../nixos/tjkt.nix.nix
+    ../../nixos/tjkt.nix
 
     # Choose your theme here
     ../../themes/stylix/nixy.nix
