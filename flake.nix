@@ -42,6 +42,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nur.url = "github:nix-community/NUR";
+    zen-browser.url =
+      "git+https://git.sr.ht/~canasta/zen-browser-flake/"; # updated flake
   };
 
   outputs = inputs@{ nixpkgs, ... }: {

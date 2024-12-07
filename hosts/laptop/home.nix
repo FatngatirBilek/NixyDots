@@ -16,6 +16,7 @@
     # ../../home/programs/thunar
     ../../home/programs/lazygit
     ../../home/programs/nh
+    ../../home/programs/zen
     ../../home/programs/server-page
 
     # Scripts
