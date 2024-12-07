@@ -7,5 +7,6 @@
     bun
     fnm
     distrobox
+    lunar-client
   ];
 }
