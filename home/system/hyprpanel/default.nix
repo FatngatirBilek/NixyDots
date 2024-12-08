@@ -147,7 +147,7 @@ in {
           "menus.clock.weather.key": "${weather}",
           "menus.clock.weather.unit": "metric",
           "menus.dashboard.powermenu.avatar.image": "/home/${username}/.profile_picture.png",
-          "menus.dashboard.powermenu.confirmation": false,
+          "menus.dashboard.powermenu.confirmation": true,
 
           "menus.dashboard.shortcuts.left.shortcut1.icon": "",
           "menus.dashboard.shortcuts.left.shortcut1.command": "qutebrowser",
