@@ -31,7 +31,7 @@ in {
 
   home.packages = with pkgs; [ hyprpanel libnotify ];
 
-  home.file.".cache/ags/hyprpanel/options.json" = {
+  home.file.".config/hyprpanel/config.json" = {
     text = # json
       ''
         {
@@ -136,6 +136,7 @@ in {
           "bar.bluetooth.label": false,
           "bar.clock.format": "%a %b %d  %I:%M %p",
           "bar.notifications.show_total": true,
+          "notifications.active_monitor": false,
           "theme.notification.border_radius": "${toString rounding}px",
           "theme.osd.enable": true,
           "theme.osd.orientation": "vertical",
