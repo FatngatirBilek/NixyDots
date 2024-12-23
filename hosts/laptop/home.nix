@@ -53,7 +53,7 @@
       # Dev
       go
       nodejs
-      python3
+      python3Full
       jq
       figlet
       just
