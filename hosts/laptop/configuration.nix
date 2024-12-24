@@ -1,4 +1,7 @@
-{ config, ... }: {
+{ config, ... }:
+let
+  acermodule = config.boot.kernelPackages.callPackage ../../nixos/acer-module.nix {};
+in {  
   imports = [
     ../../nixos/nvidia.nix # CHANGEME: Remove this line if you don't have an Nvidia GPU
     ../../nixos/prime.nix # CHANGEME: Remove this line if you don't have an Nvidia GPU
@@ -21,18 +24,22 @@
     ../../nixos/pia.nix
     ../../nixos/tjkt.nix
 
-    # Choose your theme here
+      # Choose your theme here
     ../../themes/stylix/nixy.nix
 
     ./hardware-configuration.nix
     ./variables.nix
   ];
+
   time.hardwareClockInLocalTime = true;
   programs.ssh.startAgent = true;
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
   home-manager.users."${config.var.username}" = import ./home.nix;
   services.flatpak.enable = true;
+  boot.extraModulePackages = [ acermodule ];
+  boot.kernelModules = [ "facer" "wmi" "sparse-keymap" "video" ];
+ 
   # Don't touch this
   system.stateVersion = "24.05";
 }
