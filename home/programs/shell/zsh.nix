@@ -49,6 +49,13 @@ in {
       }"
     '';
 
+        sessionVariables = {
+        LD_LIBRARY_PATH = lib.concatStringsSep ":" [
+        "${pkgs.linuxPackages_latest.nvidia_x11_beta}/lib" #change the package name according to nix search result
+        "$LD_LIBRARY_PATH"
+        ];
+      };
+
     shellAliases = {
       vim = "nvim";
       vi = "nvim";
