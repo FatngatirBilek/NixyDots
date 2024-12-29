@@ -44,6 +44,9 @@
     nur.url = "github:nix-community/NUR";
     zen-browser.url =
       "git+https://git.sr.ht/~canasta/zen-browser-flake/"; # updated flake
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+    };
   };
 
   outputs = inputs@{ nixpkgs, ... }: {
