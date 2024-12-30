@@ -9,13 +9,17 @@ in {
 
   programs.zsh = {
     enable = true;
-    enableCompletion = true;
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-    historySubstringSearch.enable = true;
+      zplug = {
+    enable = true;
     plugins = [
-      {name = "powerlevel10k";src = pkgs.zsh-powerlevel10k;file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";}
-    ]; 
+      { name = "zsh-users/zsh-autosuggestions"; } # Simple plugin installation
+      { name = "zsh-users/zsh-syntax-highlighting"; }
+      { name = "MichaelAquilina/zsh-you-should-use"; }
+      { name = "romkatv/powerlevel10k"; tags = [ as:theme depth:1 ]; }
+    ];
+  };
+    
+     
     initExtraFirst = ''
       source ~/.p10k.zsh 
       bindkey -e
@@ -60,8 +64,6 @@ in {
       };
 
     shellAliases = {
-      vim = "nvim";
-      vi = "nvim";
       v = "nvim";
       c = "clear";
       clera = "clear";
@@ -75,29 +77,6 @@ in {
       icat = "${pkgs.kitty}/bin/kitty +kitten icat";
       ssh = "kitty +kitten ssh";
 
-      wireguard-import = "nmcli connection import type wireguard file";
-
-      notes =
-        "nvim ~/nextcloud/Notes/index.md --cmd 'cd ~/nextcloud/Notes' -c ':Telescope find_files'";
-      note = "notes";
-
-      # git
-      g = "lazygit";
-      ga = "git add";
-      gc = "git commit";
-      gcu = "git add . && git commit -m 'Update'";
-      gp = "git push";
-      gpl = "git pull";
-      gs = "git status";
-      gd = "git diff";
-      gco = "git checkout";
-      gcb = "git checkout -b";
-      gbr = "git branch";
-      grs = "git reset HEAD~1";
-      grh = "git reset --hard HEAD~1";
-
-      gaa = "git add .";
-      gcm = "git commit -m";
     };
   };
 }
