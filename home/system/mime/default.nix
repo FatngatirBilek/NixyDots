@@ -23,10 +23,11 @@
       "image/jpeg" = "imv.desktop";
       "image/jpg" = "imv.desktop";
       "image/webp" = "imv.desktop";
-      "image/gif" = "firefox.desktop";
-      "text/html" = "firefox.desktop";
+      "image/gif" = "zen.desktop";
+      "x-scheme-handler/http" = "zen.desktop";
+      "x-scheme-handler/https" = "zen.desktop";
+      "text/html" = "zen.desktop";
       "application/pdf" = "zathura.desktop";
     };
   };
 }
-
