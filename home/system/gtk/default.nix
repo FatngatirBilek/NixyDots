@@ -37,8 +37,8 @@ in {
     theme = lib.mkForce { name = "FlatColor"; };
 
     iconTheme = {
-      package = pkgs.kora-icon-theme;
-      name = "Kora";
+      package = pkgs.tela-icon-theme;
+      name = "Tela";
     };
 
     font = { name = config.stylix.fonts.serif.name; };

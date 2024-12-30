@@ -1,21 +1,26 @@
-{ pkgs,inputs, ... }: {
+{ pkgs, inputs, ... }: {
   home.packages = with pkgs; [ inputs.ghostty.packages."${system}".default ];
-  
+
   xdg.configFile."ghostty/config".text = ''
     command = zsh
 
-    font-family = JetBrains Mono Nerd Font
+    font-family = FiraCode Nerd Font
     font-size = 13
-    font-feature = -calt
-    font-feature = -dlig
-    font-feature = -liga
+    # Theme
+      theme = Nocturnal Winter 
+      unfocused-split-opacity = 0.5
 
-    shell-integration-features = no-cursor
+    # Mouse
+      mouse-hide-while-typing = true
 
-    cursor-style = block
-    cursor-style-blink = false
-
-    theme = catppuccin-mocha
-    window-theme = ghostty
+    # Window
+    # background-opacity = 0.95
+      background-blur-radius = 32
+      window-colorspace = display-p3
+      window-padding-x = 2
+      window-padding-y = 2
+      window-padding-balance = true
+      window-padding-color = extend
+      window-decoration = false
   '';
 }

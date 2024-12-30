@@ -13,8 +13,11 @@ in {
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     historySubstringSearch.enable = true;
-
+    plugins = [
+      {name = "powerlevel10k";src = pkgs.zsh-powerlevel10k;file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";}
+    ]; 
     initExtraFirst = ''
+      source ~/.p10k.zsh 
       bindkey -e
       ${if fetch == "neofetch" then
         pkgs.neofetch + "/bin/neofetch"

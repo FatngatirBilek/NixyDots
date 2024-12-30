@@ -1,7 +1,7 @@
 { pkgs, ... }: {
   wayland.windowManager.hyprland.settings = {
     bind = [
-      "$mod,T, exec, ${pkgs.kitty}/bin/kitty" # Kitty
+      "$mod,T, exec, ghostty" # ghostty
       "$mod,E, exec, ${pkgs.nautilus}/bin/nautilus" # Thunar
       #  "$mod,B, exec, ${pkgs.qutebrowser}/bin/qutebrowser" # Qutebrowser
       "$mod,K, exec, ${pkgs.bitwarden}/bin/bitwarden" # Bitwarden
