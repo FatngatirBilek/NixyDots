@@ -17,6 +17,7 @@
     ../../home/programs/lazygit
     ../../home/programs/nh
     ../../home/programs/zen
+    ../../home/programs/ghostty
     ../../home/programs/server-page
 
     # Scripts

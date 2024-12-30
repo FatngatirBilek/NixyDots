@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs,inputs, ... }: {
   home.packages = with pkgs; [ inputs.ghostty.packages."${system}".default ];
   
   xdg.configFile."ghostty/config".text = ''
