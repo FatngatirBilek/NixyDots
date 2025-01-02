@@ -7,7 +7,7 @@
     font-family = FiraCode Nerd Font
     font-size = 13
     # Theme
-      theme = Nocturnal Winter 
+      theme = Tinacious Design (Dark) 
       unfocused-split-opacity = 0.5
 
     # Mouse
@@ -22,5 +22,10 @@
       window-padding-balance = true
       window-padding-color = extend
       window-decoration = false
+    
+    # Keybind
+      keybind= alt+t=new_tab
+      keybind= alt+w=close_surface 
+
   '';
 }
