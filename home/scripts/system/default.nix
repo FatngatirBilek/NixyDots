@@ -16,11 +16,6 @@ let
       else
       	wofi -p " Apps" --show drun
       fi
-      # if pgrep tofi; then
-      # 	pkill tofi
-      # else
-      # 	tofi-drun --drun-launch=true
-      # fi
     '';
 
   powermenu = pkgs.writeShellScriptBin "powermenu"
@@ -28,8 +23,6 @@ let
     ''
       if pgrep wofi; then
       	pkill wofi
-      # if pgrep tofi; then
-      #   pkill tofi
       else
         options=(
           "󰌾 Lock"
@@ -40,7 +33,6 @@ let
         )
 
         selected=$(printf '%s\n' "''${options[@]}" | wofi -p " Powermenu" --dmenu)
-        # selected=$(printf '%s\n' "''${options[@]}" | tofi --prompt-text "> ")
         selected=''${selected:2}
 
         case $selected in
@@ -68,8 +60,6 @@ let
     ''
       if pgrep wofi; then
       	pkill wofi
-      # if pgrep tofi; then
-      #   pkill tofi
       else
         options=(
           "󰅶 Caffeine"
@@ -79,7 +69,7 @@ let
         )
 
         selected=$(printf '%s\n' "''${options[@]}" | wofi -p " Quickmenu" --dmenu)
-        # selected=$(printf '%s\n' "''${options[@]}" | tofi --prompt-text "> ")
+        
         selected=''${selected:2}
 
         case $selected in

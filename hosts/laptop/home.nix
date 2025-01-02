@@ -36,7 +36,7 @@
     ../../home/system/mime
     ../../home/system/udiskie
     ../../home/system/clipman
-    ../../home/system/tofi
+    
     # ./secrets # CHANGEME: You should probably remove this line, this is where I store my secrets
   ];
 
@@ -46,7 +46,7 @@
 
     packages = with pkgs; [
       # Apps
-      discord # Chat
+      webcord # Chat
       bitwarden # Password manager
       vlc # Video player
       blanket # White-noise app
