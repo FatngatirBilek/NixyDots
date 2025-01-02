@@ -22,7 +22,6 @@ in {
      
     initExtraFirst = ''
       source ~/.p10k.zsh 
-      bindkey -e
       ${if fetch == "neofetch" then
         pkgs.neofetch + "/bin/neofetch"
       else if fetch == "nerdfetch" then
@@ -31,17 +30,6 @@ in {
         "echo; ${pkgs.pfetch}/bin/pfetch"
       else
         ""}
-
-      function sesh-sessions() {
-        session=$(sesh list -t -c | fzf --height 70% --reverse)
-        [[ -z "$session" ]] && return
-        sesh connect $session
-      }
-
-      zle     -N             sesh-sessions
-      bindkey -M emacs '\es' sesh-sessions
-      bindkey -M vicmd '\es' sesh-sessions
-      bindkey -M viins '\es' sesh-sessions
     '';
 
     history = {
@@ -65,6 +53,7 @@ in {
 
     shellAliases = {
       v = "nvim";
+      vim = "nvim";
       c = "clear";
       clera = "clear";
       celar = "clear";
