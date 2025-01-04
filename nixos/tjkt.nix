@@ -8,5 +8,6 @@
     fnm
     distrobox
     lunar-client
+    droidcam
   ];
 }
