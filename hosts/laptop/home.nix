@@ -77,7 +77,7 @@
       cbonsai
       pipes
       cmatrix
-      # cava
+      cava
       fastfetch
       # Backup
       vscode
