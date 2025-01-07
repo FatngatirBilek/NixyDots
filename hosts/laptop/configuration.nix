@@ -38,14 +38,21 @@ in {
     ./variables.nix
 
   ];
-  # Remove XTerm
-  services.xserver.excludePackages = [ pkgs.xterm ];
-  # Kde Connect
-  programs.kdeconnect.enable = true;
+  security.wrappers.ubridge = {
+  source = "/run/current-system/sw/bin/ubridge";
+  capabilities = "cap_net_admin,cap_net_raw=ep";
+  owner = "root";
+  group = "ubridge";
+  permissions = "u+rx,g+rx,o+rx"; 
+  };
+  users.groups.ubridge = {};
+
   time.hardwareClockInLocalTime = true;
   programs.ssh.startAgent = true;
-  virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
+  users.groups.libvirtd.members = ["fathirbimashabri"];
+  virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
   home-manager.users."${config.var.username}" = import ./home.nix;
   services.flatpak.enable = true;
   boot.extraModulePackages =

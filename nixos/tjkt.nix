@@ -9,5 +9,7 @@
     distrobox
     lunar-client
     droidcam
+    ubridge
+    remmina
   ];
 }
