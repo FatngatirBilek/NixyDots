@@ -30,6 +30,7 @@ in {
     ../../nixos/pia.nix
     ../../nixos/tjkt.nix
     ../../nixos/wine.nix
+    ../../nixos/fcitx.nix
     # Choose your theme here
     ../../themes/stylix/nixy.nix
 
@@ -39,6 +40,8 @@ in {
   ];
   # Remove XTerm
   services.xserver.excludePackages = [ pkgs.xterm ];
+  # Kde Connect
+  programs.kdeconnect.enable = true;
   time.hardwareClockInLocalTime = true;
   programs.ssh.startAgent = true;
   virtualisation.libvirtd.enable = true;
