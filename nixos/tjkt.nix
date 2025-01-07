@@ -10,6 +10,8 @@
     lunar-client
     droidcam
     ubridge
+    inetutils
     remmina
+    qemu
   ];
 }
