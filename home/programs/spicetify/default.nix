@@ -6,14 +6,11 @@ let
 in {
   imports = [ inputs.spicetify-nix.homeManagerModules.default ];
 
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [ "spotify" ];
-
   stylix.targets.spicetify.enable = false;
 
   programs.spicetify = {
     enable = true;
-    theme = lib.mkForce spicePkgs.themes.lucid;
+    theme = lib.mkForce spicePkgs.themes.text;
 
     colorScheme = "custom";
 

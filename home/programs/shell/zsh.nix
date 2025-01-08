@@ -63,9 +63,6 @@ in {
       tree = "eza --icons=always --tree --no-quotes";
       sl = "ls";
       open = "${pkgs.xdg-utils}/bin/xdg-open";
-      icat = "${pkgs.kitty}/bin/kitty +kitten icat";
-      ssh = "kitty +kitten ssh";
-
     };
   };
 }
