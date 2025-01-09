@@ -30,6 +30,7 @@
       keybind = ctrl+c=copy_to_clipboard
       keybind = ctrl+v=paste_from_clipboard
       keybind = ctrl+shift+z=toggle_window_decorations
+      keybind = ctrl+l=clear_screen
 
   '';
 }

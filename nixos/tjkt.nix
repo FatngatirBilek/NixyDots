@@ -14,5 +14,6 @@
     remmina
     qemu
     nil
+    alejandra
   ];
 }
