@@ -7,7 +7,7 @@
     font-family = FiraCode Nerd Font
     font-size = 13
     # Theme
-      theme = Tinacious Design (Dark) 
+      theme = Tinacious Design (Dark)
       unfocused-split-opacity = 0.5
 
     # Mouse
@@ -22,10 +22,14 @@
       window-padding-balance = true
       window-padding-color = extend
       window-decoration = false
-    
+
+
     # Keybind
       keybind= alt+t=new_tab
-      keybind= alt+w=close_surface 
+      keybind= alt+w=close_surface
+      keybind = ctrl+c=copy_to_clipboard
+      keybind = ctrl+v=paste_from_clipboard
+      keybind = ctrl+shift+z=toggle_window_decorations
 
   '';
 }

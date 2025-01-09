@@ -13,5 +13,6 @@
     inetutils
     remmina
     qemu
+    nil
   ];
 }
