@@ -10,6 +10,7 @@
     ../../home/programs/fetch
     ../../home/programs/git
     ../../home/programs/spicetify
+    ../../home/programs/fastfetch
     # ../../home/programs/nextcloud
     ../../home/programs/yazi
     ../../home/programs/markdown
@@ -36,7 +37,7 @@
     ../../home/system/mime
     ../../home/system/udiskie
     ../../home/system/clipman
-    
+
     # ./secrets # CHANGEME: You should probably remove this line, this is where I store my secrets
   ];
 
@@ -78,7 +79,6 @@
       pipes
       cmatrix
       cava
-      fastfetch
       # Backup
       vscode
       gnome-tweaks

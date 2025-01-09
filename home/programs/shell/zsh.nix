@@ -18,16 +18,16 @@ in {
       { name = "romkatv/powerlevel10k"; tags = [ as:theme depth:1 ]; }
     ];
   };
-    
-     
+
+
     initExtraFirst = ''
-      source ~/.p10k.zsh 
+      source ~/.p10k.zsh
       ${if fetch == "neofetch" then
         pkgs.neofetch + "/bin/neofetch"
       else if fetch == "nerdfetch" then
         "nerdfetch"
-      else if fetch == "pfetch" then
-        "echo; ${pkgs.pfetch}/bin/pfetch"
+      else if fetch == "fastfetch" then
+        "fastfetch"
       else
         ""}
     '';
