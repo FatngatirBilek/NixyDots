@@ -27,8 +27,8 @@
     # Keybind
       keybind= alt+t=new_tab
       keybind= alt+w=close_surface
-      keybind = ctrl+c=copy_to_clipboard
-      keybind = ctrl+v=paste_from_clipboard
+      keybind = ctrl+shift+c=copy_to_clipboard
+      keybind = ctrl+shift+v=paste_from_clipboard
       keybind = ctrl+shift+z=toggle_window_decorations
       keybind = ctrl+l=clear_screen
 
