@@ -43,13 +43,23 @@ in {
   capabilities = "cap_net_admin,cap_net_raw=ep";
   owner = "root";
   group = "ubridge";
-  permissions = "u+rx,g+rx,o+rx"; 
+  permissions = "u+rx,g+rx,o+rx";
   };
   users.groups.ubridge = {};
-
   time.hardwareClockInLocalTime = true;
-  programs.ssh.startAgent = true;
-  programs.virt-manager.enable = true;
+
+  programs = {
+    nix-ld = {
+      enable = true;
+    };
+    ssh = {
+      startAgent = true;
+    };
+    virt-manager = {
+      enable = true;
+    };
+  };
+
   users.groups.libvirtd.members = ["fathirbimashabri"];
   virtualisation.libvirtd.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
