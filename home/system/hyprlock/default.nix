@@ -15,9 +15,9 @@ in {
       };
 
       # BACKGROUND
-      background = {
+      background = lib.mkForce {
         monitor = "";
-        path = imageStr;
+        path = "~/.config/nixos/hosts/laptop/nix.png";
         blur_passes = 0;
         contrast = 0.8916;
         brightness = 0.7172;
