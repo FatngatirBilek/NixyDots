@@ -15,7 +15,7 @@ BIG THANKS TO HADY FOR MAKING THIS CONFIG. THIS IS MY PERSONAL PREFERENCES, ORIG
         <img src="https://img.shields.io/github/stars/anotherhadi/nixy?color=A594FD&labelColor=0b0b0b&style=for-the-badge&logo=starship&logoColor=A594FD">
     </a>
     <a href="https://github.com/FatngatirBilek/NixyDots/">
-        <img src="https://img.shields.io/github/repo-size/FangatirBilek/NixyDots?color=A594FD&labelColor=0b0b0b&style=for-the-badge&logo=github&logoColor=A594FD">
+        <img src="https://img.shields.io/github/repo-size/FatngatirBilek/NixyDots?color=A594FD&labelColor=0b0b0b&style=for-the-badge&logo=github&logoColor=A594FD">
     </a>
     <a href="https://nixos.org">
         <img src="https://img.shields.io/badge/NixOS-unstable-blue.svg?style=for-the-badge&labelColor=0b0b0b&logo=NixOS&logoColor=A594FD&color=A594FD">
