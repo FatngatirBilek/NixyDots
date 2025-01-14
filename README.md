@@ -11,9 +11,6 @@ BIG THANKS TO HADY FOR MAKING THIS CONFIG. THIS IS MY PERSONAL PREFERENCES, ORIG
 
 <br>
 <div align="center">
-    <a href="https://github.com/anotherhadi/nixy/stargazers">
-        <img src="https://img.shields.io/github/stars/anotherhadi/nixy?color=A594FD&labelColor=0b0b0b&style=for-the-badge&logo=starship&logoColor=A594FD">
-    </a>
     <a href="https://github.com/FatngatirBilek/NixyDots/">
         <img src="https://img.shields.io/github/repo-size/FatngatirBilek/NixyDots?color=A594FD&labelColor=0b0b0b&style=for-the-badge&logo=github&logoColor=A594FD">
     </a>
