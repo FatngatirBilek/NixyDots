@@ -1,7 +1,19 @@
-{ inputs, pkgs, ... }: {
-  home.packages =
-    [ inputs.hyprpolkitagent.packages."${pkgs.system}".hyprpolkitagent ];
+{pkgs, ...}: {
+  systemd.user.services.polkit-gnome-authentication-agent-1 = {
+    Unit.Description = "polkit-gnome-authentication-agent-1";
 
-  wayland.windowManager.hyprland.settings.exec-once =
-    [ "systemctl --user start hyprpolkitagent" ];
+    Install = {
+      WantedBy = ["graphical-session.target"];
+      Wants = ["graphical-session.target"];
+      After = ["graphical-session.target"];
+    };
+
+    Service = {
+      Type = "simple";
+      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+      Restart = "on-failure";
+      RestartSec = 1;
+      TimeoutStopSec = 10;
+    };
+  };
 }
