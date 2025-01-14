@@ -19,7 +19,6 @@
     ../../home/programs/nh
     ../../home/programs/zen
     ../../home/programs/ghostty
-    ../../home/programs/wezterm
     ../../home/programs/server-page
 
     # Scripts
