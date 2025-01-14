@@ -23,10 +23,10 @@
       "image/jpeg" = "imv.desktop";
       "image/jpg" = "imv.desktop";
       "image/webp" = "imv.desktop";
-      "image/gif" = "zen.desktop";
-      "x-scheme-handler/http" = "zen.desktop";
-      "x-scheme-handler/https" = "zen.desktop";
-      "text/html" = "zen.desktop";
+      "image/gif" = "zen_twilight.desktop";
+      "x-scheme-handler/http" = "zen_twilight.desktop";
+      "x-scheme-handler/https" = "zen_twilight.desktop";
+      "text/html" = "zen_twilight.desktop";
       "application/pdf" = "zathura.desktop";
     };
   };
