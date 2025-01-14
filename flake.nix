@@ -28,8 +28,8 @@
       url = "github:KZDKM/Hyprspace";
       inputs.hyprland.follows = "hyprland";
     };
-    nixy-wallpapers = {
-      url = "github:anotherhadi/nixy-wallpapers";
+    thirr-wallpapers = {
+      url = "github:FatngatirBilek/Dots-Wall";
       flake = false;
     };
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";

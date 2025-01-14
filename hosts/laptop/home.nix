@@ -52,6 +52,7 @@
       vlc # Video player
       blanket # White-noise app
       firefox
+      nchat
       # Dev
       go
       nodejs

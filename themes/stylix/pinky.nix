@@ -67,7 +67,7 @@
     targets.nixvim.plugin = "base16-nvim";
 
     polarity = "dark";
-    image = inputs.nixy-wallpapers + "/wallpapers/dark-waves.png";
+    image = inputs.thirr-wallpapers + "/wallpapers/dark-waves.png";
   };
 
 }

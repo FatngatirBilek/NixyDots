@@ -61,7 +61,7 @@
     };
 
     polarity = "dark";
-    image = inputs.nixy-wallpapers + "/wallpapers/problems.png";
+    image = inputs.thirr-wallpapers + "/wallpapers/BSOD.png";
   };
 
 }
