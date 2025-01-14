@@ -1223,22 +1223,6 @@
         "type": "github"
       }
     },
-    "nixy-wallpapers": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1736748350,
-        "narHash": "sha256-FRok2BHRDvsuBEKdROWnKWkB/PURK7+cWePA79Io4CY=",
-        "owner": "FatngatirBilek",
-        "repo": "Dots-Wall",
-        "rev": "1e5d9865ba220c1995105b4b69737649ddc54b4e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "FatngatirBilek",
-        "repo": "Dots-Wall",
-        "type": "github"
-      }
-    },
     "nur": {
       "inputs": {
         "flake-parts": "flake-parts_2",
@@ -1350,12 +1334,12 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_5",
         "nixvim": "nixvim",
-        "nixy-wallpapers": "nixy-wallpapers",
         "nur": "nur",
         "pia": "pia",
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",
         "stylix": "stylix",
+        "thirr-wallpapers": "thirr-wallpapers",
         "zen-browser": "zen-browser"
       }
     },
@@ -1583,6 +1567,22 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "thirr-wallpapers": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1736748799,
+        "narHash": "sha256-bTfBfuPVLRdPgZZG8M33EMwNV+N7vy8iN6Foa0KEuo8=",
+        "owner": "FatngatirBilek",
+        "repo": "Dots-Wall",
+        "rev": "3ee0c7d0697c74999551bd743b35973984c4161b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "FatngatirBilek",
+        "repo": "Dots-Wall",
         "type": "github"
       }
     },
