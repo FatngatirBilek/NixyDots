@@ -11,7 +11,8 @@
       "$mod,C, exec, quickmenu" # Quickmenu
       "$shiftMod,SPACE, exec, hyprfocus-toggle" # Toggle HyprFocus
       # "$mod,TAB, overview:toggle" # Overview
-
+      "$shiftMod, W , exec, nwg-dock-hyprland -r -i 35 -ml 12 -mr 12 -mb 12 -nolauncher -x -l bottom" # Toggle Dock
+      "$mod, W, exec, pkill -f nwg-dock-hyprland" # Toggle Dock
       "$mod,Q, killactive," # Close window
       "$mod,SPACE, togglefloating," # Toggle Floating
       "$mod,F, fullscreen" # Toggle Fullscreen
