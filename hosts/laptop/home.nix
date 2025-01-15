@@ -20,6 +20,7 @@
     ../../home/programs/zen
     ../../home/programs/ghostty
     ../../home/programs/server-page
+    ../../home/programs/nwg-dock
 
     # Scripts
     ../../home/scripts # All scripts

@@ -52,10 +52,12 @@ in {
       "$mod" = "SUPER";
       "$shiftMod" = "SUPER_SHIFT";
 
-      #exec-once = [
+      exec-once = [
       #"${pkgs.bitwarden}/bin/bitwarden"
-      #"dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-      #     ];
+      "dbus-update-activation-environment --systemd "
+      "WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+      "nwg-dock-hyprland -d -i 40 -ml 12 -mr 12 -mb 12 -nolauncher -x -l bottom -f"
+      ];
 
       monitor =
         [ "eDP-1, 1920x1080@165,0x0,1" "HDMI-A-1,1920x1080@120,1920x0,1" ];
