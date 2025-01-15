@@ -16,4 +16,16 @@
     nil
     alejandra
   ];
+    # Firewall 
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 80 443 ];
+    allowedUDPPortRanges = [
+      {
+        from = 40000;
+        to = 50000;
+      }
+    ];
+  };
+
 }
