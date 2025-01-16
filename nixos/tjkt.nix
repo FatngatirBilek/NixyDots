@@ -3,7 +3,6 @@
     nixd
     gns3-gui
     gns3-server
-    winbox4
     bun
     fnm
     distrobox
@@ -16,6 +15,13 @@
     nil
     alejandra
   ];
+
+  # Winbox setup.
+  programs.winbox = {
+    enable = true;
+    openFirewall = true;
+    package = pkgs.winbox4;
+  };
     # Firewall 
   networking.firewall = {
     enable = true;
