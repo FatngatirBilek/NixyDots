@@ -61,7 +61,7 @@
     };
 
     polarity = "dark";
-    image = inputs.thirr-wallpapers + "/wallpapers/BSOD.png";
+    image = inputs.thirr-wallpapers + "/wallpapers/woi.png";
   };
 
 }
