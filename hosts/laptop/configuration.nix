@@ -75,7 +75,6 @@ in {
   boot.extraModulePackages =
     [ acermodule config.boot.kernelPackages.v4l2loopback ];
   boot.kernelModules = [ "facer" "wmi" "sparse-keymap" "video" "v4l2loopback" ];
-  services.xserver.desktopManager.gnome.enable = true;
   # Don't touch this
   system.stateVersion = "24.05";
 }

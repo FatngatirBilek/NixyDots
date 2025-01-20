@@ -46,10 +46,6 @@
     ghostty = {
       url = "github:ghostty-org/ghostty";
     };
-    nixos-cosmic = {
-      url = "github:lilyinstarlight/nixos-cosmic";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = inputs@{ nixpkgs, ... }: {
@@ -59,6 +55,10 @@
           system = "x86_64-linux";
           modules = [
             {
+              nix.settings = {
+              substituters = [ "https://cosmic.cachix.org/" ];
+              trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
+            };
               nixpkgs.overlays =
                 [ inputs.hyprpanel.overlay inputs.nur.overlays.default ];
               _module.args = { inherit inputs; };

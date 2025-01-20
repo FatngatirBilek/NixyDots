@@ -4,7 +4,7 @@
     kernelParams = [ 
       "nvidia-drm.fbdev=1" 
       "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
-      "acpi_backlight=native"
+      "acpi_backlight=video"
       ];
   };
   environment.variables = {
@@ -23,6 +23,11 @@
     graphics = {
       # For 32 bit applications
       # enable32Bit = true;
+      extraPackages = with pkgs; [ 
+        vpl-gpu-rt 
+        vaapiIntel
+        intel-media-driver
+      ];
       enable = true;
     };
 
