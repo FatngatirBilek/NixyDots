@@ -10,8 +10,8 @@ in {
     lib.optionals (lib.elem "nvidia" config.services.xserver.videoDrivers) [
       "nvidia-drm.modeset=1"
       "nvidia_drm.fbdev=1"
-      "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
       "acpi_backlight=native"
+      "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
     ];
   environment.variables = {
     # GBM_BACKEND = "nvidia-drm"; # If crash in firefox, remove this line
