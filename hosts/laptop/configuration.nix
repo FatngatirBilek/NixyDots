@@ -1,5 +1,12 @@
 { config, pkgs, ... }:
 let
+  nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
+    export __NV_PRIME_RENDER_OFFLOAD=1
+    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+    export __GLX_VENDOR_LIBRARY_NAME=nvidia
+    export __VK_LAYER_NV_optimus=NVIDIA_only
+    exec -a "$0" "$@"
+  '';
   acermodule =
     config.boot.kernelPackages.callPackage ../../nixos/acer-module.nix { };
 in {
@@ -10,7 +17,7 @@ in {
     ];
   imports = [
     ../../nixos/nvidia.nix # CHANGEME: Remove this line if you don't have an Nvidia GPU
-    ../../nixos/prime.nix # CHANGEME: Remove this line if you don't have an Nvidia GPU
+    # ../../nixos/prime.nix # CHANGEME: Remove this line if you don't have an Nvidia GPU
 
     ../../nixos/audio.nix
     ../../nixos/auto-upgrade.nix
@@ -68,7 +75,7 @@ in {
   boot.extraModulePackages =
     [ acermodule config.boot.kernelPackages.v4l2loopback ];
   boot.kernelModules = [ "facer" "wmi" "sparse-keymap" "video" "v4l2loopback" ];
-
+  services.xserver.desktopManager.gnome.enable = true;
   # Don't touch this
   system.stateVersion = "24.05";
 }

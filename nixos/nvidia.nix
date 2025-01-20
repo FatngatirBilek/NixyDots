@@ -1,54 +1,74 @@
-{ lib, pkgs, config, ... }:
-let
-  nvidiaDriverChannel =
-    config.boot.kernelPackages.nvidiaPackages.beta; # stable, latest, beta, etc.
-in {
-  # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers =
-    [ "nvidia" "displayLink" ]; # or "nvidiaLegacy470 etc.
-  boot.kernelParams =
-    lib.optionals (lib.elem "nvidia" config.services.xserver.videoDrivers) [
-      "nvidia-drm.modeset=1"
-      "nvidia_drm.fbdev=1"
-      "acpi_backlight=native"
+{ pkgs, config, lib, inputs, ... }: {
+  boot = {
+    initrd.kernelModules = [ "nvidia" "i915" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
+    kernelParams = [ 
+      "nvidia-drm.fbdev=1" 
       "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
-    ];
+      "acpi_backlight=native"
+      ];
+  };
   environment.variables = {
     # GBM_BACKEND = "nvidia-drm"; # If crash in firefox, remove this line
     LIBVA_DRIVER_NAME = "nvidia"; # hardware acceleration
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     NVD_BACKEND = "direct";
   };
-  nixpkgs.config = {
-    nvidia.acceptLicense = true;
-    allowUnfreePredicate = pkg:
-      builtins.elem (lib.getName pkg) [
-        "cudatoolkit"
-        "nvidia-persistenced"
-        "nvidia-settings"
-        "nvidia-x11"
-      ];
-  };
   hardware = {
-    nvidia = {
-      open = false;
-      nvidiaSettings = true;
-      powerManagement.enable =
-        true; # This can cause sleep/suspend to fail and saves entire VRAM to /tmp/
-      modesetting.enable = true;
-      package = nvidiaDriverChannel;
-    };
+    # deprecated for graphics.enable
+    # opengl = {
+    #   enable = true;
+    #   # extraPackages = [ pkgs.intel-media-driver pkgs.vaapiVdpau ];
+    # };
+  
     graphics = {
+      # For 32 bit applications
+      # enable32Bit = true;
       enable = true;
-      package = nvidiaDriverChannel;
-      enable32Bit = true;
-      extraPackages = with pkgs; [
-        nvidia-vaapi-driver
-        vaapiVdpau
-        libvdpau-va-gl
-        mesa
-        egl-wayland
-      ];
+    };
+
+    nvidia = {
+      # Modesetting is required.
+      modesetting.enable = true;
+
+      # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
+      # Enable this if you have graphical corruption issues or application crashes after waking
+      # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
+      # of just the bare essentials.
+      powerManagement.enable = true;
+
+      # Fine-grained power management. Turns off GPU when not in use.
+      # Experimental and only works on modern Nvidia GPUs (Turing or newer).
+      powerManagement.finegrained = false;
+
+      # Use the NVidia open source kernel module (not to be confused with the
+      # independent third-party "nouveau" open source driver).
+      # Support is limited to the Turing and later architectures. Full list of
+      # supported GPUs is at:
+      # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
+      # Only available from driver 515.43.04+
+      # Currently alpha-quality/buggy, so false is currently the recommended setting.
+      open = false;
+
+      forceFullCompositionPipeline = true;
+
+      prime = {
+        intelBusId = "PCI:0:2:0";
+        nvidiaBusId = "PCI:1:0:0";
+        offload = {
+          enable = true;
+          enableOffloadCmd = true;
+        };
+        # Make the Intel iGP default. The NVIDIA Quadro is for CUDA/NVENC
+        # reverseSync.enable = true;
+        # sync.enable = true;
+      };
+      nvidiaSettings = true;
+
+      # Optionally, you may need to select the appropriate driver version for your specific GPU.
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
     };
   };
+
+  services.xserver.videoDrivers = [ "nvidia" "displayLink" ];
+
 }

@@ -33,7 +33,11 @@ in {
 
   gtk = {
     enable = true;
-
+      cursorTheme = lib.mkForce {
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Ice";
+      size = 22;
+      };
     theme = lib.mkForce {
       package = pkgs.orchis-theme; 
       name = "Orchis"; 

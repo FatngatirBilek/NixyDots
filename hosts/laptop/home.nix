@@ -45,7 +45,6 @@
   home = {
     inherit (config.var) username;
     homeDirectory = "/home/" + config.var.username;
-
     packages = with pkgs; [
       # Apps
       webcord # Chat

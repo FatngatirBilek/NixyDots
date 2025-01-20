@@ -54,6 +54,7 @@ in {
       exec-once = [
       #"${pkgs.bitwarden}/bin/bitwarden"
       "dbus-update-activation-environment --systemd "
+      "hyprctl setcursor Bibata-Modern-Ice 24"
       "WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
       "nwg-dock-hyprland -r -i 35 -ml 12 -mr 12 -mb 12 -nolauncher -x -l bottom"
       ];
@@ -87,7 +88,7 @@ in {
         "XDG_SESSION_TYPE,wayland"
         "SDL_VIDEODRIVER,wayland"
         "CLUTTER_BACKEND,wayland"
-        "AQ_DRM_DEVICES,/dev/dri/card0:/dev/dri/card1" # CHANGEME: Related to the GPU
+        "AQ_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0" # CHANGEME: Related to the GPU
       ];
 
       cursor = {
