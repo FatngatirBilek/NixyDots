@@ -117,7 +117,7 @@ in {
       "menus.dashboard.shortcuts.right.shortcut1.tooltip" = "Color Picker";
       "menus.dashboard.shortcuts.right.shortcut3.icon" = "󰄀";
       "menus.dashboard.shortcuts.right.shortcut3.command" =
-        "screenshot region swappy";
+      "screenshot region swappy";
       "menus.dashboard.shortcuts.right.shortcut3.tooltip" = "Screenshot";
 
       "theme.bar.menus.monochrome" = true;
@@ -178,7 +178,7 @@ in {
       "bar.customModules.updates.pollingInterval" = 1440000;
       "bar.media.show_active_only" = true;
       "theme.bar.location" = "${position}";
-      "notifications.active_monitor"= false;
+       "notifications.position" = "top";
     };
   };
 }

@@ -14,6 +14,7 @@
     qemu
     nil
     alejandra
+    libreoffice-qt6-fresh
   ];
 
   # Winbox setup.

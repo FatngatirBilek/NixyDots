@@ -19,6 +19,8 @@
       openmoji-color
       twemoji-color-font
       inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd
+      corefonts
+      vistafonts
     ];
 
     enableDefaultPackages = false;

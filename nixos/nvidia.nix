@@ -1,8 +1,8 @@
 { pkgs, config, lib, inputs, ... }: {
   boot = {
-    initrd.kernelModules = [ "nvidia" "i915" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
-    kernelParams = [ 
-      "nvidia-drm.fbdev=1" 
+    initrd.kernelModules = [ "nvidia"  "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
+    kernelParams = [
+      "nvidia-drm.fbdev=1"
       "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
       "acpi_backlight=video"
       ];
@@ -19,18 +19,6 @@
     #   enable = true;
     #   # extraPackages = [ pkgs.intel-media-driver pkgs.vaapiVdpau ];
     # };
-  
-    graphics = {
-      # For 32 bit applications
-      # enable32Bit = true;
-      extraPackages = with pkgs; [ 
-        vpl-gpu-rt 
-        vaapiIntel
-        intel-media-driver
-      ];
-      enable = true;
-    };
-
     nvidia = {
       # Modesetting is required.
       modesetting.enable = true;

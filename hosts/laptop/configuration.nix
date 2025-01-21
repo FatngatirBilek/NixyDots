@@ -17,7 +17,7 @@ in {
     ];
   imports = [
     ../../nixos/nvidia.nix # CHANGEME: Remove this line if you don't have an Nvidia GPU
-    # ../../nixos/prime.nix # CHANGEME: Remove this line if you don't have an Nvidia GPU
+    ../../nixos/intel.nix # CHANGEME: Remove this line if you don't have an Nvidia GPU
 
     ../../nixos/audio.nix
     ../../nixos/auto-upgrade.nix
@@ -68,7 +68,21 @@ in {
   };
 
   users.groups.libvirtd.members = ["fathirbimashabri"];
-  virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd = {
+  enable = true;
+  qemu = {
+    package = pkgs.qemu_kvm;
+    runAsRoot = true;
+    swtpm.enable = true;
+    ovmf = {
+      enable = true;
+      packages = [(pkgs.OVMF.override {
+        secureBoot = true;
+        tpmSupport = true;
+      }).fd];
+    };
+  };
+};
   virtualisation.spiceUSBRedirection.enable = true;
   home-manager.users."${config.var.username}" = import ./home.nix;
   services.flatpak.enable = true;
