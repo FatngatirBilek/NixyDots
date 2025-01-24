@@ -6,7 +6,7 @@
   '';
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:Bot-wxt1221/nixpkgs/dd9e0be762e4c60fe5d1d37be667daeec8f17fc1";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -41,27 +41,26 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nur.url = "github:nix-community/NUR";
-    zen-browser.url =
-      "github:0xc000022070/zen-browser-flake"; # updated flake
+    zen-browser.url = "github:0xc000022070/zen-browser-flake"; # updated flake
     ghostty = {
       url = "github:ghostty-org/ghostty";
     };
   };
 
-  outputs = inputs@{ nixpkgs, ... }: {
+  outputs = inputs @ {nixpkgs, ...}: {
     nixosConfigurations = {
-      nixos = # CHANGEME: This should match the 'hostname' in your variables.nix file
+      nixos =
+        # CHANGEME: This should match the 'hostname' in your variables.nix file
         nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             {
               nix.settings = {
-              substituters = [ "https://cosmic.cachix.org/" ];
-              trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
-            };
-              nixpkgs.overlays =
-                [ inputs.hyprpanel.overlay inputs.nur.overlays.default ];
-              _module.args = { inherit inputs; };
+                substituters = ["https://cosmic.cachix.org/"];
+                trusted-public-keys = ["cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="];
+              };
+              nixpkgs.overlays = [inputs.hyprpanel.overlay inputs.nur.overlays.default];
+              _module.args = {inherit inputs;};
             }
             inputs.nixos-hardware.nixosModules.omen-16-n0005ne # CHANGEME: check https://github.com/NixOS/nixos-hardware
             inputs.home-manager.nixosModules.home-manager

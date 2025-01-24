@@ -1,23 +1,18 @@
-{ config, pkgs, ... }:
-let
-  nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
-    export __NV_PRIME_RENDER_OFFLOAD=1
-    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-    export __GLX_VENDOR_LIBRARY_NAME=nvidia
-    export __VK_LAYER_NV_optimus=NVIDIA_only
-    exec -a "$0" "$@"
-  '';
+{
+  config,
+  pkgs,
+  ...
+}: let
   acermodule =
-    config.boot.kernelPackages.callPackage ../../nixos/acer-module.nix { };
+    config.boot.kernelPackages.callPackage ../../nixos/acer-module.nix {};
 in {
-  environment.systemPackages = with pkgs;
-    [
-      # Enables v4l2loopback GUI utilities.
-      v4l-utils
-    ];
+  environment.systemPackages = with pkgs; [
+    # Enables v4l2loopback GUI utilities.
+    v4l-utils
+  ];
   imports = [
     ../../nixos/nvidia.nix # CHANGEME: Remove this line if you don't have an Nvidia GPU
-    ../../nixos/intel.nix # CHANGEME: Remove this line if you don't have an Nvidia GPU
+    ../../nixos/intel.nix # CHANGEME: Remove this line if you don't have an Intel GPU
 
     ../../nixos/audio.nix
     ../../nixos/auto-upgrade.nix
@@ -43,14 +38,13 @@ in {
 
     ./hardware-configuration.nix
     ./variables.nix
-
   ];
   security.wrappers.ubridge = {
-  source = "/run/current-system/sw/bin/ubridge";
-  capabilities = "cap_net_admin,cap_net_raw=ep";
-  owner = "root";
-  group = "ubridge";
-  permissions = "u+rx,g+rx,o+rx";
+    source = "/run/current-system/sw/bin/ubridge";
+    capabilities = "cap_net_admin,cap_net_raw=ep";
+    owner = "root";
+    group = "ubridge";
+    permissions = "u+rx,g+rx,o+rx";
   };
   users.groups.ubridge = {};
   time.hardwareClockInLocalTime = true;
@@ -69,26 +63,37 @@ in {
 
   users.groups.libvirtd.members = ["fathirbimashabri"];
   virtualisation.libvirtd = {
-  enable = true;
-  qemu = {
-    package = pkgs.qemu_kvm;
-    runAsRoot = true;
-    swtpm.enable = true;
-    ovmf = {
-      enable = true;
-      packages = [(pkgs.OVMF.override {
-        secureBoot = true;
-        tpmSupport = true;
-      }).fd];
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = true;
+      swtpm.enable = true;
+      ovmf = {
+        enable = true;
+        packages = [
+          (pkgs.OVMF.override {
+            secureBoot = true;
+            tpmSupport = true;
+          })
+          .fd
+        ];
+      };
     };
   };
-};
   virtualisation.spiceUSBRedirection.enable = true;
   home-manager.users."${config.var.username}" = import ./home.nix;
   services.flatpak.enable = true;
-  boot.extraModulePackages =
-    [ acermodule config.boot.kernelPackages.v4l2loopback ];
-  boot.kernelModules = [ "facer" "wmi" "sparse-keymap" "video" "v4l2loopback" ];
+  boot.extraModulePackages = [
+    acermodule
+    config.boot.kernelPackages.v4l2loopback
+  ];
+  boot.kernelModules = [
+    "facer"
+    "wmi"
+    "sparse-keymap"
+    "video"
+    "v4l2loopback"
+  ];
   # Don't touch this
   system.stateVersion = "24.05";
 }
