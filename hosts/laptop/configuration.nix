@@ -61,22 +61,33 @@ in {
     };
   };
 
-  users.groups.libvirtd.members = ["fathirbimashabri"];
-  virtualisation.libvirtd = {
-    enable = true;
-    qemu = {
-      package = pkgs.qemu_kvm;
-      runAsRoot = true;
-      swtpm.enable = true;
-      ovmf = {
+  users.groups.libvirtd.members = ["${config.var.username}"];
+  virtualisation = {
+    vmware = {
+      guest = {
         enable = true;
-        packages = [
-          (pkgs.OVMF.override {
-            secureBoot = true;
-            tpmSupport = true;
-          })
-          .fd
-        ];
+      };
+      host = {
+        enable = true;
+        package = pkgs.vmware-workstation;
+      };
+    };
+    libvirtd = {
+      enable = true;
+      qemu = {
+        package = pkgs.qemu_kvm;
+        runAsRoot = true;
+        swtpm.enable = true;
+        ovmf = {
+          enable = true;
+          packages = [
+            (pkgs.OVMF.override {
+              secureBoot = true;
+              tpmSupport = true;
+            })
+            .fd
+          ];
+        };
       };
     };
   };

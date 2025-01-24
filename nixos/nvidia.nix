@@ -1,11 +1,17 @@
-{ pkgs, config, lib, inputs, ... }: {
+{
+  pkgs,
+  config,
+  lib,
+  inputs,
+  ...
+}: {
   boot = {
-    initrd.kernelModules = [ "nvidia"  "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
+    initrd.kernelModules = ["nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm"];
     kernelParams = [
       "nvidia-drm.fbdev=1"
       "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
       "acpi_backlight=video"
-      ];
+    ];
   };
   environment.variables = {
     # GBM_BACKEND = "nvidia-drm"; # If crash in firefox, remove this line
@@ -62,6 +68,5 @@
     };
   };
 
-  services.xserver.videoDrivers = [ "nvidia" "displayLink" ];
-
+  services.xserver.videoDrivers = ["nvidia" "displayLink" "vmware"];
 }
