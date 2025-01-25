@@ -1,6 +1,10 @@
 # So best window tiling manager
-{ pkgs, config, inputs, ... }:
-let
+{
+  pkgs,
+  config,
+  inputs,
+  ...
+}: let
   border-size = config.var.theme.border-size;
   gaps-in = config.var.theme.gaps-in;
   gaps-out = config.var.theme.gaps-out;
@@ -10,14 +14,12 @@ let
   blur = config.var.theme.blur;
   keyboardLayout = config.var.keyboardLayout;
 in {
-
-  imports =
-    [ 
-      ./animations.nix 
-      ./bindings.nix 
-      ./polkitagent.nix 
+  imports = [
+    ./animations.nix
+    ./bindings.nix
+    ./polkitagent.nix
     # ./hyprspace.nix
-     ];
+  ];
 
   home.packages = with pkgs; [
     qt5.qtwayland
@@ -52,15 +54,14 @@ in {
       "$shiftMod" = "SUPER_SHIFT";
 
       exec-once = [
-      #"${pkgs.bitwarden}/bin/bitwarden"
-      "dbus-update-activation-environment --systemd "
-      "hyprctl setcursor Bibata-Modern-Ice 24"
-      "WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-      "nwg-dock-hyprland -r -i 35 -ml 12 -mr 12 -mb 12 -nolauncher -x -l bottom"
+        #"${pkgs.bitwarden}/bin/bitwarden"
+        "dbus-update-activation-environment --systemd "
+        "hyprctl setcursor Bibata-Modern-Ice 24"
+        "WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+        "nwg-dock-hyprland -r -i 35 -ml 12 -mr 12 -mb 12 -nolauncher -x -l bottom"
       ];
 
-      monitor =
-        [ "eDP-1, 1920x1080@165,0x0,1" "HDMI-A-1,1920x1080@120,1920x0,1" ];
+      monitor = ["eDP-1, 1920x1080@165,0x0,1" "HDMI-A-1,1920x1080@120,1920x0,1"];
 
       env = [
         "XDG_SESSION_TYPE,wayland"
@@ -114,7 +115,12 @@ in {
           range = 20;
           render_power = 3;
         };
-        blur = { enabled = if blur then "true" else "false"; };
+        blur = {
+          enabled =
+            if blur
+            then "true"
+            else "false";
+        };
       };
 
       master = {
@@ -123,7 +129,7 @@ in {
         mfact = 0.5;
       };
 
-      gestures = { workspace_swipe = true; };
+      gestures = {workspace_swipe = true;};
 
       misc = {
         vfr = true;
@@ -134,10 +140,9 @@ in {
         new_window_takes_over_fullscreen = 2;
       };
 
-      windowrulev2 =
-        [ "float, tag:modal" "pin, tag:modal" "center, tag:modal" ];
+      windowrulev2 = ["float, tag:modal" "pin, tag:modal" "center, tag:modal"];
 
-      layerrule = [ "noanim, launcher" "noanim, ^ags-.*" ];
+      layerrule = ["noanim, launcher" "noanim, ^ags-.*"];
 
       input = {
         kb_layout = keyboardLayout;
@@ -154,9 +159,7 @@ in {
           clickfinger_behavior = true;
         };
       };
-
     };
   };
-  systemd.user.targets.hyprland-session.Unit.Wants =
-    [ "xdg-desktop-autostart.target" ];
+  systemd.user.targets.hyprland-session.Unit.Wants = ["xdg-desktop-autostart.target"];
 }
