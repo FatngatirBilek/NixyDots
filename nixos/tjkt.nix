@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     nixd
     gns3-gui
@@ -14,6 +14,7 @@
     qemu
     nil
     alejandra
+    zig
     libreoffice-qt6-fresh
   ];
 
@@ -23,10 +24,10 @@
     openFirewall = true;
     package = pkgs.winbox4;
   };
-    # Firewall 
+  # Firewall
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 80 443 ];
+    allowedTCPPorts = [80 443];
     allowedUDPPortRanges = [
       {
         from = 40000;
@@ -34,5 +35,4 @@
       }
     ];
   };
-
 }

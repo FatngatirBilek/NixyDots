@@ -1,5 +1,5 @@
-{ pkgs, inputs, ... }: {
-  home.packages = with pkgs; [ inputs.ghostty.packages."${system}".default ];
+{pkgs, ...}: {
+  home.packages = with pkgs; [ghostty];
 
   xdg.configFile."ghostty/config".text = ''
     command = zsh

@@ -1,7 +1,10 @@
 # Hyprpanel is the bar on top of the screen
 # Display informations like workspaces, battery, wifi, ...
-{ inputs, pkgs, config, ... }:
-let
+{
+  inputs,
+  config,
+  ...
+}: let
   transparentButtons = config.var.theme.bar.transparentButtons;
 
   accent = "#${config.lib.stylix.colors.base0D}";
@@ -21,13 +24,12 @@ let
   floating = config.var.theme.bar.floating;
   transparent = config.var.theme.bar.transparent;
   position = config.var.theme.bar.position;
-   
+
   weather = config.var.weather;
   location = config.var.location;
   username = config.var.username;
 in {
-
-  imports = [ inputs.hyprpanel.homeManagerModules.hyprpanel ];
+  imports = [inputs.hyprpanel.homeManagerModules.hyprpanel];
 
   programs.hyprpanel = {
     enable = true;
@@ -36,8 +38,8 @@ in {
     layout = {
       "bar.layouts" = {
         "0" = {
-          "left" = [ "dashboard" "workspaces" "windowtitle" ];
-          "middle" = [ "media" ];
+          "left" = ["dashboard" "workspaces" "windowtitle"];
+          "middle" = ["media"];
           "right" = [
             "systray"
             "volume"
@@ -54,34 +56,55 @@ in {
     override = {
       "theme.font.name" = "${font}";
       "theme.font.size" = "${fontSize}px";
-      "theme.bar.outer_spacing" =
-        "${if floating && transparent then "0" else "8"}px";
-      "theme.bar.buttons.y_margins" =
-        "${if floating && transparent then "0" else "8"}px";
+      "theme.bar.outer_spacing" = "${
+        if floating && transparent
+        then "0"
+        else "8"
+      }px";
+      "theme.bar.buttons.y_margins" = "${
+        if floating && transparent
+        then "0"
+        else "8"
+      }px";
       "theme.bar.buttons.spacing" = "0.3em";
       "theme.bar.buttons.radius" = "${
-          if transparent then toString rounding else toString (rounding - 8)
-        }px";
-      "theme.bar.floating" = "${if floating then "true" else "false"}";
+        if transparent
+        then toString rounding
+        else toString (rounding - 8)
+      }px";
+      "theme.bar.floating" = "${
+        if floating
+        then "true"
+        else "false"
+      }";
       "theme.bar.buttons.padding_x" = "0.8rem";
       "theme.bar.buttons.padding_y" = "0.4rem";
       "theme.bar.buttons.workspaces.hover" = "${accent-alt}";
       "theme.bar.buttons.workspaces.active" = "${accent}";
       "theme.bar.buttons.workspaces.available" = "${accent-alt}";
       "theme.bar.buttons.workspaces.occupied" = "${accent}";
-      "theme.bar.margin_top" =
-        "${if position == "top" then toString (gaps-in * 2) else "0"}px";
-      "theme.bar.margin_bottom" =
-        "${if position == "top" then "0" else toString (gaps-in * 2)}px";
+      "theme.bar.margin_top" = "${
+        if position == "top"
+        then toString (gaps-in * 2)
+        else "0"
+      }px";
+      "theme.bar.margin_bottom" = "${
+        if position == "top"
+        then "0"
+        else toString (gaps-in * 2)
+      }px";
       "theme.bar.margin_sides" = "${toString gaps-out}px";
       "theme.bar.border_radius" = "${toString rounding}px";
       "bar.launcher.icon" = "";
-      "theme.bar.transparent" = "${if transparent then "true" else "false"}";
+      "theme.bar.transparent" = "${
+        if transparent
+        then "true"
+        else "false"
+      }";
       "bar.workspaces.show_numbered" = false;
       "bar.workspaces.workspaces" = 5;
       "bar.workspaces.monitorSpecific" = true;
       "bar.workspaces.hideUnoccupied" = false;
-      "bar.windowtitle.label" = true;
       "bar.volume.label" = false;
       "bar.network.truncation_size" = 12;
       "bar.bluetooth.label" = false;
@@ -95,10 +118,10 @@ in {
       "theme.osd.margins" = "0px 0px 0px 10px";
       "theme.osd.muted_zero" = true;
       "menus.clock.weather.location" = "${location}";
-      "menus.clock.weather.key"= "${weather}";
+      "menus.clock.weather.key" = "${weather}";
       "menus.clock.weather.unit" = "metric";
       "menus.dashboard.powermenu.confirmation" = false;
-      "menus.dashboard.powermenu.avatar.image"= "/home/${username}/.face.icon";
+      "menus.dashboard.powermenu.avatar.image" = "/home/${username}/.face.icon";
 
       "menus.dashboard.shortcuts.left.shortcut1.icon" = "";
       "menus.dashboard.shortcuts.left.shortcut1.command" = "zen";
@@ -116,8 +139,7 @@ in {
       "menus.dashboard.shortcuts.right.shortcut1.command" = "hyprpicker -a";
       "menus.dashboard.shortcuts.right.shortcut1.tooltip" = "Color Picker";
       "menus.dashboard.shortcuts.right.shortcut3.icon" = "󰄀";
-      "menus.dashboard.shortcuts.right.shortcut3.command" =
-      "screenshot region swappy";
+      "menus.dashboard.shortcuts.right.shortcut3.command" = "screenshot region swappy";
       "menus.dashboard.shortcuts.right.shortcut3.tooltip" = "Screenshot";
 
       "theme.bar.menus.monochrome" = true;
@@ -145,14 +167,25 @@ in {
       "theme.bar.menus.tooltip.text" = "${foreground}";
       "theme.bar.menus.dropdownmenu.background" = "${background-alt}";
       "theme.bar.menus.dropdownmenu.text" = "${foreground}";
-      "theme.bar.background" =
-        "${background + (if transparentButtons then "00" else "")}";
+      "theme.bar.background" = "${background
+        + (
+          if transparentButtons
+          then "00"
+          else ""
+        )}";
       "theme.bar.buttons.style" = "default";
       "theme.bar.buttons.monochrome" = true;
       "theme.bar.buttons.text" = "${foreground}";
-      "theme.bar.buttons.background" =
-        "${(if transparent then background else background-alt)
-        + (if transparentButtons then "00" else "")}";
+      "theme.bar.buttons.background" = "${(
+          if transparent
+          then background
+          else background-alt
+        )
+        + (
+          if transparentButtons
+          then "00"
+          else ""
+        )}";
       "theme.bar.buttons.icon" = "${accent}";
       "theme.bar.buttons.notifications.background" = "${background-alt}";
       "theme.bar.buttons.hover" = "${background}";
@@ -178,7 +211,14 @@ in {
       "bar.customModules.updates.pollingInterval" = 1440000;
       "bar.media.show_active_only" = true;
       "theme.bar.location" = "${position}";
-       "notifications.position" = "top";
+      "notifications.position" = "top";
+      "bar.windowtitle.title_map" = [
+        [
+          "dev.zed.zed"
+          "☝️🤓"
+          "Zed"
+        ]
+      ];
     };
   };
 }

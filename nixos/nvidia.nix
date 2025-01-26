@@ -1,10 +1,4 @@
-{
-  pkgs,
-  config,
-  lib,
-  inputs,
-  ...
-}: {
+{config, ...}: {
   boot = {
     initrd.kernelModules = ["nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm"];
     kernelParams = [
