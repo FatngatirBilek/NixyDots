@@ -6,7 +6,7 @@
   '';
 
   inputs = {
-    nixpkgs.url = "github:Bot-wxt1221/nixpkgs/dd9e0be762e4c60fe5d1d37be667daeec8f17fc1";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager = {
       url = "github:nix-community/home-manager";
