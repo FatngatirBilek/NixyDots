@@ -1,42 +1,45 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   wayland.windowManager.hyprland.settings = {
-    bind = [
-      "$mod,T, exec, ghostty" # ghostty
-      "$mod,E, exec, ${pkgs.nautilus}/bin/nautilus" # Thunar
-      #  "$mod,B, exec, ${pkgs.qutebrowser}/bin/qutebrowser" # Qutebrowser
-      "$mod,K, exec, ${pkgs.bitwarden}/bin/bitwarden" # Bitwarden
-      "$mod,L, exec, ${pkgs.hyprlock}/bin/hyprlock" # Lock
-      "$mod,P, exec, powermenu" # Powermenu
-      "$mod,D, exec, menu" # Launcher
-      "$mod,C, exec, quickmenu" # Quickmenu
-      "$shiftMod,SPACE, exec, hyprfocus-toggle" # Toggle HyprFocus
-      # "$mod,TAB, overview:toggle" # Overview
-      "$shiftMod, W , exec, nwg-dock-hyprland -r -i 35 -ml 12 -mr 12 -mb 12 -nolauncher -x -l bottom" # Toggle Dock
-      "$mod, W, exec, pkill -f nwg-dock-hyprland" # Toggle Dock
-      "$mod,Q, killactive," # Close window
-      "$mod,SPACE, togglefloating," # Toggle Floating
-      "$mod,F, fullscreen" # Toggle Fullscreen
-      "$mod,left, movefocus, l" # Move focus left
-      "$mod,right, movefocus, r" # Move focus Right
-      "$mod,up, movefocus, u" # Move focus Up
-      "$mod,down, movefocus, d" # Move focus Down
-      "$shiftMod,up, focusmonitor, -1" # Focus previous monitor
-      "$shiftMod,down, focusmonitor, 1" # Focus next monitor
-      "$shiftMod,left, layoutmsg, addmaster" # Add to master
-      "$shiftMod,right, layoutmsg, removemaster" # Remove from master
+    bind =
+      [
+        "$mod,T, exec, ghostty" # ghostty
+        "$mod,E, exec, ${pkgs.nautilus}/bin/nautilus" # Thunar
+        #  "$mod,B, exec, ${pkgs.qutebrowser}/bin/qutebrowser" # Qutebrowser
+        "$mod,K, exec, ${pkgs.bitwarden}/bin/bitwarden" # Bitwarden
+        "$mod,L, exec, ${pkgs.hyprlock}/bin/hyprlock" # Lock
+        "$mod,P, exec, powermenu" # Powermenu
+        "$mod,D, exec, menu" # Launcher
+        "$mod,C, exec, quickmenu" # Quickmenu
+        "$shiftMod,SPACE, exec, hyprfocus-toggle" # Toggle HyprFocus
+        "$mod, z, exec, woomer"
+        # "$mod,TAB, overview:toggle" # Overview
+        "$shiftMod, W , exec, nwg-dock-hyprland -r -i 35 -ml 12 -mr 12 -mb 12 -nolauncher -x -l bottom" # Toggle Dock
+        "$mod, W, exec, pkill -f nwg-dock-hyprland" # Toggle Dock
+        "$mod,Q, killactive," # Close window
+        "$mod,SPACE, togglefloating," # Toggle Floating
+        "$mod,F, fullscreen" # Toggle Fullscreen
+        "$mod,left, movefocus, l" # Move focus left
+        "$mod,right, movefocus, r" # Move focus Right
+        "$mod,up, movefocus, u" # Move focus Up
+        "$mod,down, movefocus, d" # Move focus Down
+        "$shiftMod,up, focusmonitor, -1" # Focus previous monitor
+        "$shiftMod,down, focusmonitor, 1" # Focus next monitor
+        "$shiftMod,left, layoutmsg, addmaster" # Add to master
+        "$shiftMod,right, layoutmsg, removemaster" # Remove from master
 
-      "$mod,PRINT, exec, screenshot window" # Screenshot window
-      ",PRINT, exec, screenshot monitor" # Screenshot monitor
-      "$shiftMod,PRINT, exec, screenshot region" # Screenshot region
-      "ALT,PRINT, exec, screenshot region swappy" # Screenshot region then edit
+        "$mod,PRINT, exec, screenshot window" # Screenshot window
+        ",PRINT, exec, screenshot monitor" # Screenshot monitor
+        "$shiftMod,PRINT, exec, screenshot region" # Screenshot region
+        "ALT,PRINT, exec, screenshot region swappy" # Screenshot region then edit
 
-      # "$shiftMod,S, exec, ${pkgs.qutebrowser}/bin/qutebrowser :open $(wofi --show dmenu -L 1 -p ' Search on internet')" # Search on internet with wofi
-      "$mod,V, exec, clipboard" # Clipboard picker with wofi
-      "$mod,Period, exec, ${pkgs.wofi-emoji}/bin/wofi-emoji" # Emoji picker with wofi
-      "$mod,F2, exec, night-shift" # Toggle night shift
-      "$mod,F3, exec, night-shift" # Toggle night shift
-    ] ++ (builtins.concatLists (builtins.genList (i:
-      let ws = i + 1;
+        # "$shiftMod,S, exec, ${pkgs.qutebrowser}/bin/qutebrowser :open $(wofi --show dmenu -L 1 -p ' Search on internet')" # Search on internet with wofi
+        "$mod,V, exec, clipboard" # Clipboard picker with wofi
+        "$mod,Period, exec, ${pkgs.wofi-emoji}/bin/wofi-emoji" # Emoji picker with wofi
+        "$mod,F2, exec, night-shift" # Toggle night shift
+        "$mod,F3, exec, night-shift" # Toggle night shift
+      ]
+      ++ (builtins.concatLists (builtins.genList (i: let
+        ws = i + 1;
       in [
         "$mod,code:1${toString i}, workspace, ${toString ws}"
         "$mod SHIFT,code:1${toString i}, movetoworkspace, ${toString ws}"
@@ -61,6 +64,5 @@
       ",XF86MonBrightnessUp, exec, brightness-up" # Brightness Up
       ",XF86MonBrightnessDown, exec, brightness-down" # Brightness Down
     ];
-
   };
 }

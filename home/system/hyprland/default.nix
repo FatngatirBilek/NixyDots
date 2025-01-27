@@ -30,7 +30,11 @@ in {
     hyprpicker
     swappy
     imv
-    wf-recorder
+    # wf-recorder
+    wl-screenrec
+    woomer
+    slurp
+    grim
     wlr-randr
     wl-clipboard
     brightnessctl
