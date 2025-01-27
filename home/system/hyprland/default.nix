@@ -30,8 +30,7 @@ in {
     hyprpicker
     swappy
     imv
-    # wf-recorder
-    wl-screenrec
+    wf-recorder
     woomer
     slurp
     grim

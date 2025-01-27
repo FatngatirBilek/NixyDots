@@ -11,7 +11,9 @@
         "$mod,D, exec, menu" # Launcher
         "$mod,C, exec, quickmenu" # Quickmenu
         "$shiftMod,SPACE, exec, hyprfocus-toggle" # Toggle HyprFocus
-        "$mod, z, exec, woomer"
+        "$mod,R, exec, notify-send 'Recording' && wf-recorder --audio -g \"$(slurp)\" --file=Videos/$(date '+%d_%B_%Y-%H.%M.%S').mp4 && notify-send 'Recording Stop'" # Start Recording
+        "$shiftMod, R, exec, pidof wf-recorder && kill $(pidof wf-recorder)" # Stop Recording
+        "$mod, z, exec, woomer" # zoom
         # "$mod,TAB, overview:toggle" # Overview
         "$shiftMod, W , exec, nwg-dock-hyprland -r -i 35 -ml 12 -mr 12 -mb 12 -nolauncher -x -l bottom" # Toggle Dock
         "$mod, W, exec, pkill -f nwg-dock-hyprland" # Toggle Dock
@@ -39,11 +41,12 @@
         "$mod,F3, exec, night-shift" # Toggle night shift
       ]
       ++ (builtins.concatLists (builtins.genList (i: let
-        ws = i + 1;
-      in [
-        "$mod,code:1${toString i}, workspace, ${toString ws}"
-        "$mod SHIFT,code:1${toString i}, movetoworkspace, ${toString ws}"
-      ]) 9));
+          ws = i + 1;
+        in [
+          "$mod,code:1${toString i}, workspace, ${toString ws}"
+          "$mod SHIFT,code:1${toString i}, movetoworkspace, ${toString ws}"
+        ])
+        9));
 
     bindm = [
       "$mod,mouse:272, movewindow" # Move Window (mouse)
