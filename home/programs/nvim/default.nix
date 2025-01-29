@@ -9,6 +9,4 @@
     deno
     opam
   ];
-    xdg.configFile."nvim/lua/custom/".source = ~/.config/nixos/config/nvchad;
-    xdg.configFile."nvim/lua/custom/".recursive = true;
 }
