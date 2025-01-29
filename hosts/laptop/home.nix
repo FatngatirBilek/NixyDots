@@ -78,6 +78,8 @@
       nwg-look
       obs-studio
       networkmanagerapplet
+      imagemagick
+
       # Just cool
       peaclock
       cbonsai
