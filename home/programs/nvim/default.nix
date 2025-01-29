@@ -1,21 +1,14 @@
-# Nixvim is a NixOS module that installs and configures Neovim
-{ inputs, ... }: {
-  imports = [
-    inputs.nixvim.homeManagerModules.nixvim
-    ./plugins/cmp.nix
-    ./plugins/dashboard.nix
-    ./plugins/lsp.nix
-    ./plugins/markdown.nix
-    ./plugins/tree.nix
-    ./plugins/ui.nix
-    ./plugins/utils.nix
-    ./plugins/dap.nix
-    ./plugins/telescope.nix
-    ./plugins/zenmode.nix
-
-    ./options.nix
-    ./keymaps.nix
+{
+  pkgs,
+  inputs,
+  ...
+}: {
+  home.packages = with pkgs; [
+    inputs.nvchad4nix.packages."${system}".nvchad
+    cargo
+    deno
+    opam
   ];
-
-  programs.nixvim.enable = true;
+    xdg.configFile."nvim/lua/custom/".source = ~/.config/nixos/config/nvchad;
+    xdg.configFile."nvim/lua/custom/".recursive = true;
 }
