@@ -24,6 +24,7 @@
     ../../home/programs/ghostty
     ../../home/programs/server-page
     ../../home/programs/nwg-dock
+    ../../home/programs/zed
 
     # Scripts
     ../../home/scripts # All scripts
@@ -86,7 +87,6 @@
       # Backup
       vscode
       gnome-tweaks
-      zed-editor
     ];
 
     # Import my profile picture, used by the hyprpanel dashboard

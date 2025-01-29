@@ -1,9 +1,5 @@
-{
-  lib,
-  osConfig,
-  ...
-}: {
-  programs.zed-editor = lib.mkIf osConfig.glade.apps.enable {
+{lib, ...}: {
+  programs.zed-editor = {
     enable = true;
 
     extensions = [
@@ -27,7 +23,7 @@
       "catppuccin"
     ];
 
-    userSettings = {
+    userSettings = lib.mkForce {
       base_keymap = "VSCode";
       theme = "Catppuccin Macchiato - No Italics";
       ui_font_size = 16;
