@@ -7,7 +7,7 @@
     font-family = FiraCode Nerd Font
     font-size = 13
     # Theme
-      theme = Tinacious Design (Dark)
+      theme = catppuccin-mocha
       unfocused-split-opacity = 0.5
 
     # Mouse

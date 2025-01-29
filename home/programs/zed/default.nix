@@ -11,6 +11,7 @@
       "vue"
       "scss"
       "nix"
+      "lua"
       "just"
       "scheme"
       "vento"
@@ -103,12 +104,12 @@
         Python = {
           format_on_save = {
             language_server = [
-              "name = ruff"
+              "ruff"
             ];
           };
           formatter = {
             language_server = [
-              "name = ruff"
+              "ruff"
             ];
           };
           language_servers = [

@@ -1,14 +1,16 @@
-{ pkgs, config, ... }:
-let
+{
+  pkgs,
+  config,
+  ...
+}: let
   hostname = config.var.hostname;
   keyboardLayout = config.var.keyboardLayout;
 in {
-
   networking.hostName = hostname;
 
   services = {
     xserver = {
-      enable = true;
+      enable = false;
       xkb.layout = keyboardLayout;
       xkb.variant = "";
     };
