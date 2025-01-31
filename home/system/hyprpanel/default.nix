@@ -25,7 +25,6 @@
   transparent = config.var.theme.bar.transparent;
   position = config.var.theme.bar.position;
 
-  weather = config.var.weather;
   location = config.var.location;
   username = config.var.username;
 in {
@@ -118,7 +117,7 @@ in {
       "theme.osd.margins" = "0px 0px 0px 10px";
       "theme.osd.muted_zero" = true;
       "menus.clock.weather.location" = "${location}";
-      "menus.clock.weather.key" = "${weather}";
+      "menus.clock.weather.key" = "/home/${username}/.config/hyprpanel/weather.json";
       "menus.clock.weather.unit" = "metric";
       "menus.dashboard.powermenu.confirmation" = false;
       "menus.dashboard.powermenu.avatar.image" = "/home/${username}/.face.icon";

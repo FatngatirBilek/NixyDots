@@ -1,14 +1,15 @@
-{ config, ... }: {
-  imports = [ ../../nixos/variables-config.nix ];
+{config, ...}: {
+  imports = [../../nixos/variables-config.nix];
 
   config.var = {
     hostname = "nixos";
     username = "fathirbimashabri";
-    configDirectory = "/home/" + config.var.username
+    configDirectory =
+      "/home/"
+      + config.var.username
       + "/.config/nixos"; # The path of the nixos configuration directory
 
     keyboardLayout = "us";
-
     weather = "09b330e1e15e454f8b7120845241611";
     location = "Klaten";
     timeZone = "Asia/Jakarta";

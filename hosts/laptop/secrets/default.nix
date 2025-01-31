@@ -1,23 +1,27 @@
 # Those are my secrets, encrypted with sops
 # You shouldn't import this file, unless you edit it
-{ pkgs, inputs, ... }: {
-  imports = [ inputs.sops-nix.homeManagerModules.sops ];
+{
+  pkgs,
+  inputs,
+  config,
+  ...
+}: {
+  imports = [inputs.sops-nix.homeManagerModules.sops];
 
   sops = {
-    age.keyFile = "/home/hadi/.config/sops/age/keys.txt";
+    age.keyFile = "/home/fathirbimashabri/.config/sops/age/keys.txt";
     defaultSopsFile = ./secrets.yaml;
     secrets = {
-      sshconfig = { path = "/home/hadi/.ssh/config"; };
-      github-key = { path = "/home/hadi/.ssh/github"; };
-      gitlab-key = { path = "/home/hadi/.ssh/gitlab"; };
-      jack-key = { path = "/home/hadi/.ssh/jack"; };
-      pia = { path = "/home/hadi/.config/pia/pia.ovpn"; };
+      weather = {path = "/home/fathirbimashabri/secrets/weather/text.txt";};
+    };
+    templates = {
+      "weatherkey".content = ''${config.sops.placeholder."weather"}'';
     };
   };
 
   home.file.".config/nixos/.sops.yaml".text = ''
     keys:
-      - &primary age12yvtj49pfh3fqzqflscm0ek4yzrjhr6cqhn7x89gdxnlykq0xudq5c7334
+      - &primary age13kj7pm70c7etf2rd24rgzpac2pj52m3zfszmelvyjqnj7ecavvjsx5ehuv
     creation_rules:
       - path_regex: hosts/laptop/secrets/secrets.yaml$
         key_groups:
@@ -29,9 +33,8 @@
             - *primary
   '';
 
-  systemd.user.services.mbsync.Unit.After = [ "sops-nix.service" ];
-  home.packages = with pkgs; [ sops age ];
+  systemd.user.services.mbsync.Unit.After = ["sops-nix.service"];
+  home.packages = with pkgs; [sops age];
 
-  wayland.windowManager.hyprland.settings.exec-once =
-    [ "systemctl --user start sops-nix" ];
+  wayland.windowManager.hyprland.settings.exec-once = ["systemctl --user start sops-nix"];
 }
