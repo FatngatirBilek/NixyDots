@@ -871,11 +871,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1738278343,
-        "narHash": "sha256-yNgSlBYdUyuIPjK252t8Q2uG41RXPBQevm7FQas9laU=",
+        "lastModified": 1738282823,
+        "narHash": "sha256-F9Npwxwy6xoTLKYcWFeTsk7MTVKxK9IeT1lsSSCjExg=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "9adb4172b8400f63ae02a40fc9e5db2297ff4724",
+        "rev": "6afe9691509edbfdcd9b2f4a703c6ed5c588255e",
         "type": "github"
       },
       "original": {

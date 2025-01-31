@@ -29,7 +29,7 @@ in {
     ../../nixos/xdg-portal.nix
     ../../nixos/variables-config.nix
     ../../nixos/docker.nix
-    ../../nixos/pia.nix
+    ../../nixos/warp.nix
     ../../nixos/tjkt.nix
     ../../nixos/wine.nix
     ../../nixos/fcitx.nix
