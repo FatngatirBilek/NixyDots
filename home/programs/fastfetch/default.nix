@@ -1,48 +1,114 @@
-{ pkgs,  ...}: {
-  home.packages = with pkgs;[fastfetch];
+{
+  programs.fastfetch = {
+    enable = true;
 
-  xdg.configFile."fastfetch/config.jsonc".text  =  ''
-    {
-    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
-        "logo": {
-            "type": "small"
-        },
-        "display": {
-            "separator": "  ",
-            "color": {
-                "keys": "magenta"
-            },
-            "size": {
-                "ndigits": 0,
-                "maxPrefix": "MB"
-            },
-            "key": {
-                "type": "icon"
-            }
-        },
-        "modules": [
-            {
-                "type": "title",
-                "color": {
-                    "user": "green",
-                    "at": "red",
-                    "host": "blue"
-                }
-            },
-            "os",
-            "kernel",
-            "memory",
-            "packages",
-            "uptime",
-            {
-                "type": "colors",
-                "key": "Colors", // For printing icon
-                "block": {
-                    "range": [1, 6]
-                }
-            }
-        ]
-      }
-  '';
+    settings = {
+      display = {
+        color = {
+          keys = "35";
+          output = "90";
+        };
+      };
 
+      logo = {
+        source = ./nixos.png;
+        height = 15;
+        width = 30;
+        padding = {
+          top = 3;
+          left = 3;
+        };
+        position = "left";
+      };
+
+      modules = [
+        "break"
+        {
+          type = "custom";
+          format = "┌──────────────────────Hardware──────────────────────┐";
+        }
+        {
+          type = "cpu";
+          key = "│  ";
+        }
+        {
+          type = "gpu";
+          key = "│  ";
+        }
+        {
+          type = "memory";
+          key = "│  ";
+        }
+        {
+          type = "custom";
+          format = "└────────────────────────────────────────────────────┘";
+        }
+        "break"
+        {
+          type = "custom";
+          format = "┌──────────────────────Software──────────────────────┐";
+        }
+        {
+          type = "os";
+          key = " OS -> ";
+        }
+        {
+          type = "kernel";
+          key = "│ ├ ";
+        }
+        {
+          type = "packages";
+          key = "│ ├󰏖 ";
+        }
+        {
+          type = "shell";
+          key = "└ └ ";
+        }
+        "break"
+        {
+          type = "wm";
+          key = " WM";
+        }
+        {
+          type = "wmtheme";
+          key = "│ ├󰉼 ";
+        }
+        {
+          type = "terminal";
+          key = "└ └ ";
+        }
+        {
+          type = "custom";
+          format = "└────────────────────────────────────────────────────┘";
+        }
+        "break"
+        {
+          type = "custom";
+          format = "┌────────────────────Uptime / Age────────────────────┐";
+        }
+        {
+          type = "command";
+          key = "│ 󱦟 ";
+          text =
+            # bash
+            ''
+              birth_install=$(stat -c %W /)
+              current=$(date +%s)
+              delta=$((current - birth_install))
+              delta_days=$((delta / 86400))
+              echo $delta_days days
+            '';
+        }
+        {
+          type = "uptime";
+          key = "│  ";
+        }
+        {
+          type = "custom";
+          format = "└────────────────────────────────────────────────────┘";
+        }
+        "break"
+      ];
+    };
+  };
 }

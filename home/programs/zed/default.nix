@@ -17,6 +17,7 @@
       "vento"
       "marksman"
       "svelte"
+      "nu"
 
       "wakatime"
 

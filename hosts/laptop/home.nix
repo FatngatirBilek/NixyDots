@@ -9,7 +9,7 @@
     # Programs
     ../../home/programs/kitty
     ../../home/programs/nvim
-    ../../home/programs/shell
+    ../../home/programs/nu
     ../../home/programs/fetch
     ../../home/programs/git
     ../../home/programs/spicetify
@@ -22,7 +22,6 @@
     ../../home/programs/nh
     ../../home/programs/zen
     ../../home/programs/ghostty
-    ../../home/programs/server-page
     ../../home/programs/nwg-dock
     ../../home/programs/zed
     ../../home/programs/wezterm
