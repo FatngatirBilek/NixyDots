@@ -2,7 +2,7 @@
   home.packages = with pkgs; [ghostty];
 
   xdg.configFile."ghostty/config".text = ''
-    command = zsh
+    command = nu
 
     font-family = FiraCode Nerd Font
     font-size = 13

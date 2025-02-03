@@ -1,14 +1,13 @@
 # - ## System
-#- 
+#-
 #- Usefull quick scripts
 #-
 #- - `menu` - Open wofi with drun mode. (wofi)
 #- - `powermenu` - Open power dropdown menu. (wofi)
 #- - `lock` - Lock the screen. (hyprlock)
-{ pkgs, ... }:
-
-let
-  menu = pkgs.writeShellScriptBin "menu"
+{pkgs, ...}: let
+  menu =
+    pkgs.writeShellScriptBin "menu"
     # bash
     ''
       if pgrep wofi; then
@@ -18,7 +17,8 @@ let
       fi
     '';
 
-  powermenu = pkgs.writeShellScriptBin "powermenu"
+  powermenu =
+    pkgs.writeShellScriptBin "powermenu"
     # bash
     ''
       if pgrep wofi; then
@@ -55,7 +55,8 @@ let
       fi
     '';
 
-  quickmenu = pkgs.writeShellScriptBin "quickmenu"
+  quickmenu =
+    pkgs.writeShellScriptBin "quickmenu"
     # bash
     ''
       if pgrep wofi; then
@@ -69,7 +70,7 @@ let
         )
 
         selected=$(printf '%s\n' "''${options[@]}" | wofi -p " Quickmenu" --dmenu)
-        
+
         selected=''${selected:2}
 
         case $selected in
@@ -80,7 +81,7 @@ let
             night-shift
             ;;
           "Nixy")
-            kitty zsh -c nixy
+            kitty nu -c nixy
             ;;
           "Hyprpicker")
             sleep 0.2 && ${pkgs.hyprpicker}/bin/hyprpicker -a
@@ -89,10 +90,10 @@ let
       fi
     '';
 
-  lock = pkgs.writeShellScriptBin "lock"
+  lock =
+    pkgs.writeShellScriptBin "lock"
     # bash
     ''
       ${pkgs.hyprlock}/bin/hyprlock
     '';
-
-in { home.packages = [ menu powermenu lock quickmenu ]; }
+in {home.packages = [menu powermenu lock quickmenu];}

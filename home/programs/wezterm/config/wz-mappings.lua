@@ -5,8 +5,8 @@ local wa = wezterm.action
 
 local keys = {
     -- Pane related keys
-    { key = "e",   mods = "CTRL",               action = wa.SplitHorizontal({ args = { "zsh" } }) },
-    { key = "q",   mods = "CTRL",               action = wa.SplitVertical({ args = { "zsh" } }) },
+    { key = "e",   mods = "CTRL",               action = wa.SplitHorizontal({ args = { "nu" } }) },
+    { key = "q",   mods = "CTRL",               action = wa.SplitVertical({ args = { "nu" } }) },
     { key = "h",   mods = "CTRL",               action = wa.ActivatePaneDirection("Left") },
     { key = "l",   mods = "CTRL",               action = wa.ActivatePaneDirection("Right") },
     { key = "k",   mods = "CTRL",               action = wa.ActivatePaneDirection("Up") },
