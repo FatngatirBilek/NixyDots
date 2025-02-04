@@ -9,16 +9,16 @@
         };
       };
 
-      logo = {
-        source = ./nixos.png;
-        height = 15;
-        width = 30;
-        padding = {
-          top = 3;
-          left = 3;
-        };
-        position = "left";
-      };
+      # logo = {
+      #   source = ./nixos.png;
+      #   height = 15;
+      #   width = 30;
+      #   padding = {
+      #     top = 3;
+      #     left = 3;
+      #   };
+      #   position = "left";
+      # };
 
       modules = [
         "break"
