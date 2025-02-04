@@ -1,6 +1,10 @@
 # GTK & QT theme configuration
-{ config, pkgs, lib, ... }:
-let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
   accent = "#${config.lib.stylix.colors.base0D}";
   foreground = "#${config.lib.stylix.colors.base05}";
   background = "#${config.lib.stylix.colors.base00}";
@@ -22,36 +26,34 @@ let
   c13 = "#${config.lib.stylix.colors.base0E}";
   c14 = "#${config.lib.stylix.colors.base0C}";
   c15 = "#${config.lib.stylix.colors.base07}";
-
 in {
-
-  qt = {
-    enable = true;
-    platformTheme.name = "gtk2";
-    style.name = "gtk2";
-  };
+  #  qt =  {
+  #   enable = true;
+  #    platformTheme.name = "gtk2";
+  #    style.name = "gtk2";
+  #  };
 
   gtk = {
     enable = true;
-      cursorTheme = lib.mkForce {
+    cursorTheme = lib.mkForce {
       package = pkgs.bibata-cursors;
       name = "Bibata-Modern-Ice";
       size = 22;
-      };
+    };
     theme = lib.mkForce {
-      package = pkgs.orchis-theme; 
-      name = "Orchis"; 
-      };
+      package = pkgs.orchis-theme;
+      name = "Orchis";
+    };
 
     iconTheme = {
       package = pkgs.tela-icon-theme;
       name = "Tela";
     };
 
-    font = { name = config.stylix.fonts.serif.name; };
+    font = {name = config.stylix.fonts.serif.name;};
 
-    gtk3.extraConfig = { gtk-application-prefer-dark-theme = 1; };
+    gtk3.extraConfig = {gtk-application-prefer-dark-theme = 1;};
 
-    gtk4.extraConfig = { gtk-application-prefer-dark-theme = 1; };
+    gtk4.extraConfig = {gtk-application-prefer-dark-theme = 1;};
   };
 }

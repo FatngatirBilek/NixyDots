@@ -2,7 +2,7 @@
   wayland.windowManager.hyprland.settings = {
     bind =
       [
-        "$mod,T, exec, wezterm" # cuz it's like tmux but all in one
+        "$mod,T, exec, ghostty" # idk, i prefer ghostty
         "$mod,E, exec, ${pkgs.nautilus}/bin/nautilus" # Thunar
         #  "$mod,B, exec, ${pkgs.qutebrowser}/bin/qutebrowser" # Qutebrowser
         "$mod,K, exec, ${pkgs.bitwarden}/bin/bitwarden" # Bitwarden

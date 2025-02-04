@@ -5,7 +5,7 @@
     command = nu
 
     font-family = FiraCode Nerd Font
-    font-size = 13
+    font-size = 15
     # Theme
       theme = catppuccin-mocha
       unfocused-split-opacity = 0.5
@@ -31,6 +31,13 @@
       keybind = ctrl+shift+v=paste_from_clipboard
       keybind = ctrl+shift+z=toggle_window_decorations
       keybind = ctrl+l=clear_screen
-
+      keybind = alt+j=goto_split:down
+      keybind = alt+k=goto_split:up
+      keybind = alt+h=goto_split:left
+      keybind = alt+l=goto_split:right
+      keybind = alt+shift+l=new_split:right
+      keybind = alt+shift+h=new_split:left
+      keybind = alt+shift+j=new_split:down
+      keybind = alt+shift+k=new_split:up
   '';
 }
