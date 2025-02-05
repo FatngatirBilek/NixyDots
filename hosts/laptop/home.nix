@@ -78,7 +78,6 @@
       obs-studio
       networkmanagerapplet
       imagemagick
-      davinci-resolve
       ffmpeg
       # Just cool
       peaclock
