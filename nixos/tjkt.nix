@@ -15,6 +15,7 @@
     nil
     alejandra
     zig
+    mongodb-compass
     libreoffice-qt6-fresh
   ];
 

@@ -20,7 +20,8 @@
       "nu"
 
       "wakatime"
-
+      "discord-presence"
+      
       # Themes
       "catppuccin"
     ];

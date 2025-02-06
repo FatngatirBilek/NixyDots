@@ -7,6 +7,7 @@
     deno
     opam
     gnumake
+    vim
   ];
   xdg.configFile."nvim".source = ./config;
   xdg.configFile."nvim".recursive = true;

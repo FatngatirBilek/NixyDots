@@ -64,7 +64,12 @@ in {
         "nwg-dock-hyprland -r -i 35 -ml 12 -mr 12 -mb 12 -nolauncher -x -l bottom"
       ];
 
-      monitor = ["eDP-1, 1920x1080@165,0x0,1" "HDMI-A-1,1920x1080@120,1920x0,1"];
+      monitor = [
+      "eDP-1, 1920x1080@165,0x0,1"
+      # "HDMI-A-1,1920x1080@120,1920x0,1"
+      "HDMI-A-1,1920x1080@120,1920x0,1"
+
+      ];
 
       env = [
         "XDG_SESSION_TYPE,wayland"

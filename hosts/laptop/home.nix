@@ -85,6 +85,7 @@
       pipes
       cmatrix
       cava
+      discord
       # Backup
       vscode
       gnome-tweaks
