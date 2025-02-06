@@ -9,7 +9,6 @@
     nushell = {
       enable = true;
       # The config.nu can be anywhere you want if you like to edit your Nushell with Nu
-      configFile.source = ./config.nu;
       # for editing directly to config.nu
       extraConfig = ''
         # Common ls aliases and sort them by type and then name
