@@ -16,6 +16,7 @@
     alejandra
     zig
     mongodb-compass
+    postman
     libreoffice-qt6-fresh
   ];
 

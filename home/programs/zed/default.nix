@@ -1,4 +1,12 @@
-{lib, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
+  home.packages = with pkgs; [
+    # For LSP
+    nodePackages.prettier
+  ];
   programs.zed-editor = {
     enable = true;
 
@@ -21,7 +29,7 @@
 
       "wakatime"
       "discord-presence"
-      
+
       # Themes
       "catppuccin"
     ];
@@ -101,6 +109,17 @@
             show_parameter_hints = false;
             show_other_hints = true;
             show_type_hints = true;
+          };
+        };
+        JavaScript = {
+          formatter = {
+            external = {
+              command = "prettier";
+              arguments = [
+                "--stdin-filepath"
+                "{buffer_path}"
+              ];
+            };
           };
         };
         Python = {
