@@ -26,6 +26,7 @@
       "marksman"
       "svelte"
       "nu"
+      "git-firefly"
 
       "wakatime"
       "discord-presence"
