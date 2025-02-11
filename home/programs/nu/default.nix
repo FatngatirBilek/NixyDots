@@ -3,8 +3,14 @@
   pkgs,
   ...
 }: {
-  home.packages = with pkgs; [ripgrep bat fd];
-  imports = [./starship.nix ./eza.nix ./fzf.nix ./tmux.nix ./zoxide.nix];
+  home.packages = with pkgs; [ripgrep bat fd lazydocker];
+  imports = [
+    ./starship.nix
+    ./eza.nix
+    ./fzf.nix
+    ./tmux.nix
+    ./zoxide.nix
+  ];
   programs = {
     nushell = {
       enable = true;

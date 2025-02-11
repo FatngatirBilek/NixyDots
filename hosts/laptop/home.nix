@@ -25,6 +25,7 @@
     ../../home/programs/nwg-dock
     ../../home/programs/zed
     ../../home/programs/wezterm
+
     # Scripts
     ../../home/scripts # All scripts
 

@@ -4,29 +4,7 @@
   pkgs,
   lib,
   ...
-}: let
-  accent = "#${config.lib.stylix.colors.base0D}";
-  foreground = "#${config.lib.stylix.colors.base05}";
-  background = "#${config.lib.stylix.colors.base00}";
-  background-alt = "#${config.lib.stylix.colors.base01}";
-
-  c0 = "#${config.lib.stylix.colors.base00}";
-  c1 = "#${config.lib.stylix.colors.base08}";
-  c2 = "#${config.lib.stylix.colors.base0B}";
-  c3 = "#${config.lib.stylix.colors.base0A}";
-  c4 = "#${config.lib.stylix.colors.base0D}";
-  c5 = "#${config.lib.stylix.colors.base0E}";
-  c6 = "#${config.lib.stylix.colors.base0C}";
-  c7 = "#${config.lib.stylix.colors.base05}";
-  c8 = "#${config.lib.stylix.colors.base03}";
-  c9 = "#${config.lib.stylix.colors.base08}";
-  c10 = "#${config.lib.stylix.colors.base0B}";
-  c11 = "#${config.lib.stylix.colors.base0A}";
-  c12 = "#${config.lib.stylix.colors.base0D}";
-  c13 = "#${config.lib.stylix.colors.base0E}";
-  c14 = "#${config.lib.stylix.colors.base0C}";
-  c15 = "#${config.lib.stylix.colors.base07}";
-in {
+}: {
   #  qt =  {
   #   enable = true;
   #    platformTheme.name = "gtk2";

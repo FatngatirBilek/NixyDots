@@ -28,12 +28,11 @@
         "$shiftMod,down, focusmonitor, 1" # Focus next monitor
         "$shiftMod,left, layoutmsg, addmaster" # Add to master
         "$shiftMod,right, layoutmsg, removemaster" # Remove from master
-
-        "$mod,PRINT, exec, screenshot window" # Screenshot window
+        "$mod,PRINT, exec, screenshot region" # Screenshot region
         ",PRINT, exec, screenshot monitor" # Screenshot monitor
-        "$shiftMod,PRINT, exec, screenshot region" # Screenshot region
+        "$shiftMod,PRINT, exec, screenshot window" # Screenshot window
         "ALT,PRINT, exec, screenshot region swappy" # Screenshot region then edit
-
+        "$shiftMod,T, exec, hyprpanel-toggle" # Toggle hyprpanel
         # "$shiftMod,S, exec, ${pkgs.qutebrowser}/bin/qutebrowser :open $(wofi --show dmenu -L 1 -p ' Search on internet')" # Search on internet with wofi
         "$mod,V, exec, clipboard" # Clipboard picker with wofi
         "$mod,Period, exec, ${pkgs.wofi-emoji}/bin/wofi-emoji" # Emoji picker with wofi

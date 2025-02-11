@@ -19,15 +19,22 @@
       "text/x-dockerfile" = "nvim.desktop";
       "text/x-xml" = "nvim.desktop";
       "text/x-php" = "nvim.desktop";
-      "image/png" = "imv.desktop";
       "image/jpeg" = "imv.desktop";
       "image/jpg" = "imv.desktop";
       "image/webp" = "imv.desktop";
-      "image/gif" = "zen_twilight.desktop";
-      "x-scheme-handler/http" = "zen_twilight.desktop";
-      "x-scheme-handler/https" = "zen_twilight.desktop";
-      "text/html" = "zen_twilight.desktop";
+      "image/gif" = "zen.desktop";
+      "x-scheme-handler/http" = "zen.desktop";
+      "x-scheme-handler/https" = "zen.desktop";
+      "text/html" = "zen.desktop";
       "application/pdf" = "zathura.desktop";
+      "image/png" = "imv-dir.desktop";
+      "x-scheme-handler/chrome" = "zen.desktop";
+      "application/x-extension-htm" = "zen.desktop";
+      "application/x-extension-html" = "zen.desktop";
+      "application/x-extension-shtml" = "zen.desktop";
+      "application/xhtml+xml" = "zen.desktop";
+      "application/x-extension-xhtml" = "zen.desktop";
+      "application/x-extension-xht" = "zen.desktop";
     };
   };
 }

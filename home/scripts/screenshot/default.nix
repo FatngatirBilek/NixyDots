@@ -3,8 +3,7 @@
 #- This module provides a script to take screenshots using `grimblast` and `swappy`.
 #-
 #- - `screenshot [region|window|monitor] [swappy]` - Take a screenshot of the region, window, or monitor. Optionally, use `swappy` to copy the screenshot to the clipboard.
-{ pkgs, ... }:
-let
+{pkgs, ...}: let
   screenshot = pkgs.writeShellScriptBin "screenshot" ''
     if [[ $2 == "swappy" ]];then
       folder="/tmp"
@@ -21,7 +20,7 @@ let
       mode="output"
     fi
 
-    ${pkgs.grimblast}/bin/grimblast --notify --freeze save $mode "$folder/$filename" || exit 1
+    ${pkgs.grimblast}/bin/grimblast --notify --freeze copy $mode "$folder/$filename" || exit 1
 
     if [[ $2 == "swappy" ]];then
       ${pkgs.swappy}/bin/swappy -f "$folder/$filename" -o "$HOME/Pictures/$filename"
@@ -29,6 +28,5 @@ let
     fi
   '';
 in {
-  home.packages =
-    [ pkgs.hyprshot screenshot pkgs.slurp pkgs.grim pkgs.grimblast ];
+  home.packages = [pkgs.hyprshot screenshot pkgs.slurp pkgs.grim pkgs.grimblast];
 }

@@ -33,6 +33,7 @@ in {
     ../../nixos/tjkt.nix
     ../../nixos/wine.nix
     ../../nixos/fcitx.nix
+    ../../nixos/tabletdriver.nix
     # Choose your theme here
     ../../themes/stylix/nixy.nix
 

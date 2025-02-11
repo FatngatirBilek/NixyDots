@@ -1,6 +1,5 @@
 # Tmux is a terminal multiplexer that allows you to run multiple terminal sessions in a single window.
-{ pkgs, ... }:
-let
+{pkgs, ...}: let
   Config = pkgs.writeShellScriptBin "Config" ''
     SESSION="Nixy Config"
 
@@ -28,7 +27,7 @@ in {
   programs.tmux = {
     enable = true;
     mouse = true;
-    shell = "${pkgs.zsh}/bin/zsh";
+    shell = "${pkgs.nushell}/bin/nu";
     prefix = "C-s";
     terminal = "kitty";
     keyMode = "vi";
@@ -54,5 +53,5 @@ in {
       tmuxPlugins.tokyo-night-tmux
     ];
   };
-  home.packages = [ Config ];
+  home.packages = [Config];
 }
