@@ -80,6 +80,7 @@
       networkmanagerapplet
       imagemagick
       ffmpeg
+      gnome-disk-utility
       # Just cool
       peaclock
       cbonsai
