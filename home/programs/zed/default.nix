@@ -27,6 +27,7 @@
       "svelte"
       "nu"
       "git-firefly"
+      "dockerfile"
 
       "wakatime"
       "discord-presence"

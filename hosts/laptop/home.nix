@@ -80,6 +80,7 @@
       networkmanagerapplet
       imagemagick
       ffmpeg
+      tree
       gnome-disk-utility
       # Just cool
       peaclock

@@ -10,7 +10,6 @@
   #    platformTheme.name = "gtk2";
   #    style.name = "gtk2";
   #  };
-
   gtk = {
     enable = true;
     cursorTheme = lib.mkForce {
@@ -24,8 +23,8 @@
     };
 
     iconTheme = {
-      package = pkgs.tela-icon-theme;
-      name = "Tela";
+      package = pkgs.vimix-icon-theme;
+      name = "Vimix";
     };
 
     font = {name = config.stylix.fonts.serif.name;};

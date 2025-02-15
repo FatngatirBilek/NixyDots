@@ -49,7 +49,14 @@ in {
   };
   users.groups.ubridge = {};
   time.hardwareClockInLocalTime = true;
-
+  nixpkgs.overlays = [
+    # temporary fix for broken symlinks
+    (final: prev: {
+      vimix-icon-theme = prev.vimix-icon-theme.overrideAttrs (oldAttrs: {
+        dontCheckForBrokenSymlinks = true;
+      });
+    })
+  ];
   programs = {
     nix-ld = {
       enable = true;
