@@ -59,6 +59,7 @@
       nchat
       # Dev
       go
+      #  zed-editor
       nodejs
       python3Full
       jq

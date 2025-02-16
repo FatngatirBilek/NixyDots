@@ -7,7 +7,7 @@
     font-family = FiraCode Nerd Font
     font-size = 15
     # Theme
-      theme = catppuccin-mocha
+      theme = tokyonight
       unfocused-split-opacity = 0.5
 
     # Mouse

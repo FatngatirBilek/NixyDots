@@ -5,10 +5,12 @@
 }: {
   home.packages = with pkgs; [
     # For LSP
+    vtsls
     nodePackages.prettier
   ];
   programs.zed-editor = {
     enable = true;
+    installRemoteServer = true;
 
     extensions = [
       # Language/Tool Support
@@ -34,11 +36,12 @@
 
       # Themes
       "catppuccin"
+      "tokyo-night"
     ];
 
     userSettings = lib.mkForce {
       base_keymap = "VSCode";
-      theme = "Catppuccin Macchiato - No Italics";
+      theme = "Tokyo Night";
       ui_font_size = 16;
       buffer_font_size = 18;
 
@@ -86,6 +89,14 @@
             classAttributes = ["class" "className" "ngClass" "styles"];
           };
         };
+        eslint = {
+          settings = {
+            codeActionOnSave = {
+              rules = ["import/order"];
+            };
+          };
+        };
+
         nixd = {
           settings = {
             diagnostic = {
@@ -102,6 +113,9 @@
         };
       };
 
+      features = {
+        inline_completion_provider = "copilot";
+      };
       format_on_save = "on";
       languages = {
         TypeScript = {
@@ -114,6 +128,9 @@
           };
         };
         JavaScript = {
+          code_actions_on_format = {
+            "source.fixAll.eslint" = true;
+          };
           formatter = {
             external = {
               command = "prettier";
@@ -224,7 +241,7 @@
         context = "Editor && (vim_mode == normal || vim_mode == visual) && !VimWaiting && !menu";
         bindings = {
           # Git
-          "space g h d" = "editor::ToggleHunkDiff";
+          "space g h d" = "editor::ToggleSelectedDiffHunks";
           "space g h r" = "editor::RevertSelectedHunks";
 
           # Toggle inlay hints
