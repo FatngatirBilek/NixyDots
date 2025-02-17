@@ -32,6 +32,7 @@ in {
 
   programs.hyprpanel = {
     enable = true;
+    overlay.enable = true;
     hyprland.enable = true;
     overwrite.enable = true;
     layout = {
@@ -116,6 +117,7 @@ in {
       "theme.osd.radius" = "${toString rounding}px";
       "theme.osd.margins" = "0px 0px 0px 10px";
       "theme.osd.muted_zero" = true;
+      "theme.bar.shadow" = "0px 0px 0px 0px #16161e";
       "menus.clock.weather.location" = "${location}";
       "menus.clock.weather.key" = "/home/${username}/.config/hyprpanel/weather.json";
       "menus.clock.weather.unit" = "metric";
