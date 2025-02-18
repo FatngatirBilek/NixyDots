@@ -35,6 +35,7 @@
       "discord-presence"
 
       # Themes
+      "material-icon-theme"
       "catppuccin"
       "tokyo-night"
     ];
@@ -42,6 +43,7 @@
     userSettings = lib.mkForce {
       base_keymap = "VSCode";
       theme = "Tokyo Night";
+      icon_theme = "Material Icon Theme";
       ui_font_size = 16;
       buffer_font_size = 18;
 
@@ -114,7 +116,8 @@
       };
 
       features = {
-        inline_completion_provider = "copilot";
+        edit_prediction_provider = "zed";
+        #inline_completion_provider = "copilot";
       };
       format_on_save = "on";
       languages = {
