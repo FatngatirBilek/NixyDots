@@ -192,7 +192,7 @@
       };
       # File scan exclusions, hide on the file explorer and search
       file_scan_exclusions = [
-        "**/.git"
+        # "**/.git"
         "**/.svn"
         "**/.hg"
         "**/CVS"
@@ -202,17 +202,17 @@
         "**/.settings"
         # above is default from Zed
         "**/out"
-        "**/dist"
+        # "**/dist"
         "**/.husky"
         "**/.turbo"
         "**/.vscode-test"
         "**/.vscode"
-        "**/.next"
+        # "**/.next"
         "**/.storybook"
         "**/.tap"
         "**/.nyc_output"
         "**/report"
-        "**/node_modules"
+        # "**/node_modules"
       ];
       # Turn off telemetry
       telemetry = {

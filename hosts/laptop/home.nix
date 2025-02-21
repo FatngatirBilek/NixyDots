@@ -60,7 +60,7 @@
       # Dev
       go
       #  zed-editor
-      nodejs
+      nodejs_18
       python3Full
       jq
       figlet
