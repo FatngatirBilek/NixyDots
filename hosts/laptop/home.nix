@@ -59,8 +59,9 @@
       nchat
       # Dev
       go
+      obsidian
       #  zed-editor
-      nodejs_18
+      nodejs
       python3Full
       jq
       figlet
