@@ -52,6 +52,7 @@ in {
     xdg-utils
     wget
     curl
+    hyprland-qtutils
   ];
 
   services.logind.extraConfig = ''
