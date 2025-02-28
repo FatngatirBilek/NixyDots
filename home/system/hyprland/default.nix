@@ -65,10 +65,9 @@ in {
       ];
 
       monitor = [
-      "eDP-1, 1920x1080@165,0x0,1"
-      # "HDMI-A-1,1920x1080@120,1920x0,1"
-      "HDMI-A-1,1920x1080@120,1920x0,1"
-
+        "eDP-1, 1920x1080@165,0x0,1"
+        # "HDMI-A-1,1920x1080@120,1920x0,1"
+        "HDMI-A-1,1920x1080@120,1920x0,1"
       ];
 
       env = [
@@ -110,7 +109,6 @@ in {
         gaps_in = gaps-in;
         gaps_out = gaps-out;
         border_size = border-size;
-        border_part_of_window = true;
         layout = "master";
       };
 
