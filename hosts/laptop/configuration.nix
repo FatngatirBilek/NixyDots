@@ -99,6 +99,10 @@ in {
       };
     };
   };
+  services.xserver = {
+    desktopManager.gnome.enable = true;
+  };
+
   virtualisation.spiceUSBRedirection.enable = true;
   home-manager.users."${config.var.username}" = import ./home.nix;
   services.flatpak.enable = true;
