@@ -5,7 +5,7 @@
     gns3-server
     bun
     fnm
-    distrobox
+    # distrobox
     lunar-client
     droidcam
     ubridge
