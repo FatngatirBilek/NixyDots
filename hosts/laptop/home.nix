@@ -14,6 +14,7 @@
     ../../home/programs/git
     ../../home/programs/spicetify
     ../../home/programs/fastfetch
+    ../../home/programs/anyrun
     # ../../home/programs/nextcloud
     ../../home/programs/yazi
     ../../home/programs/markdown

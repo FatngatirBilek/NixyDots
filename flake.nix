@@ -44,6 +44,7 @@
     apple-fonts.url = "github:Lyndeno/apple-fonts.nix";
     nur.url = "github:nix-community/NUR";
     zen-browser.url = "git+https://git.sr.ht/~canasta/zen-browser-flake/"; # updated flake
+    anyrun.url = "github:fufexan/anyrun/launch-prefix";
   };
 
   outputs = inputs @ {nixpkgs, ...}: {
