@@ -1,13 +1,19 @@
 {pkgs, ...}: {
+  programs.dconf.enable = true;
   xdg.portal = {
-    enable = true;
-    config.common.default = "*";
-    wlr.enable = true;
     xdgOpenUsePortal = true;
+    enable = true;
+    # wlr.enable = true;
+    # lxqt.enable = true;
     extraPortals = [
-      pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-gnome
       pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-hyprland
     ];
-    config.hyprland = {default = ["hyprland" "gtk"];};
   };
+  environment.systemPackages = with pkgs; [
+    xdg-desktop-portal-gnome
+    xdg-desktop-portal-gtk
+    xdg-desktop-portal-hyprland
+  ];
 }
