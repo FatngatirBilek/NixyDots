@@ -34,6 +34,7 @@ in {
     ../../nixos/wine.nix
     ../../nixos/fcitx.nix
     ../../nixos/tabletdriver.nix
+    ../../nixos/lanzaboote.nix
     # Choose your theme here
     ../../themes/stylix/nixy.nix
 

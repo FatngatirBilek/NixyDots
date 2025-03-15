@@ -38,6 +38,11 @@
       url = "github:FatngatirBilek/Dots-Wall";
       flake = false;
     };
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.4.2";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
     stylix.url = "github:danth/stylix";
@@ -64,6 +69,7 @@
             inputs.nixos-hardware.nixosModules.omen-16-n0005ne # CHANGEME: check https://github.com/NixOS/nixos-hardware
             inputs.home-manager.nixosModules.home-manager
             inputs.stylix.nixosModules.stylix
+            inputs.lanzaboote.nixosModules.lanzaboote
             ./hosts/laptop/configuration.nix # CHANGEME: change the path to match your host folder
           ];
         };
