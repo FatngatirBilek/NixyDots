@@ -24,7 +24,7 @@
     ../../home/programs/zen
     ../../home/programs/ghostty
     ../../home/programs/nwg-dock
-    ../../home/programs/zed
+   ../../home/programs/zed
     ../../home/programs/wezterm
 
     # Scripts
@@ -87,6 +87,7 @@
       tree
       quickemu
       gnome-disk-utility
+      # zed-editor
       # Just cool
       peaclock
       cbonsai

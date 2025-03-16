@@ -243,101 +243,63 @@
       {
         context = "Editor && (vim_mode == normal || vim_mode == visual) && !VimWaiting && !menu";
         bindings = {
-          # Git
-          "space g h d" = "editor::ToggleSelectedDiffHunks";
-          "space g h r" = "editor::RevertSelectedHunks";
-
-          # Toggle inlay hints
-          "space t i" = "editor::ToggleInlayHints";
-
-          # Toggle soft wrap
-          "space u w" = "editor::ToggleSoftWrap";
-
-          # NOTE: Toggle Zen mode, not fully working yet
-          "space c z" = "workspace::ToggleCenteredLayout";
-
-          # Open markdown preview
-          "space m p" = "markdown::OpenPreview";
-          "space m P" = "markdown::OpenPreviewToTheSide";
-
-          # Open recent project
-          "space f p" = "projects::OpenRecent";
-
-          # Search word under cursor
-          "space s w" = "pane::DeploySearch";
-
-          # Chat with AI
-          "space c p" = "assistant::ToggleFocus";
-
-          # Go to file with `gf`
           "g f" = "editor::OpenExcerpts";
+          "space c p" = "assistant::ToggleFocus";
+          "space c z" = "workspace::ToggleCenteredLayout";
+          "space f p" = "projects::OpenRecent";
+          "space g h d" = "editor::ToggleSelectedDiffHunks";
+          "space g h r" = "git::Restore";
+          "space m P" = "markdown::OpenPreviewToTheSide";
+          "space m p" = "markdown::OpenPreview";
+          "space s w" = "pane::DeploySearch";
+          "space t i" = "editor::ToggleInlayHints";
+          "space u w" = "editor::ToggleSoftWrap";
         };
       }
       {
         context = "Editor && vim_mode == normal && !VimWaiting && !menu";
         bindings = {
-          # Window movement bindings
-          "ctrl-h" = ["workspace::ActivatePaneInDirection" "Left"];
-          "ctrl-l" = ["workspace::ActivatePaneInDirection" "Right"];
-          "ctrl-k" = ["workspace::ActivatePaneInDirection" "Up"];
-          "ctrl-j" = ["workspace::ActivatePaneInDirection" "Down"];
-
-          # +LSP
-          "space c a" = "editor::ToggleCodeActions";
-          "space ." = "editor::ToggleCodeActions";
-          "space c r" = "editor::Rename";
-          "g d" = "editor::GoToDefinition";
-          "g D" = "editor::GoToDefinitionSplit";
-          "g i" = "editor::GoToImplementation";
-          "g I" = "editor::GoToImplementationSplit";
-          "g t" = "editor::GoToTypeDefinition";
-          "g T" = "editor::GoToTypeDefinitionSplit";
-          "g r" = "editor::FindAllReferences";
+          "[ d" = "editor::GoToPreviousDiagnostic";
+          "[ e" = "editor::GoToPreviousDiagnostic";
+          "[ h" = "editor::GoToPreviousHunk";
           "] d" = "editor::GoToDiagnostic";
-          "[ d" = "editor::GoToPrevDiagnostic";
           "] e" = "editor::GoToDiagnostic";
-          "[ e" = "editor::GoToPrevDiagnostic";
-
-          # Symbol search
-          "s s" = "outline::Toggle";
-          "s S" = "project_symbols::Toggle";
-
-          # Diagnostic
-          "space x x" = "diagnostics::Deploy";
-
-          # +Git
           "] h" = "editor::GoToHunk";
-          "[ h" = "editor::GoToPrevHunk";
-
-          # + Buffers
-          "shift-h" = "pane::ActivatePrevItem";
+          "ctrl-h" = "workspace::ActivatePaneLeft";
+          "ctrl-j" = "workspace::ActivatePaneDown";
+          "ctrl-k" = "workspace::ActivatePaneUp";
+          "ctrl-l" = "workspace::ActivatePaneRight";
+          "ctrl-q" = "pane::CloseActiveItem";
+          "ctrl-s" = "workspace::Save";
+          "g D" = "editor::GoToDefinitionSplit";
+          "g I" = "editor::GoToImplementationSplit";
+          "g T" = "editor::GoToTypeDefinitionSplit";
+          "g d" = "editor::GoToDefinition";
+          "g i" = "editor::GoToImplementation";
+          "g r" = "editor::FindAllReferences";
+          "g t" = "editor::GoToTypeDefinition";
+          "s S" = "project_symbols::Toggle";
+          "s s" = "outline::Toggle";
+          "shift-h" = "pane::ActivatePreviousItem";
           "shift-l" = "pane::ActivateNextItem";
           "shift-q" = "pane::CloseActiveItem";
-          "ctrl-q" = "pane::CloseActiveItem";
+          "space ." = "editor::ToggleCodeActions";
+          "space /" = "pane::DeploySearch";
           "space b d" = "pane::CloseActiveItem";
           "space b o" = "pane::CloseInactiveItems";
-
-          # Save file
-          "ctrl-s" = "workspace::Save";
-
-          # File finder
-          "space space" = "file_finder::Toggle";
-
-          # Project search
-          "space /" = "pane::DeploySearch";
-
-          # Show project panel with current file
+          "space c a" = "editor::ToggleCodeActions";
+          "space c r" = "editor::Rename";
           "space e" = "pane::RevealInProjectPanel";
-
-          # term
+          "space space" = "file_finder::Toggle";
           "space t h" = "terminal_panel::ToggleFocus";
+          "space x x" = "diagnostics::Deploy";
         };
       }
       {
         context = "EmptyPane || SharedScreen || vim_mode == normal";
         bindings = {
-          "space space" = "file_finder::Toggle";
           "space f p" = "projects::OpenRecent";
+          "space space" = "file_finder::Toggle";
         };
       }
       {
@@ -356,44 +318,44 @@
       {
         context = "Editor && vim_operator == c";
         bindings = {
-          "c" = "vim::CurrentLine";
           "a" = "editor::ToggleCodeActions";
+          "c" = "vim::CurrentLine";
         };
       }
       {
         context = "Terminal";
         bindings = {
-          "ctrl-h" = ["workspace::ActivatePaneInDirection" "Left"];
-          "ctrl-l" = ["workspace::ActivatePaneInDirection" "Right"];
-          "ctrl-k" = ["workspace::ActivatePaneInDirection" "Up"];
-          "ctrl-j" = ["workspace::ActivatePaneInDirection" "Down"];
+          "ctrl-h" = "workspace::ActivatePaneLeft";
+          "ctrl-j" = "workspace::ActivatePaneDown";
+          "ctrl-k" = "workspace::ActivatePaneUp";
+          "ctrl-l" = "workspace::ActivatePaneRight";
         };
       }
       {
         context = "ProjectPanel && not_editing";
         bindings = {
-          "a" = "project_panel::NewFile";
           "A" = "project_panel::NewDirectory";
-          "r" = "project_panel::Rename";
-          "d" = "project_panel::Delete";
-          "x" = "project_panel::Cut";
+          "a" = "project_panel::NewFile";
           "c" = "project_panel::Copy";
+          "ctrl-h" = "workspace::ActivatePaneLeft";
+          "ctrl-j" = "workspace::ActivatePaneDown";
+          "ctrl-k" = "workspace::ActivatePaneUp";
+          "ctrl-l" = "workspace::ActivatePaneRight";
+          "d" = "project_panel::Delete";
           "p" = "project_panel::Paste";
           "q" = "workspace::ToggleRightDock";
+          "r" = "project_panel::Rename";
           "space e" = "workspace::ToggleRightDock";
-          "ctrl-h" = ["workspace::ActivatePaneInDirection" "Left"];
-          "ctrl-l" = ["workspace::ActivatePaneInDirection" "Right"];
-          "ctrl-k" = ["workspace::ActivatePaneInDirection" "Up"];
-          "ctrl-j" = ["workspace::ActivatePaneInDirection" "Down"];
+          "x" = "project_panel::Cut";
         };
       }
       {
         context = "Dock";
         bindings = {
-          "ctrl-w h" = ["workspace::ActivatePaneInDirection" "Left"];
-          "ctrl-w l" = ["workspace::ActivatePaneInDirection" "Right"];
-          "ctrl-w k" = ["workspace::ActivatePaneInDirection" "Up"];
-          "ctrl-w j" = ["workspace::ActivatePaneInDirection" "Down"];
+          "ctrl-w h" = "workspace::ActivatePaneLeft";
+          "ctrl-w j" = "workspace::ActivatePaneDown";
+          "ctrl-w k" = "workspace::ActivatePaneUp";
+          "ctrl-w l" = "workspace::ActivatePaneRight";
         };
       }
       {
