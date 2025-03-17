@@ -19,6 +19,7 @@
     mongodb-compass
     mongosh
     postman
+    docker-compose
     libreoffice-qt6-fresh
   ];
 
