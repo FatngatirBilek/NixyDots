@@ -24,7 +24,7 @@
     ../../home/programs/zen
     ../../home/programs/ghostty
     ../../home/programs/nwg-dock
-   ../../home/programs/zed
+    ../../home/programs/zed
     ../../home/programs/wezterm
 
     # Scripts
