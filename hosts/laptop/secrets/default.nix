@@ -3,7 +3,6 @@
 {
   pkgs,
   inputs,
-  config,
   ...
 }: {
   imports = [inputs.sops-nix.homeManagerModules.sops];
@@ -12,16 +11,14 @@
     age.keyFile = "/home/fathirbimashabri/.config/sops/age/keys.txt";
     defaultSopsFile = ./secrets.yaml;
     secrets = {
-      weather = {path = "/home/fathirbimashabri/secrets/weather/text.txt";};
-    };
-    templates = {
-      "weatherkey".content = ''${config.sops.placeholder."weather"}'';
+      sshkeyprivate = {path = "/home/fathirbimashabri/.ssh/id_ed25519";};
+      sshkeypublic = {path = "/home/fathirbimashabri/.ssh/id_ed25519.pub";};
     };
   };
 
   home.file.".config/nixos/.sops.yaml".text = ''
     keys:
-      - &primary age13kj7pm70c7etf2rd24rgzpac2pj52m3zfszmelvyjqnj7ecavvjsx5ehuv
+      - &primary age1q9n9pfgykzrmru74xm0xe7zzsxnv0kx75j25lksys44rwwvr99nscysuxq
     creation_rules:
       - path_regex: hosts/laptop/secrets/secrets.yaml$
         key_groups:
