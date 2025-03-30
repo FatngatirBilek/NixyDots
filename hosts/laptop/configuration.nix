@@ -35,7 +35,7 @@ in {
     ../../nixos/fcitx.nix
     ../../nixos/overrides.nix
     ../../nixos/tabletdriver.nix
-    ../../nixos/lanzaboote.nix
+    ../../nixos/lanzaboote.nix # Secure boot
     # Choose your theme here
     ../../themes/stylix/nixy.nix
 
@@ -43,6 +43,7 @@ in {
     ./variables.nix
   ];
   security.wrappers.ubridge = {
+    # something for gns3
     source = "/run/current-system/sw/bin/ubridge";
     capabilities = "cap_net_admin,cap_net_raw=ep";
     owner = "root";
