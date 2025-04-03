@@ -116,7 +116,7 @@
       };
 
       features = {
-        edit_prediction_provider = "zed";
+        edit_prediction_provider = "copilot";
         #inline_completion_provider = "copilot";
       };
       format_on_save = "on";
