@@ -62,7 +62,7 @@
       # Dev
       go
       obsidian
-      #  zed-editor
+      # zed-editor
       nodejs
       python3Full
       jq
