@@ -7,6 +7,8 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.follows = "nixos-cosmic/nixpkgs"; # NOTE: change "nixpkgs" to "nixpkgs-stable" to use stable NixOS release
+    nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -60,6 +62,10 @@
           system = "x86_64-linux";
           modules = [
             {
+              nix.settings = {
+                substituters = ["https://cosmic.cachix.org/" "https://hyprland.cachix.org"];
+                trusted-public-keys = ["cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+              };
               nixpkgs.overlays = [
                 inputs.hyprpanel.overlay
                 inputs.nur.overlays.default
@@ -70,6 +76,7 @@
             inputs.home-manager.nixosModules.home-manager
             inputs.stylix.nixosModules.stylix
             inputs.lanzaboote.nixosModules.lanzaboote
+            inputs.nixos-cosmic.nixosModules.default
             ./hosts/laptop/configuration.nix # CHANGEME: change the path to match your host folder
           ];
         };

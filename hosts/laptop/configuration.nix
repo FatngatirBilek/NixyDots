@@ -23,7 +23,7 @@ in {
     ../../nixos/nix.nix
     ../../nixos/systemd-boot.nix
     ../../nixos/timezone.nix
-    ../../nixos/tuigreet.nix
+    # ../../nixos/tuigreet.nix
     ../../nixos/users.nix
     ../../nixos/utils.nix
     ../../nixos/xdg-portal.nix
@@ -35,6 +35,7 @@ in {
     ../../nixos/fcitx.nix
     ../../nixos/overrides.nix
     ../../nixos/tabletdriver.nix
+    ../../nixos/greeter.nix
     ../../nixos/lanzaboote.nix # Secure boot
     # Choose your theme here
     ../../themes/stylix/nixy.nix
@@ -102,9 +103,14 @@ in {
       };
     };
   };
-  services.xserver = {
-    desktopManager.gnome.enable = true;
-  };
+  # services.xserver = {
+  #   desktopManager.gnome.enable = true;
+  # };
+
+  # Cosmic Trouble
+  # services.displayManager.cosmic-greeter.enable = true;
+  environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
+  services.desktopManager.cosmic.enable = true;
 
   virtualisation.spiceUSBRedirection.enable = true;
   home-manager.users."${config.var.username}" = import ./home.nix;
