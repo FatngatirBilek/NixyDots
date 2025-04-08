@@ -1,5 +1,3 @@
-# Hyprpanel is the bar on top of the screen
-# Display informations like workspaces, battery, wifi, ...
 {
   inputs,
   config,
@@ -225,3 +223,5 @@ in {
     };
   };
 }
+=======
+>>>>>>> dafc195141d97aa6c4548850011284fc45e53eae
