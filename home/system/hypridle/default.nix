@@ -1,9 +1,8 @@
 # Hypridle is a daemon that listens for user activity and runs commands when the user is idle.
-{ pkgs, ... }: {
+{pkgs, ...}: {
   services.hypridle = {
-    enable = true;
+    enable = false;
     settings = {
-
       general = {
         ignore_dbus_inhibit = false;
         lock_cmd = "pidof hyprlock || ${pkgs.hyprlock}/bin/hyprlock";

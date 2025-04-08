@@ -35,20 +35,22 @@ in {
     # overlay.enable = true;
     hyprland.enable = true;
     overwrite.enable = true;
-    layout = {
-      "bar.layouts" = {
-        "0" = {
-          "left" = ["dashboard" "workspaces" "windowtitle"];
-          "middle" = ["media"];
-          "right" = [
-            "systray"
-            "volume"
-            "bluetooth"
-            "battery"
-            "network"
-            "clock"
-            "notifications"
-          ];
+    settings = {
+      layout = {
+        "bar.layouts" = {
+          "0" = {
+            "left" = ["dashboard" "workspaces" "windowtitle"];
+            "middle" = ["media"];
+            "right" = [
+              "systray"
+              "volume"
+              "bluetooth"
+              "battery"
+              "network"
+              "clock"
+              "notifications"
+            ];
+          };
         };
       };
     };
