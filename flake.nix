@@ -8,6 +8,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs.follows = "nixos-cosmic/nixpkgs"; # NOTE: change "nixpkgs" to "nixpkgs-stable" to use stable NixOS release
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager = {
@@ -77,6 +78,7 @@
             inputs.stylix.nixosModules.stylix
             inputs.lanzaboote.nixosModules.lanzaboote
             inputs.nixos-cosmic.nixosModules.default
+            inputs.chaotic.nixosModules.default
             ./hosts/laptop/configuration.nix # CHANGEME: change the path to match your host folder
           ];
         };
