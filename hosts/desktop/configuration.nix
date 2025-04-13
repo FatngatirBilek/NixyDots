@@ -10,7 +10,7 @@
   imports = [
     ../../nixos/nvidia.nix # CHANGEME: Remove this line if you don't have an Nvidia GPU
     # ../../nixos/intel.nix # CHANGEME: Remove this line if you don't have an Intel GPU
-    ../../nixos/prime.nix # Prime
+    # ../../nixos/prime.nix # Prime
 
     ../../nixos/audio.nix
     ../../nixos/auto-upgrade.nix
