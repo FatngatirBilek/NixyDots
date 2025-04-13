@@ -2,17 +2,14 @@
   config,
   pkgs,
   ...
-}: let
-  acermodule =
-    config.boot.kernelPackages.callPackage ../../nixos/acer-module.nix {};
-in {
+}: {
   environment.systemPackages = with pkgs; [
     # Enables v4l2loopback GUI utilities.
     v4l-utils
   ];
   imports = [
     ../../nixos/nvidia.nix # CHANGEME: Remove this line if you don't have an Nvidia GPU
-    ../../nixos/intel.nix # CHANGEME: Remove this line if you don't have an Intel GPU
+    # ../../nixos/intel.nix # CHANGEME: Remove this line if you don't have an Intel GPU
     ../../nixos/prime.nix # Prime
 
     ../../nixos/audio.nix
@@ -117,11 +114,9 @@ in {
   home-manager.users."${config.var.username}" = import ./home.nix;
   services.flatpak.enable = true;
   boot.extraModulePackages = [
-    acermodule
     config.boot.kernelPackages.v4l2loopback
   ];
   boot.kernelModules = [
-    "facer"
     "wmi"
     "sparse-keymap"
     "video"
