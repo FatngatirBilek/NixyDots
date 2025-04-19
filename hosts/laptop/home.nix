@@ -84,7 +84,8 @@
       obs-studio
       networkmanagerapplet
       imagemagick
-      ffmpeg
+      ffmpeg-full
+      nv-codec-headers-12
       tree
       quickemu
       gnome-disk-utility
