@@ -76,15 +76,6 @@ in {
 
   users.groups.libvirtd.members = ["${config.var.username}"];
   virtualisation = {
-    vmware = {
-      guest = {
-        enable = true;
-      };
-      host = {
-        enable = true;
-        package = pkgs.vmware-workstation;
-      };
-    };
     libvirtd = {
       enable = true;
       qemu = {

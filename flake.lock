@@ -1268,16 +1268,16 @@
     "nvchad-starter": {
       "flake": false,
       "locked": {
-        "lastModified": 1736643544,
-        "narHash": "sha256-PoThdeLgPIFrqVMgwOyWsPDD01K4qEFT6Q5LHz6n5DM=",
-        "owner": "NvChad",
-        "repo": "starter",
-        "rev": "c3d1fb646a04aaa97b2929b90269f8a7bf8e8dc4",
+        "lastModified": 1745152881,
+        "narHash": "sha256-L/YmnXE8tEHgiNJe9SEqVyq989NDu2++9hr+ekDYmh4=",
+        "owner": "FatngatirBilek",
+        "repo": "nvchad-conf",
+        "rev": "271873ed1b2a96b2026cbdde6b810e9ccfd2d748",
         "type": "github"
       },
       "original": {
-        "owner": "NvChad",
-        "repo": "starter",
+        "owner": "FatngatirBilek",
+        "repo": "nvchad-conf",
         "type": "github"
       }
     },

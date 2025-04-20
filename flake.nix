@@ -20,7 +20,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nvchad-starter = {
-      url = "github:NvChad/starter";
+      url = "github:FatngatirBilek/nvchad-conf";
       flake = false;
     };
     # NvChad:
