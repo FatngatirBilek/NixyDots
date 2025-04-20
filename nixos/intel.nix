@@ -1,4 +1,7 @@
 {pkgs, ...}: {
+  boot = {
+    initrd.kernelModules = ["i915"];
+  };
   nixpkgs.config.packageOverrides = pkgs: {
     # Avoid using intel-vaapi-driver for newer generations
     intel-vaapi-driver = pkgs.intel-vaapi-driver.override {enableHybridCodec = false;};

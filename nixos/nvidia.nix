@@ -7,13 +7,14 @@
   nvidiaDriverChannel = config.boot.kernelPackages.nvidiaPackages.beta;
 in {
   # Video drivers configuration for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"]; # Simplified - other modules are loaded automatically
+  services.xserver.videoDrivers = ["nvidia" "displayLink" "vmware"]; # Include all three drivers
 
   # Kernel parameters for better Wayland and Hyprland integration
   boot.kernelParams = [
     "nvidia-drm.modeset=1" # Enable mode setting for Wayland
     "nvidia.NVreg_PreserveVideoMemoryAllocations=1" # Improves resume after sleep
     "nvidia.NVreg_RegistryDwords=PowerMizerEnable=0x1;PerfLevelSrc=0x2222;PowerMizerLevel=0x3;PowerMizerDefault=0x3;PowerMizerDefaultAC=0x3" # Performance/power optimizations
+    "acpi_backlight=video"
   ];
 
   # Blacklist nouveau to avoid conflicts
@@ -21,7 +22,7 @@ in {
 
   # Environment variables for better compatibility
   environment.variables = {
-    LIBVA_DRIVER_NAME = "nvidia"; # Hardware video acceleration
+    # LIBVA_DRIVER_NAME = "nvidia"; # Hardware video acceleration
     XDG_SESSION_TYPE = "wayland"; # Force Wayland
     GBM_BACKEND = "nvidia-drm"; # Graphics backend for Wayland
     __GLX_VENDOR_LIBRARY_NAME = "nvidia"; # Use Nvidia driver for GLX
