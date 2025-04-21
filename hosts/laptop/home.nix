@@ -89,6 +89,7 @@
       tree
       quickemu
       gnome-disk-utility
+      gnumake
       # zed-editor
       # Just cool
       peaclock
