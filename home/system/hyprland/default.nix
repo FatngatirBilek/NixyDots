@@ -100,7 +100,7 @@ in {
         "XDG_SESSION_TYPE,wayland"
         "SDL_VIDEODRIVER,wayland"
         "CLUTTER_BACKEND,wayland"
-        "AQ_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0" # CHANGEME: Related to the GPU
+        "AQ_DRM_DEVICES,/dev/dri/card0:/dev/dri/card1" # CHANGEME: Related to the GPU
       ];
 
       cursor = {
