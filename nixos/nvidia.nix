@@ -48,7 +48,6 @@ in {
       nvidiaSettings = true; # Nvidia settings utility
       powerManagement = {
         enable = true; # Power management
-        finegrained = false; # More precise power consumption control
       };
       modesetting.enable = true; # Required for Wayland
       package = nvidiaDriverChannel;
