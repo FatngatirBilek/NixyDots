@@ -16,7 +16,7 @@
     syntaxHighlighting.enable = true;
     historySubstringSearch.enable = true;
 
-    initExtraFirst = ''
+    initContent = ''
       function sesh-sessions() {
         session=$(sesh list -t -c | fzf --height 70% --reverse)
         [[ -z "$session" ]] && return
