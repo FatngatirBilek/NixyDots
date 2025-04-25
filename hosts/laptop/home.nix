@@ -91,6 +91,8 @@
       gnome-disk-utility
       gnumake
       cargo
+      ghc
+      opam
       # zed-editor
       # Just cool
       peaclock
