@@ -90,6 +90,7 @@
       quickemu
       gnome-disk-utility
       gnumake
+      cargo
       # zed-editor
       # Just cool
       peaclock
