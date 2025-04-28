@@ -93,6 +93,7 @@
       cargo
       ghc
       opam
+      nix-output-monitor
       # zed-editor
       # Just cool
       peaclock
