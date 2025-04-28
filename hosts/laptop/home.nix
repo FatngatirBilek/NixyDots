@@ -94,6 +94,7 @@
       ghc
       opam
       nix-output-monitor
+      nvd
       # zed-editor
       # Just cool
       peaclock

@@ -89,6 +89,7 @@
       quickemu
       gnome-disk-utility
       nix-output-monitor
+      nvd
       # zed-editor
       # Just cool
       peaclock

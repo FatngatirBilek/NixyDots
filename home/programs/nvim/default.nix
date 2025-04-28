@@ -13,6 +13,7 @@
       docker-compose-language-service
       dockerfile-language-server-nodejs
       emmet-language-server
+      marksman
       (python3.withPackages (ps:
         with ps; [
           python-lsp-server

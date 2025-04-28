@@ -21,6 +21,7 @@
     postman
     docker-compose
     libreoffice-qt6-fresh
+    icu
   ];
 
   # Winbox setup.
