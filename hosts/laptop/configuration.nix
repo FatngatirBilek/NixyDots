@@ -69,14 +69,20 @@ in {
     ssh = {
       startAgent = true;
     };
-    virt-manager = {
+    /*
+       virt-manager = {
       enable = true;
     };
+    */
   };
-
+  users.extraGroups.vboxusers.members = ["${config.var.username}"];
   users.groups.libvirtd.members = ["${config.var.username}"];
   virtualisation = {
-    libvirtd = {
+    virtualbox = {
+      host.enable = true;
+    };
+    /*
+       libvirtd = {
       enable = true;
       qemu = {
         package = pkgs.qemu_kvm;
@@ -94,6 +100,7 @@ in {
         };
       };
     };
+    */
   };
   # services.xserver = {
   #   desktopManager.gnome.enable = true;
@@ -104,7 +111,7 @@ in {
   environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
   services.desktopManager.cosmic.enable = true;
 
-  virtualisation.spiceUSBRedirection.enable = true;
+  # virtualisation.spiceUSBRedirection.enable = true;
   home-manager.users."${config.var.username}" = import ./home.nix;
   services.flatpak.enable = true;
   boot.extraModulePackages = [

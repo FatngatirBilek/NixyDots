@@ -87,7 +87,7 @@
       ffmpeg-full
       nv-codec-headers-12
       tree
-      quickemu
+      # quickemu
       gnome-disk-utility
       gnumake
       cargo

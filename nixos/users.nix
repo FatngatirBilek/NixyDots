@@ -14,7 +14,14 @@ in {
     users.${username} = {
       isNormalUser = true;
       description = "${username} account";
-      extraGroups = ["networkmanager" "video" "wheel" "qemu-libvirtd" "libvirtd" "ubridge" "tss"];
+      extraGroups = [
+        "networkmanager"
+        "video"
+        "wheel"
+        #"qemu-libvirtd" "libvirtd"
+        "ubridge"
+        "tss"
+      ];
     };
   };
 }
