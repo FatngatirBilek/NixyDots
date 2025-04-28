@@ -88,6 +88,7 @@
       tree
       quickemu
       gnome-disk-utility
+      nix-output-monitor
       # zed-editor
       # Just cool
       peaclock
