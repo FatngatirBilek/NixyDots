@@ -603,11 +603,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1745782215,
-        "narHash": "sha256-mx27J2HYQT+nGXTyUWKrUuxRzpr1FVVr59ZH4oNzOyw=",
+        "lastModified": 1745802917,
+        "narHash": "sha256-hI7BmIwKagCJlQdVgwxs1sLY2d8i97srcqT+OrhBDao=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "7b2aae3fb39928aecc5e41c10a9c87c4881614d5",
+        "rev": "9c46dc881c2afcb50ac9ae9f1c36b2a4ebba3c8a",
         "type": "github"
       },
       "original": {
@@ -1268,11 +1268,11 @@
     "nvchad-starter": {
       "flake": false,
       "locked": {
-        "lastModified": 1745574930,
-        "narHash": "sha256-G9/wYLB+Dm/8WH2RL0ys6BbCW4R8Hd3KpDTezZ/7Ghg=",
+        "lastModified": 1745804355,
+        "narHash": "sha256-9Nnppg4Tr4vkx6XYv8V5TgulaT0AvXWUso3CHW1/LAM=",
         "owner": "FatngatirBilek",
         "repo": "nvchad-conf",
-        "rev": "e5e6e55631fd04caaf68a5fff6875309851f2394",
+        "rev": "a17231794774fe14fef470d2e504003d04399a88",
         "type": "github"
       },
       "original": {
@@ -1563,11 +1563,11 @@
         "systems": "systems_4"
       },
       "locked": {
-        "lastModified": 1745798931,
-        "narHash": "sha256-HzXmpJkNFrW4KCT/IPot64EHMcbNxISWgPJrrdBmGQU=",
+        "lastModified": 1745803470,
+        "narHash": "sha256-MP3hEfchR5o/0ENNZVnrea0IFext+EXYBuI84VERdFI=",
         "owner": "Gerg-L",
         "repo": "spicetify-nix",
-        "rev": "4d19e41d38d92242bdf898840d3108983f03a640",
+        "rev": "fc8d66c2c217e835bcb0b9a57fb17163c1a12e0a",
         "type": "github"
       },
       "original": {
