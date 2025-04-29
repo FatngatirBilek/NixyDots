@@ -21,6 +21,7 @@ in {
         #"qemu-libvirtd" "libvirtd"
         "ubridge"
         "tss"
+        "nvidia"
       ];
     };
   };

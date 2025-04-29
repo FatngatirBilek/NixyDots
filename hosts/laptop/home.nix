@@ -2,6 +2,7 @@
   pkgs,
   config,
   lib,
+  inputs,
   ...
 }: {
   imports = [
@@ -81,11 +82,10 @@
       nautilus
       pavucontrol
       nwg-look
-      obs-studio
       networkmanagerapplet
       imagemagick
       ffmpeg-full
-      nv-codec-headers-12
+      nv-codec-headers
       tree
       # quickemu
       gnome-disk-utility
