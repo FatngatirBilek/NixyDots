@@ -72,17 +72,12 @@
   };
 
   users.groups.libvirtd.members = ["${config.var.username}"];
- virtualisation = {
-#    vmware = {
-#      guest = {
-#        enable = true;
-#      };
-#      host = {
-#        enable = true;
-#        package = pkgs.vmware-workstation;
-#      };
-#    };
-    libvirtd = {
+  virtualisation = {
+    virtualbox = {
+      host.enable = true;
+    };
+    /*
+       libvirtd = {
       enable = true;
       qemu = {
         package = pkgs.qemu_kvm;
@@ -100,7 +95,9 @@
         };
       };
     };
+    */
   };
+
   # services.xserver = {
   #   desktopManager.gnome.enable = true;
   # };
@@ -108,7 +105,8 @@
   # Cosmic Trouble
   # services.displayManager.cosmic-greeter.enable = true;
   # environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
-   services.desktopManager.cosmic.enable = false;
+
+  services.desktopManager.cosmic.enable = false;
 
   virtualisation.spiceUSBRedirection.enable = true;
   home-manager.users."${config.var.username}" = import ./home.nix;

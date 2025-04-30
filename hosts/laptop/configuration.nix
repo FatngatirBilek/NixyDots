@@ -110,11 +110,7 @@ in {
   # services.displayManager.cosmic-greeter.enable = true;
   environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
   services.desktopManager.cosmic.enable = true;
-  programs.obs-studio = {
-    enable = true;
-    package = pkgs.obs-studio.override {cudaSupport = true;};
-  };
-  # virtualisation.spiceUSBRedirection.enable = true;
+
   home-manager.users."${config.var.username}" = import ./home.nix;
   services.flatpak.enable = true;
   boot.extraModulePackages = [
