@@ -8,10 +8,10 @@
         consoleMode = "auto";
       };
     };
+
     tmp.cleanOnBoot = true;
     kernelPackages =
       pkgs.linuxPackages_cachyos; # _zen, _hardened, _rt, _rt_latest, etc.
-
     # Silent boot
     kernelParams = [
       "quiet"
