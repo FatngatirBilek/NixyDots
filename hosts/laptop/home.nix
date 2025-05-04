@@ -94,6 +94,9 @@
       opam
       nix-output-monitor
       nvd
+      woeusb
+      ntfs3g
+      unetbootin
       # zed-editor
       # Just cool
       peaclock

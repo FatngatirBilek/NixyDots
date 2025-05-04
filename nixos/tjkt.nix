@@ -22,15 +22,17 @@
     docker-compose
     libreoffice-qt6-fresh
     icu
+    openrgb-with-all-plugins
   ];
 
-  # Winbox setup.
+  # Winbox setup
   programs.winbox = {
     enable = true;
     openFirewall = true;
     package = pkgs.winbox4;
   };
-  # Firewal
+
+  # Firewall
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [80 443 3000 9000];
@@ -40,5 +42,13 @@
         to = 50000;
       }
     ];
+  };
+
+  # Move config attributes to the top level
+  services.udev.packages = [pkgs.openrgb];
+  boot.kernelModules = ["i2c-dev"];
+  hardware.i2c.enable = true;
+  services.hardware.openrgb = {
+    enable = true;
   };
 }
