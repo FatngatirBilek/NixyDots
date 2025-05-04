@@ -46,7 +46,14 @@
 
   # Move config attributes to the top level
   services.udev.packages = [pkgs.openrgb];
-  boot.kernelModules = ["i2c-dev"];
+  boot.kernelModules = [
+    "i2c-dev"
+    "i2c-i801"
+    "i2c-smbus"
+    "hid"
+    "hid-generic"
+    "hid-multitouch"
+  ];
   hardware.i2c.enable = true;
   services.hardware.openrgb = {
     enable = true;

@@ -108,9 +108,8 @@ in {
 
   # Cosmic Trouble
   # services.displayManager.cosmic-greeter.enable = true;
-  environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
-  services.desktopManager.cosmic.enable = true;
-  services.scx.enable = true; # by default uses scx_rustland scheduler
+  # environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
+  services.desktopManager.cosmic.enable = false;
   home-manager.users."${config.var.username}" = import ./home.nix;
   services.flatpak.enable = true;
   boot.extraModulePackages = [
