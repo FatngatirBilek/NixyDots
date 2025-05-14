@@ -26,11 +26,11 @@
   ];
 
   # Winbox setup
-  programs.winbox = {
-    enable = true;
-    openFirewall = true;
-    package = pkgs.winbox4;
-  };
+  # programs.winbox = {
+  #   enable = true;
+  #  openFirewall = true;
+  #  package = pkgs.winbox4;
+  # };
 
   # Firewall
   networking.firewall = {
@@ -42,20 +42,5 @@
         to = 50000;
       }
     ];
-  };
-
-  # Move config attributes to the top level
-  services.udev.packages = [pkgs.openrgb];
-  boot.kernelModules = [
-    "i2c-dev"
-    "i2c-i801"
-    "i2c-smbus"
-    "hid"
-    "hid-generic"
-    "hid-multitouch"
-  ];
-  hardware.i2c.enable = true;
-  services.hardware.openrgb = {
-    enable = true;
   };
 }

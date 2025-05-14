@@ -1,90 +1,49 @@
-{
-  pkgs,
-  config,
-  ...
-}: let
-  # Using beta driver for recent GPUs like RTX 4070
-  nvidiaDriverChannel = config.boot.kernelPackages.nvidiaPackages.beta;
-in {
-  # Video drivers configuration for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia" "displayLink" "vmware"]; # Include all three drivers
-
-  # Kernel parameters for better Wayland and Hyprland integration
-  boot.kernelParams = [
-    "nvidia-drm.modeset=1" # Enable mode setting for Wayland
-    "nvidia.NVreg_PreserveVideoMemoryAllocations=1" # Improves resume after sleep
-    "nvidia.NVreg_RegistryDwords=PowerMizerEnable=0x1;PerfLevelSrc=0x2222;PowerMizerLevel=0x3;PowerMizerDefault=0x3;PowerMizerDefaultAC=0x3" # Performance/power optimizations
-    "acpi_backlight=video"
-    "kvm.enable_virt_at_load=0"
-  ];
-
-  # Blacklist nouveau to avoid conflicts
-  boot.blacklistedKernelModules = ["nouveau"];
-
-  # Environment variables for better compatibility
-  environment.variables = {
-    # LIBVA_DRIVER_NAME = "nvidia"; # Hardware video acceleration
-    XDG_SESSION_TYPE = "wayland"; # Force Wayland
-    GBM_BACKEND = "nvidia-drm"; # Graphics backend for Wayland
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia"; # Use Nvidia driver for GLX
-    WLR_NO_HARDWARE_CURSORS = "1"; # Fix for cursors on Wayland
-    NIXOS_OZONE_WL = "1"; # Wayland support for Electron apps
-    __GL_GSYNC_ALLOWED = "1"; # Enable G-Sync if available
-    __GL_VRR_ALLOWED = "1"; # Enable VRR (Variable Refresh Rate)
-    WLR_DRM_NO_ATOMIC = "1"; # Fix for some issues with Hyprland
-    NVD_BACKEND = "direct"; # Configuration for new driver
-    MOZ_ENABLE_WAYLAND = "1"; # Wayland support for Firefox
-  };
-
-  # Configuration for proprietary packages
-  nixpkgs.config = {
-    nvidia.acceptLicense = true;
-    allowUnfree = true; # Simplified from specific allowUnfreePredicate
-  };
-
-  # Nvidia configuration
-  hardware = {
-    nvidia = {
-      open = false; # Proprietary driver for better performance
-      nvidiaSettings = true; # Nvidia settings utility
-      powerManagement = {
-        enable = true; # Power management
-      };
-      modesetting.enable = true; # Required for Wayland
-      package = nvidiaDriverChannel;
-      forceFullCompositionPipeline = true; # Prevents screen tearing
-    };
-
-    # Enhanced graphics support
-    graphics = {
-      enable = true;
-      package = nvidiaDriverChannel;
-      enable32Bit = true;
-      extraPackages = with pkgs; [
-        nvidia-vaapi-driver
-        vaapiVdpau
-        libvdpau-va-gl
-        mesa
-        egl-wayland
-        vulkan-loader
-        vulkan-validation-layers
-        libva
-      ];
-    };
-  };
-
-  # Nix cache for CUDA
-  nix.settings = {
-    substituters = ["https://cuda-maintainers.cachix.org"];
-    trusted-public-keys = [
-      "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+{config, ...}: {
+  boot = {
+    initrd.kernelModules = ["nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm"];
+    kernelParams = [
+      "nvidia-drm.fbdev=1"
+      "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
+      "acpi_backlight=video"
     ];
   };
+  environment.variables = {
+    # GBM_BACKEND = "nvidia-drm"; # If crash in firefox, remove this line
+    LIBVA_DRIVER_NAME = "nvidia"; # hardware acceleration
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    NVD_BACKEND = "direct";
+  };
+  hardware = {
+    # deprecated for graphics.enable
+    # opengl = {
+    #   enable = true;
+    #   # extraPackages = [ pkgs.intel-media-driver pkgs.vaapiVdpau ];
+    # };
+    nvidia = {
+      # Modesetting is required.
+      modesetting.enable = true;
 
-  # Additional useful packages
-  environment.systemPackages = with pkgs; [
-    vulkan-tools
-    glxinfo
-    libva-utils # VA-API debugging tools
-  ];
+      # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
+      # Enable this if you have graphical corruption issues or application crashes after waking
+      # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
+      # of just the bare essentials.
+      powerManagement.enable = true;
+
+      # Use the NVidia open source kernel module (not to be confused with the
+      # independent third-party "nouveau" open source driver).
+      # Support is limited to the Turing and later architectures. Full list of
+      # supported GPUs is at:
+      # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
+      # Only available from driver 515.43.04+
+      # Currently alpha-quality/buggy, so false is currently the recommended setting.
+      open = false;
+      forceFullCompositionPipeline = true;
+      nvidiaSettings = true;
+
+      # Optionally, you may need to select the appropriate driver version for your specific GPU.
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
+    };
+  };
+
+  services.xserver.videoDrivers = ["nvidia" "displayLink" "vmware"];
 }

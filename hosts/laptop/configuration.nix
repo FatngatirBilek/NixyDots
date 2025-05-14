@@ -122,7 +122,6 @@ in {
     "sparse-keymap"
     "video"
     "v4l2loopback"
-    "acer_wmi"
   ];
   # Don't touch this
   system.stateVersion = "24.05";
