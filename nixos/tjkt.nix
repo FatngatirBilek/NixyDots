@@ -26,11 +26,11 @@
   ];
 
   # Winbox setup
-  # programs.winbox = {
-  #   enable = true;
-  #  openFirewall = true;
-  #  package = pkgs.winbox4;
-  # };
+  programs.winbox = {
+    enable = true;
+    openFirewall = true;
+    package = pkgs.winbox4;
+  };
 
   # Firewall
   networking.firewall = {
