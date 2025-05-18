@@ -27,7 +27,7 @@ in {
     # ../../nixos/tuigreet.nix
     ../../nixos/users.nix
     ../../nixos/utils.nix
-    ../../nixos/xdg-portal.nix
+    # ../../nixos/xdg-portal.nix
     ../../nixos/variables-config.nix
     ../../nixos/docker.nix
     ../../nixos/warp.nix
@@ -38,7 +38,7 @@ in {
     ../../nixos/tabletdriver.nix
     ../../nixos/greeter.nix
     ../../nixos/lanzaboote.nix # Secure boot
-    ../../nixos/fan.nix
+    #    ../../nixos/fan.nix
     # Choose your theme here
     ../../themes/stylix/nixy.nix
 
