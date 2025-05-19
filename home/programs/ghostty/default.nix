@@ -23,6 +23,7 @@
       window-padding-color = extend
       window-decoration = false
 
+      background-opacity = 0.8
 
     # Keybind
       keybind= alt+t=new_tab
