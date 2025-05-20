@@ -5,6 +5,7 @@
       "nvidia-drm.fbdev=1"
       "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
       "acpi_backlight=video"
+      "kvm.enable_virt_at_load=0"
     ];
   };
   environment.variables = {
