@@ -120,7 +120,7 @@ in {
     rtkit.enable = true;
 
     # don't ask for password for wheel group
-    sudo.wheelNeedsPassword = false;
+    #    sudo.wheelNeedsPassword = false;
   };
 
   services.logind.extraConfig = ''
