@@ -24,4 +24,9 @@
     consoleLogLevel = 0;
     initrd.verbose = false;
   };
+  services.scx = {
+    enable = true; # by default uses scx_rustland scheduler
+    scheduler = "scx_rusty";
+    package = pkgs.scx_git.full;
+  };
 }
