@@ -103,6 +103,7 @@ in {
     };
     */
   };
+  programs.hyprland.enable = true;
   # services.xserver = {
   #   desktopManager.gnome.enable = true;
   # };
