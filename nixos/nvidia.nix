@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   boot = {
     initrd.kernelModules = ["nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm"];
     kernelParams = [
@@ -16,10 +20,10 @@
   };
   hardware = {
     # deprecated for graphics.enable
-    # opengl = {
-    #   enable = true;
-    #   # extraPackages = [ pkgs.intel-media-driver pkgs.vaapiVdpau ];
-    # };
+    graphics = {
+      enable = true;
+      extraPackages = [pkgs.nvidia-vaapi-driver];
+    };
     nvidia = {
       # Modesetting is required.
       modesetting.enable = true;

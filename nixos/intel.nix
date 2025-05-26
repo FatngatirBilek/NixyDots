@@ -11,9 +11,10 @@
     enable = true;
     extraPackages = with pkgs; [
       intel-media-driver # LIBVA_DRIVER_NAME=iHD
+      intel-vaapi-driver
       libvdpau-va-gl # Optional for VDPAU support
-      nvidia-vaapi-driver
       libva-utils # Optional for VAAPI utilities
+      vpl-gpu-rt
     ];
   };
 }
