@@ -31,7 +31,6 @@
       "git-firefly"
       "dockerfile"
 
-      "wakatime"
       "discord-presence"
 
       # Themes
