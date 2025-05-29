@@ -151,7 +151,11 @@ in {
 
       windowrulev2 = ["float, tag:modal" "pin, tag:modal" "center, tag:modal"];
 
-      layerrule = ["noanim, launcher" "noanim, ^ags-.*"];
+      layerrule = [
+        "noanim, launcher"
+        "noanim, ^ags-.*"
+        "blur, waybar"
+      ];
 
       input = {
         kb_layout = keyboardLayout;

@@ -44,7 +44,7 @@
     ../../home/system/mime
     ../../home/system/udiskie
     ../../home/system/clipman
-
+    ../../home/system/waybar
     ./secrets # CHANGEME: You should probably remove this line, this is where I store my secrets
   ];
 
@@ -86,6 +86,8 @@
       ffmpeg-full
       nv-codec-headers
       tree
+      kmon
+
       # quickemu
       gnome-disk-utility
       gnumake
@@ -109,7 +111,6 @@
       vscode
       gnome-tweaks
     ];
-
     # Import my profile picture, used by the hyprpanel dashboard
     file.".face.icon" = {source = ./profile_picture.png;};
     # Don't touch this

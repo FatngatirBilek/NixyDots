@@ -104,14 +104,15 @@ in {
     */
   };
   programs.hyprland.enable = true;
-  # services.xserver = {
-  #   desktopManager.gnome.enable = true;
-  # };
+  services.xserver = {
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+  };
 
   # Cosmic Trouble
   # services.displayManager.cosmic-greeter.enable = true;
   # environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
-  services.desktopManager.cosmic.enable = false;
+  # services.desktopManager.cosmic.enable = false;
   home-manager.users."${config.var.username}" = import ./home.nix;
   services.flatpak.enable = true;
   boot.extraModulePackages = [
