@@ -70,20 +70,19 @@ in {
     ssh = {
       startAgent = true;
     };
-    /*
-       virt-manager = {
+
+    virt-manager = {
       enable = true;
     };
-    */
   };
-  users.extraGroups.vboxusers.members = ["${config.var.username}"];
+  # users.extraGroups.vboxusers.members = ["${config.var.username}"];
   users.groups.libvirtd.members = ["${config.var.username}"];
   virtualisation = {
-    virtualbox = {
-      host.enable = true;
-    };
-    /*
-       libvirtd = {
+    # virtualbox = {
+    #   host.enable = true;
+    # };
+
+    libvirtd = {
       enable = true;
       qemu = {
         package = pkgs.qemu_kvm;
@@ -101,7 +100,6 @@ in {
         };
       };
     };
-    */
   };
   programs.hyprland.enable = true;
   services.xserver = {
