@@ -1,4 +1,3 @@
-# starship is a minimal, fast, and extremely customizable prompt for any shell!
 {
   config,
   lib,
@@ -11,6 +10,7 @@ in {
     enable = true;
     settings = {
       add_newline = true;
+
       format = lib.concatStrings [
         "$directory"
         "$git_branch"
@@ -18,6 +18,16 @@ in {
         "$git_status"
         "$character"
       ];
+
+      # Right prompt (show container info here)
+      right_format = "$container";
+
+      container = {
+        format = "[$symbol in ($name)]($style) ";
+        symbol = "󰆼";
+        style = "bold red";
+      };
+
       directory = {style = accent;};
 
       character = {
