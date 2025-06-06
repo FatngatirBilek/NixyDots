@@ -12,15 +12,16 @@ in {
       add_newline = true;
 
       format = lib.concatStrings [
-        "$directory"
-        "$git_branch"
-        "$git_state"
-        "$git_status"
+        "[$username@$hostname:$directory]($style) "
         "$character"
       ];
 
-      # Right prompt (show container info here)
-      right_format = "$container";
+      right_format = lib.concatStrings [
+        "$git_branch"
+        "$git_state"
+        "$git_status"
+        "$container"
+      ];
 
       container = {
         format = "[$symbol in ($name)]($style) ";
@@ -28,7 +29,23 @@ in {
         style = "bold red";
       };
 
-      directory = {style = accent;};
+      # Enable and configure username and hostname modules
+      username = {
+        show_always = true;
+        style_user = accent;
+        style_root = "bold red";
+        format = "[$user]($style)";
+      };
+
+      hostname = {
+        ssh_only = false;
+        style = accent;
+        format = "[$hostname]($style)";
+      };
+
+      directory = {
+        style = accent;
+      };
 
       character = {
         success_symbol = "[❯](${accent})";

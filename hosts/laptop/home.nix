@@ -28,6 +28,7 @@
     ../../home/programs/zed
     ../../home/programs/wezterm
     ../../home/programs/obs
+    ../../home/programs/quickshell
     # Scripts
     ../../home/scripts # All scripts
 
@@ -115,6 +116,10 @@
     file.".face.icon" = {source = ./profile_picture.png;};
     # Don't touch this
     stateVersion = "24.05";
+  };
+  services.cliphist = {
+    enable = true;
+    allowImages = true;
   };
   nixpkgs.overlays = lib.mkForce null; # fix evaluation warning about nixpkgs.overlays
   programs.home-manager.enable = true;

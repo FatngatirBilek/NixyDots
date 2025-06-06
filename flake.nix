@@ -45,7 +45,10 @@
       url = "github:nix-community/lanzaboote/v0.4.2";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
+    quickshell = {
+      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
     stylix.url = "github:danth/stylix";
@@ -55,7 +58,11 @@
     anyrun.url = "github:fufexan/anyrun/launch-prefix";
   };
 
-  outputs = inputs @ {nixpkgs, ...}: {
+  outputs = inputs @ {
+    nixpkgs,
+    quickshell,
+    ...
+  }: {
     nixosConfigurations = {
       # My Laptop Configuration
       nixos =
@@ -80,6 +87,16 @@
             inputs.lanzaboote.nixosModules.lanzaboote
             inputs.nixos-cosmic.nixosModules.default
             inputs.chaotic.nixosModules.default
+
+            ({pkgs, ...}: {
+              environment.systemPackages = [
+                (quickshell.packages.${pkgs.system}.default.override {
+                  withWayland = true;
+                  withHyprland = true;
+                  withQtSvg = true;
+                })
+              ];
+            })
             ./hosts/laptop/configuration.nix # CHANGEME: change the path to match your host folder
           ];
         };
