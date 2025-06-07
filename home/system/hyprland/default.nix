@@ -64,6 +64,7 @@ in {
         "hyprctl setcursor Bibata-Modern-Ice 24"
         "WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         "nwg-dock-hyprland -r -i 35 -ml 12 -mr 12 -mb 12 -nolauncher -x -l bottom"
+        "qs" # Quickshell
       ];
 
       monitor = [

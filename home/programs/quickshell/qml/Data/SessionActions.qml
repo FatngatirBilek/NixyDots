@@ -53,12 +53,12 @@ Singleton {
   Process {
     id: freeze
 
-    command: ["systemctl", "--user", "freeze", "hypridle.service"]
+    command: ["caffeine"]
   }
 
   Process {
     id: thaw
 
-    command: ["systemctl", "--user", "thaw", "hypridle.service"]
+    command: ["caffeine", "stop"]
   }
 }
