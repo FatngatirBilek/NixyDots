@@ -27,7 +27,7 @@ Rectangle {
         anchors.centerIn: parent
         color: (clearable) ? Dat.Colors.on_surface : Dat.Colors.on_surface_variant
         fill: (clearable) ? 1 : 0
-        icon: "󰩹"
+        icon: "delete"
       }
 
       Gen.MouseArea {
@@ -47,7 +47,7 @@ Rectangle {
       radius: this.implicitWidth
 
       icon {
-        icon: (this.active) ? "󰂟" : ""
+        icon: (this.active) ? "notifications_active" : "notifications_off"
       }
 
       mArea {
@@ -66,7 +66,7 @@ Rectangle {
       radius: this.implicitWidth
 
       icon {
-        icon: ""
+        icon: "coffee"
       }
 
       mArea {

@@ -168,8 +168,8 @@ Rectangle {
       anchors.centerIn: parent
       color: Dat.Colors.secondary
       font.bold: true
-      font.pixelSize: 20
-      icon: "󰞓"
+      font.pixelSize: 30
+      icon: "arrow_circle_left"
     }
 
     MouseArea {
@@ -198,8 +198,8 @@ Rectangle {
       anchors.centerIn: parent
       color: Dat.Colors.secondary
       font.bold: true
-      font.pixelSize: 20
-      icon: "󰞔"
+      font.pixelSize: 30
+      icon: "arrow_circle_right"
     }
 
     MouseArea {

@@ -10,7 +10,7 @@ Text {
   property int grad: 0
   required property string icon
 
-  font.family: "FiraCode Nerd Font"
+  font.family: "Material Symbols Rounded"
   font.hintingPreference: Font.PreferFullHinting
   font.variableAxes: {
     "FILL": root.fill,
