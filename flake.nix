@@ -49,6 +49,10 @@
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
     stylix.url = "github:danth/stylix";
@@ -87,6 +91,7 @@
             inputs.lanzaboote.nixosModules.lanzaboote
             inputs.nixos-cosmic.nixosModules.default
             inputs.chaotic.nixosModules.default
+            inputs.nix-index-database.nixosModules.nix-index
 
             ({pkgs, ...}: {
               environment.systemPackages = [

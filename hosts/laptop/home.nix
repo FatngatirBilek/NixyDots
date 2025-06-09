@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  inputs,
   lib,
   ...
 }: {
@@ -120,6 +121,11 @@
   services.cliphist = {
     enable = true;
     allowImages = true;
+  };
+  programs.nix-index = {
+    enable = true;
+    enableZshIntegration = true;
+    package = inputs.nix-index-database.packages.${pkgs.system}.nix-index-with-small-db;
   };
   nixpkgs.overlays = lib.mkForce null; # fix evaluation warning about nixpkgs.overlays
   programs.home-manager.enable = true;

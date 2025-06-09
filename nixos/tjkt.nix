@@ -21,7 +21,7 @@
     postman
     docker-compose
     libreoffice-qt6-fresh
-    icu
+    icu.dev
     openrgb-with-all-plugins
   ];
 
