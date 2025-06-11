@@ -67,7 +67,7 @@
         right_padding = 0.15;
       };
       # Use Copilot Chat AI as default
-      assistant = {
+      agent = {
         default_model = {
           provider = "copilot_chat";
           model = "claude-3-5-sonnet";
@@ -243,7 +243,7 @@
         context = "Editor && (vim_mode == normal || vim_mode == visual) && !VimWaiting && !menu";
         bindings = {
           "g f" = "editor::OpenExcerpts";
-          "space c p" = "assistant::ToggleFocus";
+          "space c p" = "agent::ToggleFocus";
           "space c z" = "workspace::ToggleCenteredLayout";
           "space f p" = "projects::OpenRecent";
           "space g h d" = "editor::ToggleSelectedDiffHunks";

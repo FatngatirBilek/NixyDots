@@ -10,7 +10,7 @@
 
     # Programs
     ../../home/programs/kitty
-    # ../../home/programs/nvim
+    ../../home/programs/nvim
     ../../home/programs/zsh
     ../../home/programs/fetch
     ../../home/programs/git
@@ -89,6 +89,7 @@
       nv-codec-headers
       tree
       kmon
+      termtosvg
 
       # quickemu
       gnome-disk-utility
