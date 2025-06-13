@@ -11,7 +11,7 @@ Singleton {
 
   property string actWinName: activeWindow?.activated ? activeWindow?.appId : "desktop"
   readonly property Toplevel activeWindow: ToplevelManager.activeToplevel
-  property string hostName: "nixos"
+  property string hostName: "KuruMi"
   property real mprisDotRotation: 0
   property bool notchHovered: false
 
@@ -19,7 +19,18 @@ Singleton {
   property real notchScale: 1
 
   // one of "COLLAPSED", "EXPANDED", "FULLY_EXPANDED"
-  property string notchState: (Dat.Config.data.reservedShell) ? "EXPANDED" : "COLLAPSED"
+  property string notchState: "COLLAPSED"
+
+  // fixes issue where bar starts collapsed when reserved shell is turned on
+  // thanks syncqtc for noticing it :>
+  Component.onCompleted: {
+    Dat.Config.data.reservedShellChanged.connect(() => {
+      if (notchState == "COLLAPSED" && Dat.Config.data.reservedShell) {
+        notchState = "EXPANDED"
+      }
+    })
+  }
+
   // one of "HIDDEN", "POPUP", "INBOX"
   property string notifState: "HIDDEN"
 
