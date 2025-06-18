@@ -69,7 +69,7 @@ RowLayout {
       color: Dat.Colors.on_surface
       font.pointSize: 10
       horizontalAlignment: Text.AlignRight
-      text: "󱐋 " + info.bat.changeRate
+      text: "󱐋 " + info.bat.changeRate.toFixed(2)
       verticalAlignment: Text.AlignVCenter
     }
   }
