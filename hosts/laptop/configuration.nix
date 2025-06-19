@@ -70,9 +70,11 @@ in {
         icu
       ];
     };
-    ssh = {
+    /*
+       ssh = {
       startAgent = true;
     };
+    */
 
     virt-manager = {
       enable = true;

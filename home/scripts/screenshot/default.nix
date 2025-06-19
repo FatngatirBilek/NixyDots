@@ -1,32 +1,34 @@
-# - ## Screenshot
-#-
-#- This module provides a script to take screenshots using `grimblast` and `swappy`.
-#-
-#- - `screenshot [region|window|monitor] [swappy]` - Take a screenshot of the region, window, or monitor. Optionally, use `swappy` to copy the screenshot to the clipboard.
 {pkgs, ...}: let
   screenshot = pkgs.writeShellScriptBin "screenshot" ''
-    if [[ $2 == "swappy" ]];then
-      folder="/tmp"
-    else
-      folder="$HOME/Pictures"
-    fi
+    #!/usr/bin/env bash
+    folder="$HOME/Pictures"
     filename="$(date +%Y-%m-%d_%H:%M:%S).png"
+    filepath="$folder/$filename"
 
-    if [[ $1 == "window" ]];then
-      mode="active"
-    elif [[ $1 == "region" ]];then
-      mode="area"
-    elif [[ $1 == "monitor" ]];then
-      mode="output"
+    ${pkgs.wayfreeze}/bin/wayfreeze &
+    PID=$!
+    sleep 0.1
+
+    region=$(${pkgs.slurp}/bin/slurp)
+    if [ -z "$region" ]; then
+      kill $PID
+      ${pkgs.libnotify}/bin/notify-send "Screenshot cancelled"
+      exit 1
     fi
 
-    ${pkgs.grimblast}/bin/grimblast --notify --freeze copy $mode "$folder/$filename" || exit 1
+    ${pkgs.grim}/bin/grim -g "$region" - | tee "$filepath" | ${pkgs.wl-clipboard}/bin/wl-copy
 
-    if [[ $2 == "swappy" ]];then
-      ${pkgs.swappy}/bin/swappy -f "$folder/$filename" -o "$HOME/Pictures/$filename"
-      exit 0
-    fi
+    kill $PID
+
+    ${pkgs.libnotify}/bin/notify-send "Screenshot saved and copied!" "$filepath"
   '';
 in {
-  home.packages = [pkgs.hyprshot screenshot pkgs.slurp pkgs.grim pkgs.grimblast];
+  home.packages = [
+    screenshot
+    pkgs.grim
+    pkgs.slurp
+    pkgs.wayfreeze
+    pkgs.wl-clipboard
+    pkgs.libnotify
+  ];
 }
