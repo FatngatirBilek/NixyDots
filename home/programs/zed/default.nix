@@ -1,8 +1,11 @@
 {
   lib,
   pkgs,
+  inputs,
   ...
-}: {
+}: let
+  zedEditorFlakes = inputs.zed-editor-flake.packages.${pkgs.system}.zed-editor-preview-bin;
+in {
   home.packages = with pkgs; [
     # For LSP
     vtsls
@@ -10,6 +13,7 @@
   ];
   programs.zed-editor = {
     enable = true;
+    package = zedEditorFlakes;
     installRemoteServer = true;
 
     extensions = [
@@ -61,6 +65,11 @@
         enabled = true;
         coloring = "indent_aware";
       };
+      diagnostics = {
+        inline = {
+          enabled = true;
+        };
+      };
       # NOTE: Zen mode, refer https://github.com/zed-industries/zed/issues/4382 when it's resolved
       centered_layout = {
         left_padding = 0.15;
@@ -70,7 +79,7 @@
       agent = {
         default_model = {
           provider = "copilot_chat";
-          model = "claude-3-5-sonnet";
+          model = "gpt-4.1";
         };
         version = "2";
       };
@@ -115,7 +124,7 @@
       };
 
       features = {
-        edit_prediction_provider = "zed";
+        edit_prediction_provider = "copilot";
         #inline_completion_provider = "copilot";
       };
       format_on_save = "on";
