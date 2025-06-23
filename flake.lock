@@ -1351,11 +1351,11 @@
     "nvchad-starter": {
       "flake": false,
       "locked": {
-        "lastModified": 1749487051,
-        "narHash": "sha256-5FPIVvlhzaxKfmnZflK/kKDhVXKoHGJ3fMIej07Vx1U=",
+        "lastModified": 1750599591,
+        "narHash": "sha256-gwSwZsrvguxtVzik7Gu7ELGhDZ4uQUpGD+HBt4KeCCk=",
         "owner": "FatngatirBilek",
         "repo": "nvchad-conf",
-        "rev": "d33293c6a3290229f9f51783917fc537a0f0b5cd",
+        "rev": "749643dd1cb33c1bc1f7b83a1e6b4ac3b8bcae00",
         "type": "github"
       },
       "original": {
