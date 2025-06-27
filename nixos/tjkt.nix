@@ -23,7 +23,8 @@
     libreoffice-qt6-fresh
     icu.dev
     icu
-    openrgb-with-all-plugins
+    libcxx
+    clang-tools
   ];
 
   # Winbox setup

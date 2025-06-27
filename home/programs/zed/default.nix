@@ -53,7 +53,7 @@ in {
       buffer_font_family = "JetBrainsMono Nerd Font";
 
       vim_mode = true;
-
+      auto_update = false;
       relative_line_numbers = true;
       tab_bar = {
         show = true;
