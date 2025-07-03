@@ -30,6 +30,7 @@
     ../../home/programs/wezterm
     ../../home/programs/obs
     ../../home/programs/quickshell
+    # ../../home/programs/ags
     # Scripts
     ../../home/scripts # All scripts
 
@@ -38,7 +39,7 @@
     ../../home/system/hypridle
     ../../home/system/hyprlock
     # ../../home/system/hyprpanel
-    ../../home/system/hyprpaper
+    # ../../home/system/hyprpaper
     ../../home/system/gtk
     ../../home/system/wofi
     ../../home/system/batsignal
@@ -91,6 +92,12 @@
       kmon
       termtosvg
 
+      # Quickshell
+      qt6Packages.qt5compat
+      libsForQt5.qt5.qtgraphicaleffects
+      kdePackages.qtbase
+      kdePackages.qtdeclarative
+
       # quickemu
       gnome-disk-utility
       gnumake
@@ -123,10 +130,18 @@
     enable = true;
     allowImages = true;
   };
+  waybar.enable = true;
+  theming.enable = true;
   programs.nix-index = {
     enable = true;
     enableZshIntegration = true;
     package = inputs.nix-index-database.packages.${pkgs.system}.nix-index-with-small-db;
+  };
+
+  hyprland = {
+    enable = true;
+    hyprpaper = true;
+    wlogout = true;
   };
   nixpkgs.overlays = lib.mkForce null; # fix evaluation warning about nixpkgs.overlays
   programs.home-manager.enable = true;

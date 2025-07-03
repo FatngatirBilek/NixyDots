@@ -19,6 +19,7 @@
       noto-fonts-cjk-sans
       noto-fonts-emoji
       nerd-fonts.fira-code
+      nerd-fonts.jetbrains-mono
       openmoji-color
       twemoji-color-font
       inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd

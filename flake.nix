@@ -11,6 +11,7 @@
     nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
+    ags.url = "github:Aylur/ags";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -97,9 +98,14 @@
           ({pkgs, ...}: {
             environment.systemPackages = [
               (quickshell.packages.${pkgs.system}.default.override {
-                withWayland = true;
-                withHyprland = true;
+                withJemalloc = true;
                 withQtSvg = true;
+                withWayland = true;
+                withX11 = false;
+                withPipewire = true;
+                withPam = true;
+                withHyprland = true;
+                withI3 = false;
               })
             ];
           })
