@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 with lib; let
@@ -27,6 +26,12 @@ in {
           color: #DDDDDD;
           min-height: 0px;
           min-width: 0px;
+        }
+        #custom-battery {
+          padding-left: 10px;
+          padding-right: 10px;
+          margin-left: 8px;
+          margin-right: 8px;
         }
         tooltip {
           background-color: rgba(0,0,0,0.1);
@@ -58,12 +63,10 @@ in {
         }
         #custom-nixos {
           font-size: 20px;
-          /* background: alpha(@background, 0.8); */
           border-radius: 0px;
           padding: 1px 0px 0px 0px;
           margin-left: 8px;
         }
-
         #scroll,
         #cava,
         #clock,
@@ -83,17 +86,8 @@ in {
         #custom-weather,
         #batteries,
         #tray {
-          /* background: alpha(@background, 0.8); */
           border-radius: 8px;
-
-          /* border: 1px solid alpha(shade(@active, 0.6),0.6); */
         }
-
-        /* #window {
-        	background: linear-gradient(45deg, #6804b5 0%, #4575da 33%, #6804b5 66%, #4575da 100%);
-        	background-size: 400% 400%;
-        	animation: gradient 5s linear infinite;
-        } */
         #window {
             font-size: 14px;
             opacity: 100;
@@ -206,7 +200,6 @@ in {
             }
         }
         #workspaces button label {
-          /* font-family: "JetBrainsMono NF Thin"; */
           font-size: 16px;
         }
         #workspaces button.urgent {
@@ -232,7 +225,6 @@ in {
           animation-duration: 300ms;
           animation-direction: normal;
         }
-
         #cpu,
         #clock,
         #network,
@@ -255,12 +247,9 @@ in {
         #backlight {
           padding: 0px 6px 0px 3px;
         }
-
         #custom-github {
           padding-right: 6px;
         }
-
-        /* subhighlight */
         #gamemode,
         #submap,
         #custom-recorder,
@@ -271,38 +260,30 @@ in {
           background: shade(alpha(@foreground, 0.1), 0.8);
           border-radius: 8px;
         }
-
         #language {
           color: #7aa2f7;
           margin-top: 3px;
         }
-
         #idle_inhibitor,
         #pulseaudio,
         #pulseaudio.mic {
           color: #7aa2f7;
         }
-
         #backlight {
           color: #fab387;
         }
-
         #memory {
           color: shade(#cca0e4, 0.8);
         }
-
         #disk {
           color: shade(#7aa2f7, 0.8);
         }
-
         #custom-recorder {
           color: #d78787;
         }
-
         #cpu {
           color: shade(#a6e3a1, 0.8);
         }
-
         #custom-batterysaver.powersave,
         #custom-batterysaver.power {
           color: #a6e3a1;
@@ -314,11 +295,9 @@ in {
         #custom-batterysaver.performance {
           color: #d78787;
         }
-
         #network {
           color: #a6e3a1;
         }
-
         #network.disabled,
         #network.disconnected {
           color: #d78787;
@@ -335,7 +314,6 @@ in {
             color: @foreground;
           }
         }
-
         #battery.warning:not(.charging),
         #battery.critical:not(.charging) {
           animation-name: blink;
@@ -344,7 +322,6 @@ in {
           animation-iteration-count: infinite;
           animation-direction: alternate;
         }
-
         #bluetooth.discoverable,
         #bluetooth.discovering,
         #bluetooth.pairable {
@@ -354,19 +331,10 @@ in {
           animation-iteration-count: infinite;
           animation-direction: alternate;
         }
-
-        /* Override */
-
         #batteries {
           margin-right: 0px;
           border-radius: 8px 0px 0px 8px;
         }
-
-        /* #clock {
-          margin-left: 0px;
-          border-radius: 0px 8px 8px 0px;
-          background: alpha(@background, 0.6);
-        } */
       '';
       settings = {
         main = {
@@ -383,6 +351,7 @@ in {
             "tray"
             "group/scroll"
             "group/hardware"
+            "custom/battery"
           ];
           "cava" = {
             framerate = 60;
@@ -487,24 +456,6 @@ in {
               "backlight"
             ];
           };
-          "group/batteries" = {
-            orientation = "horizontal";
-            modules = [
-              "battery"
-              "custom/batterysaver"
-            ];
-          };
-          "group/scripts" = {
-            orientation = "horizontal";
-            modules = [
-              "hyprland/submap"
-              "custom/colorpicker"
-              "idle_inhibitor"
-              "custom/notifications"
-              "gamemode"
-              "custom/updates"
-            ];
-          };
           "group/hardware" = {
             drawer = {
               "children-class" = "fancy-stuff";
@@ -569,8 +520,7 @@ in {
             tooltip-format = "{ipaddr}";
             tooltip-format-wifi = "{essid} ({signalStrength}%)   \n{ipaddr} | {frequency} MHz{icon} \n {bandwidthDownBits}  {bandwidthUpBits} ";
             tooltip-format-ethernet = "{ifname} 󰈀 \n{ipaddr} | {frequency} MHz{icon} \n󰈀 {bandwidthDownBits}  {bandwidthUpBits} ";
-            tooltip-format-disconnected = "Нет подключения";
-            on-click = "networkmanager_dmenu";
+            tooltip-format-disconnected = "No Connection";
           };
           "backlight" = {
             device = "intel_backlight";
@@ -597,35 +547,49 @@ in {
             tooltip = false;
             smooth-scrolling-threshold = 1;
           };
-          "battery" = {
-            states = {
-              "good" = 95;
-              "warning" = 30;
-              "critical" = 15;
-            };
-            format = "{capacity}% {icon}";
-            format-charging = "<b>{icon} </b>";
-            format-full = "<span color='#00ff00'><b>{icon}</b></span> {capacity}%";
-            format-icons = [
-              ""
-              ""
-              ""
-              ""
-              ""
-              ""
-              ""
-              ""
-              ""
-            ];
-            tooltip-format = "{timeTo}\n{capacity} % | {power} W";
-          };
-          "custom/batterysaver" = {
-            format = " {}";
-            exec = "~/.config/waybar/bin/battsaver-toggle getdata";
-            on-click = "~/.config/waybar/bin/battsaver-toggle menu";
-            interval = "once";
+          "custom/battery" = {
+            interval = 10;
+            exec = ''
+              BAT=$(upower -e | grep BAT)
+              if [ -z "$BAT" ]; then
+                echo '{"text":"  --","tooltip":"No battery detected."}'
+                exit
+              fi
+              PERCENT=$(upower -i "$BAT" | awk '/percentage:/ {gsub("%",""); print $2}')
+              STATE=$(upower -i "$BAT" | awk '/state:/ {print $2}')
+              ICON=""
+              if [ "$PERCENT" -ge 95 ]; then ICON=""
+              elif [ "$PERCENT" -ge 75 ]; then ICON=""
+              elif [ "$PERCENT" -ge 50 ]; then ICON=""
+              elif [ "$PERCENT" -ge 25 ]; then ICON=""
+              fi
+
+              if [ "$STATE" = "charging" ]; then
+                TIME=$(upower -i "$BAT" | awk -F': ' '/time to full/ {print $2}')
+                if [ -z "$TIME" ]; then
+                  TIME_SHOW="Calculating..."
+                else
+                  TIME_SHOW="$TIME"
+                fi
+                TOOLTIP="Charging\n$TIME_SHOW"
+              elif [ "$STATE" = "discharging" ]; then
+                TIME=$(upower -i "$BAT" | awk -F': ' '/time to empty/ {print $2}')
+                if [ -z "$TIME" ]; then
+                  TIME_SHOW="Calculating..."
+                else
+                  TIME_SHOW="$TIME"
+                fi
+                TOOLTIP="$TIME_SHOW"
+              else
+                TOOLTIP="Not Charging"
+              fi
+
+              # Add an extra space after the icon to avoid overlap
+              echo "{\"text\":\"$ICON  $PERCENT%\",\"tooltip\":\"$TOOLTIP\"}"
+            '';
             return-type = "json";
-            signal = 5;
+            format = "{}";
+            tooltip = true;
           };
           "memory" = {
             format = "{}% ";
@@ -641,16 +605,12 @@ in {
             format = "{usage}%  ";
             on-click = "kitty btop";
           };
-          "temperature" = {
-            interval = 1;
-            hwmon-path = [
-              "/sys/class/hwmon/hwmon0/temp1_input"
-              "/sys/class/hwmon/hwmon1/temp1_input"
-              "/sys/class/hwmon/hwmon2/temp1_input"
-              "/sys/class/hwmon/hwmon3/temp1_input"
-            ];
-            format = "<span color='#7AA2F7'> {temperatureC}°C  </span>";
-            tooltip-format = "Core Temp: {temperatureC}°C ";
+          "custom/gpu" = {
+            interval = 3;
+            exec = "gpu";
+            return-type = "json";
+            format = "{}";
+            tooltip = true;
           };
           "custom/weather" = {
             format = "{}° ";
@@ -705,14 +665,6 @@ in {
             exec = "[ -z \"$(lsmod | grep uvcvideo)\" ] && echo \"\nКамера отключена\" || echo \"\"";
             on-click = "~/.config/hypr/bin/camera-toggle";
             signal = 3;
-          };
-          "custom/gpu" = {
-            interval = 1;
-            exec = "amd-gpu";
-            on-click = "kitty nvtop";
-            return-type = "json";
-            format = "{}";
-            tooltip = true;
           };
           "custom/nixos" = {
             exec = "nixos";

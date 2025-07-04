@@ -11,7 +11,6 @@
     nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    ags.url = "github:Aylur/ags";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -46,10 +45,6 @@
       url = "github:nix-community/lanzaboote/v0.4.2";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    quickshell = {
-      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -64,11 +59,7 @@
     anyrun.url = "github:fufexan/anyrun/launch-prefix";
   };
 
-  outputs = inputs @ {
-    nixpkgs,
-    quickshell,
-    ...
-  }: {
+  outputs = inputs @ {nixpkgs, ...}: {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -94,21 +85,6 @@
           inputs.nixos-cosmic.nixosModules.default
           inputs.chaotic.nixosModules.default
           inputs.nix-index-database.nixosModules.nix-index
-
-          ({pkgs, ...}: {
-            environment.systemPackages = [
-              (quickshell.packages.${pkgs.system}.default.override {
-                withJemalloc = true;
-                withQtSvg = true;
-                withWayland = true;
-                withX11 = false;
-                withPipewire = true;
-                withPam = true;
-                withHyprland = true;
-                withI3 = false;
-              })
-            ];
-          })
           ./hosts/laptop/configuration.nix
         ];
       };

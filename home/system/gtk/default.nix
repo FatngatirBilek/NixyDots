@@ -22,7 +22,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # Activation hooks for special app config (GIMP-related hooks removed)
     home.activation = {
       prismLauncher = lib.hm.dag.entryAfter ["writeBoundary"] ''
         if [[ ! -z DRY_RUN ]]; then
@@ -34,17 +33,14 @@ in {
       '';
     };
 
-    # Symlink your themes folder for user themes
     home.file.".themes".source = ../../../stuff/.themes;
 
-    # Symlink extra config directories/files (GIMP-related sources removed)
     xdg.configFile =
       {
         "Kvantum".source = ../../../stuff/Kvantum;
         "qt5ct".source = ../../../stuff/qt5ct;
         "qt6ct".source = ../../../stuff/qt6ct;
       }
-      # Fluent-Dark GTK4 overrides
       // (mkSourcePrefix "gtk-4.0" {
         "assets" = ../../../stuff/.themes/Fluent-Dark/gtk-4.0/assets;
         "gtk.css" = ../../../stuff/.themes/Fluent-Dark/gtk-4.0/gtk.css;
@@ -60,7 +56,6 @@ in {
         "themes" = ../../../stuff/vesktop/themes;
       });
 
-    # Desktop entry customization for Discord (example)
     xdg.desktopEntries.discord.settings = {
       Exec = "discord --ozone-platform-hint=auto %U";
       Categories = "Network;InstantMessaging;Chat";
@@ -73,7 +68,6 @@ in {
       Type = "Application";
     };
 
-    # Dconf tweaks
     dconf.settings = {
       "org/nemo/preferences" = {
         default-folder-viewer = "list-view";
@@ -89,13 +83,11 @@ in {
       };
     };
 
-    # QT theming
     qt = {
       enable = true;
       platformTheme.name = "qtct";
     };
 
-    # Cursor theme: Bibata-Modern-Ice (from Nixpkgs)
     home.pointerCursor = {
       gtk.enable = true;
       x11.enable = true;
@@ -104,7 +96,6 @@ in {
       size = 24;
     };
 
-    # GTK theming - enables Fluent-Dark user theme
     gtk = {
       enable = true;
       gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
@@ -113,9 +104,15 @@ in {
         name = "Papirus-Dark";
         package = pkgs.papirus-icon-theme;
       };
-      theme.name = "Fluent-Dark"; # Uses user theme from ~/.themes/Fluent-Dark
+      theme.name = "Fluent-Dark";
       font.name = "Noto Sans Medium";
       font.size = 11;
+    };
+
+    # THE FIX: Force GTK apps to use user dark theme
+    home.sessionVariables = {
+      GTK_THEME = "Fluent-Dark";
+      GTK_APPLICATION_PREFER_DARK_THEME = "1";
     };
   };
 }

@@ -29,8 +29,7 @@
     ../../home/programs/zed
     ../../home/programs/wezterm
     ../../home/programs/obs
-    ../../home/programs/quickshell
-    # ../../home/programs/ags
+
     # Scripts
     ../../home/scripts # All scripts
 
@@ -94,10 +93,10 @@
       pciutils
 
       # Quickshell
-      qt6Packages.qt5compat
-      libsForQt5.qt5.qtgraphicaleffects
-      kdePackages.qtbase
-      kdePackages.qtdeclarative
+      # qt6Packages.qt5compat
+      # libsForQt5.qt5.qtgraphicaleffects
+      # kdePackages.qtbase
+      # kdePackages.qtdeclarative
 
       # quickemu
       gnome-disk-utility
