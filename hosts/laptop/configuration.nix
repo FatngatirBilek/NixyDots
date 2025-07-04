@@ -39,8 +39,6 @@ in {
     ../../nixos/greeter.nix
     ../../nixos/lanzaboote.nix # Secure boot
     #    ../../nixos/fan.nix
-    # Choose your theme here
-    ../../themes/stylix/nixy.nix
 
     ./hardware-configuration.nix
     ./variables.nix

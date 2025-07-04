@@ -68,7 +68,10 @@ in {
       settings = {
         "$mod" = "SUPER";
         "$shiftMod" = "SUPER_SHIFT";
-        monitor = [", preferred, auto, 1"];
+        monitor = [
+          "eDP-1, 1920x1080@165, 0x0, 1"
+          "HDMI-A-1, 1920x1080@120, 1920x0,1"
+        ];
         windowrule = [
           "nomaxsize, class:^(polkit-gnome-authentication-agent-1)$"
           "pin, class:^(polkit-gnome-authentication-agent-1)$"
@@ -208,142 +211,28 @@ in {
       '';
     };
     systemd.user.targets.hyprland-session.Unit.Wants = ["xdg-desktop-autostart.target"];
-    programs.hyprlock = mkIf cfg.hyprlock {
-      enable = true;
-      settings = {
-        background = [
-          {
-            monitor = "";
-            color = "rgba(0, 0, 0, 0.7)";
-          }
-        ];
 
-        input-field = [
-          {
-            monitor = "";
-            size = "200, 50";
-            outline_thickness = 1;
-            dots_size = 0.2;
-            dots_spacing = 0.15;
-            dots_center = true;
-            outer_color = "rgb(000000)";
-            inner_color = "rgb(100, 100, 100)";
-            font_color = "rgb(10, 10, 10)";
-            fade_on_empty = true;
-            placeholder_text = "<i>Введите пароль...</i>";
-            hide_input = false;
-            position = "0, -20";
-            halign = "center";
-            valign = "center";
-          }
-        ];
-
-        label = [
-          {
-            monitor = "";
-            text = "Введите пароль от пользователя $USER $TIME $ATTEMPTS";
-            color = "rgba(200, 200, 200, 1.0)";
-            font_size = 25;
-            font_family = "Noto Sans";
-            position = "0, 200";
-            halign = "center";
-            valign = "center";
-          }
-        ];
-      };
-    };
     services.hyprpaper = mkIf (cfg.hyprpaper && !cfg.mpvpaper) {
       enable = true;
       settings = {
         ipc = "on";
         splash = false;
-        preload = ["${../../../stuff/wallpaper.jpg}"];
+        preload = ["${inputs.thirr-wallpapers + "/wallpapers/wallpaper.jpg"}"];
         wallpaper = [
-          ",${../../../stuff/wallpaper.jpg}"
+          ",${inputs.thirr-wallpapers + "/wallpapers/wallpaper.jpg"}"
         ];
       };
     };
-    systemd.user.services.mpvpaper = mkIf (!cfg.hyprpaper && cfg.mpvpaper) {
-      Unit = {
-        Description = "Play video wallpaper.";
-      };
-      Install = {
-        WantedBy = ["graphical-session.target"];
-      };
-      Service = {
-        ExecStart = "${pkgs.mpvpaper}/bin/mpvpaper -s -o 'no-audio loop input-ipc-server=/tmp/mpvpaper-socket hwdec=auto' '*' ${../../../stuff/wallpaper.mp4}";
-      };
-    };
-    programs.rofi = mkIf cfg.rofi {
-      enable = true;
-      package = pkgs.rofi-wayland;
-      font = "JetBrainsMono NF 14";
-      theme = ../../../stuff/theme.rasi;
-    };
-    programs.wlogout = mkIf cfg.wlogout {
-      enable = true;
-      layout = [
-        {
-          label = "lock";
-          action = "hyprlock";
-          text = "Lock";
-          keybind = "l";
-        }
-        {
-          label = "logout";
-          action = "hyprctl dispatch exit";
-          text = "Logout";
-          keybind = "e";
-        }
-        {
-          label = "shutdown";
-          action = "systemctl poweroff";
-          text = "Shutdown";
-          keybind = "s";
-        }
-        {
-          label = "reboot";
-          action = "systemctl reboot";
-          text = "Reboot";
-          keybind = "r";
-        }
-      ];
-      style = ''
-        * {
-          background-image: none;
-          font-family: "JetBrainsMono Nerd Font";
-          font-size: 16px;
-        }
-        window {
-          background-color: rgba(0, 0, 0, 0);
-        }
-        button {
-            color: #FFFFFF;
-            border-style: solid;
-            border-radius: 15px;
-            border-width: 3px;
-            background-color: rgba(0, 0, 0, 0);
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: 25%;
-        }
-        button:focus, button:active, button:hover {
-          background-color: rgba(0, 0, 0, 0);
-          color: #4470D2;
-        }
-        #lock {
-            background-image: image(url("${../../../stuff/lock.png}"));
-        }
-        #logout {
-            background-image: image(url("${../../../stuff/logout.png}"));
-        }
-        #shutdown {
-            background-image: image(url("${../../../stuff/shutdown.png}"));
-        }
-        #reboot {
-            background-image: image(url("${../../../stuff/reboot.png}"));
-        }
-      '';
-    };
+    # systemd.user.services.mpvpaper = mkIf (!cfg.hyprpaper && cfg.mpvpaper) {
+    #   Unit = {
+    #     Description = "Play video wallpaper.";
+    #   };
+    #   Install = {
+    #     WantedBy = ["graphical-session.target"];
+    #   };
+    #   Service = {
+    #     ExecStart = "${pkgs.mpvpaper}/bin/mpvpaper -s -o 'no-audio loop input-ipc-server=/tmp/mpvpaper-socket hwdec=auto' '*' ${../../../stuff/wallpaper.mp4}";
+    #   };
+    # };
   };
 }

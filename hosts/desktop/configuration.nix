@@ -35,8 +35,6 @@
     ../../nixos/tabletdriver.nix
     ../../nixos/greeter.nix
     # ../../nixos/lanzaboote.nix # Secure boot
-    # Choose your theme here
-    ../../themes/stylix/nixy.nix
 
     ./hardware-configuration.nix
     ./variables.nix

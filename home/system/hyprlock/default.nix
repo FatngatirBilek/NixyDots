@@ -1,12 +1,11 @@
 # Hyprlock is a lockscreen for Hyprland
 {
-  config,
   lib,
   inputs,
   ...
 }: let
   foreground = "rgba(5, 5, 5, 0.70)";
-  font = config.stylix.fonts.serif.name;
+  font = "SFProDisplay Nerd Font";
 in {
   programs.hyprlock = {
     enable = true;

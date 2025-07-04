@@ -50,8 +50,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
-    hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
-    stylix.url = "github:danth/stylix";
     apple-fonts.url = "github:Lyndeno/apple-fonts.nix";
     nur.url = "github:nix-community/NUR";
     zen-browser.url = "git+https://git.sr.ht/~canasta/zen-browser-flake/";
@@ -73,14 +71,12 @@
               ];
             };
             nixpkgs.overlays = [
-              inputs.hyprpanel.overlay
               inputs.nur.overlays.default
             ];
             _module.args = {inherit inputs;};
           }
           inputs.nixos-hardware.nixosModules.omen-16-n0005ne
           inputs.home-manager.nixosModules.home-manager
-          inputs.stylix.nixosModules.stylix
           inputs.lanzaboote.nixosModules.lanzaboote
           inputs.nixos-cosmic.nixosModules.default
           inputs.chaotic.nixosModules.default
@@ -101,14 +97,12 @@
               ];
             };
             nixpkgs.overlays = [
-              inputs.hyprpanel.overlay
               inputs.nur.overlays.default
             ];
             _module.args = {inherit inputs;};
           }
           inputs.nixos-hardware.nixosModules.omen-16-n0005ne
           inputs.home-manager.nixosModules.home-manager
-          inputs.stylix.nixosModules.stylix
           inputs.lanzaboote.nixosModules.lanzaboote
           inputs.nixos-cosmic.nixosModules.default
           inputs.chaotic.nixosModules.default

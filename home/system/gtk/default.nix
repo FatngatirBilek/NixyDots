@@ -6,6 +6,14 @@
 }:
 with lib; let
   cfg = config.theming;
+
+  themerepo = pkgs.fetchFromGitHub {
+    owner = "FatngatirBilek";
+    repo = "themes-repo";
+    rev = "main";
+    sha256 = "sha256-XSflGc9CO4mmm6HDWwMFg8+DK5fPpVXdQ0HIr0tEOtU=";
+  };
+
   mkSourcePrefix = prefix: attrs:
     builtins.listToAttrs (
       lib.mapAttrsToList (
@@ -22,40 +30,31 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.activation = {
-      prismLauncher = lib.hm.dag.entryAfter ["writeBoundary"] ''
-        if [[ ! -z DRY_RUN ]]; then
-          if [[ ! -f ${config.home.homeDirectory}/.local/share/PrismLauncher/accounts.json ]]; then
-            mkdir -p $VERBOSE_ARG "${config.home.homeDirectory}/.local/share/PrismLauncher"
-            echo '{"accounts": [{"entitlement": {"canPlayMinecraft": true,"ownsMinecraft": true},"type": "MSA"}],"formatVersion": 3}' > ${config.home.homeDirectory}/.local/share/PrismLauncher/accounts.json
-          fi
-        fi
-      '';
-    };
-
-    home.file.".themes".source = ../../../stuff/.themes;
+    # All theming files come from the GitHub repo!
+    home.file.".themes".source = "${themerepo}/.themes";
 
     xdg.configFile =
       {
-        "Kvantum".source = ../../../stuff/Kvantum;
-        "qt5ct".source = ../../../stuff/qt5ct;
-        "qt6ct".source = ../../../stuff/qt6ct;
+        "Kvantum".source = "${themerepo}/Kvantum";
+        "qt5ct".source = "${themerepo}/qt5ct";
+        "qt6ct".source = "${themerepo}/qt6ct";
       }
       // (mkSourcePrefix "gtk-4.0" {
-        "assets" = ../../../stuff/.themes/Fluent-Dark/gtk-4.0/assets;
-        "gtk.css" = ../../../stuff/.themes/Fluent-Dark/gtk-4.0/gtk.css;
-        "icons" = ../../../stuff/.themes/Fluent-Dark/gtk-4.0/gtk-dark.css;
+        "assets" = "${themerepo}/.themes/Fluent-Dark/gtk-4.0/assets";
+        "gtk.css" = "${themerepo}/.themes/Fluent-Dark/gtk-4.0/gtk.css";
+        "icons" = "${themerepo}/.themes/Fluent-Dark/gtk-4.0/gtk-dark.css";
       })
       // (mkSourcePrefix "vesktop" {
-        "settings" = ../../../stuff/vesktop/settings;
-        "settings.json" = ../../../stuff/vesktop/settings.json;
-        "themes" = ../../../stuff/vesktop/themes;
+        "settings" = "${themerepo}/vesktop/settings";
+        "settings.json" = "${themerepo}/vesktop/settings.json";
+        "themes" = "${themerepo}/vesktop/themes";
       })
       // (mkSourcePrefix "Vencord" {
-        "settings" = ../../../stuff/vesktop/settings;
-        "themes" = ../../../stuff/vesktop/themes;
+        "settings" = "${themerepo}/vesktop/settings";
+        "themes" = "${themerepo}/vesktop/themes";
       });
 
+    # ... rest of your config unchanged ...
     xdg.desktopEntries.discord.settings = {
       Exec = "discord --ozone-platform-hint=auto %U";
       Categories = "Network;InstantMessaging;Chat";
@@ -109,7 +108,6 @@ in {
       font.size = 11;
     };
 
-    # THE FIX: Force GTK apps to use user dark theme
     home.sessionVariables = {
       GTK_THEME = "Fluent-Dark";
       GTK_APPLICATION_PREFER_DARK_THEME = "1";

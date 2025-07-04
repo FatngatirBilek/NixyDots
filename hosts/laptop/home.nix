@@ -14,7 +14,7 @@
     ../../home/programs/zsh
     ../../home/programs/fetch
     ../../home/programs/git
-    ../../home/programs/spicetify
+    # ../../home/programs/spicetify
     ../../home/programs/fastfetch
     ../../home/programs/anyrun
     # ../../home/programs/nextcloud
@@ -37,10 +37,7 @@
     ../../home/system/hyprland
     ../../home/system/hypridle
     ../../home/system/hyprlock
-    # ../../home/system/hyprpanel
-    # ../../home/system/hyprpaper
     ../../home/system/gtk
-    ../../home/system/wofi
     ../../home/system/batsignal
     ../../home/system/zathura
     ../../home/system/mime
@@ -143,7 +140,7 @@
   hyprland = {
     enable = true;
     hyprpaper = true;
-
+    mpvpaper = false;
     wlogout = true;
   };
   nixpkgs.overlays = lib.mkForce null; # fix evaluation warning about nixpkgs.overlays
