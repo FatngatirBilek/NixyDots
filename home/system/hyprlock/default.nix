@@ -6,7 +6,6 @@
   ...
 }: let
   foreground = "rgba(5, 5, 5, 0.70)";
-  # imageStr = toString config.stylix.image; # if i want to use wallpaper as hyprlock bg
   font = config.stylix.fonts.serif.name;
 in {
   programs.hyprlock = {

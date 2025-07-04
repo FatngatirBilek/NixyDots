@@ -1,8 +1,4 @@
-{
-  pkgs,
-  user,
-  ...
-}: {
+{pkgs, ...}: {
   home.packages = [
     (
       pkgs.writers.writePython3Bin "krisp-patcher"
