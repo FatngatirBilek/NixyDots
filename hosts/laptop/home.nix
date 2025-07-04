@@ -91,6 +91,7 @@
       tree
       kmon
       termtosvg
+      pciutils
 
       # Quickshell
       qt6Packages.qt5compat
@@ -141,6 +142,7 @@
   hyprland = {
     enable = true;
     hyprpaper = true;
+
     wlogout = true;
   };
   nixpkgs.overlays = lib.mkForce null; # fix evaluation warning about nixpkgs.overlays

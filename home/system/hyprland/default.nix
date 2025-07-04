@@ -6,6 +6,7 @@
   ...
 }:
 with lib; let
+  keyboardLayout = config.var.keyboardLayout;
   cfg = config.hyprland;
 in {
   imports = [
@@ -49,10 +50,8 @@ in {
       wttrbar
     ];
     wayland.windowManager.hyprland = {
-      package = mkMerge [
-        (mkIf (!cfg.stable && !cfg.from-unstable) inputs.hyprland.packages.${pkgs.system}.hyprland)
-        (mkIf (cfg.from-unstable && !cfg.stable) inputs.unstable.legacyPackages.${pkgs.system}.hyprland)
-      ];
+      portalPackage = null;
+      package = inputs.hyprland.packages."${pkgs.system}".hyprland;
       plugins =
         lib.optionals (cfg.enable-plugins && cfg.stable && !cfg.from-unstable) [
           pkgs.hyprlandPlugins.hyprtrails
@@ -64,6 +63,8 @@ in {
           inputs.unstable.legacyPackages.${pkgs.system}.hyprlandPlugins.hyprtrails
         ];
       enable = true;
+      xwayland.enable = true;
+      systemd.enable = true;
       settings = {
         "$mod" = "SUPER";
         "$shiftMod" = "SUPER_SHIFT";
@@ -111,10 +112,11 @@ in {
           "wl-paste --type text --watch cliphist store"
           "wl-paste --type image --watch cliphist store"
           "hyprctl setcursor Bibata-Modern-Classic 24"
+          "dbus-update-activation-environment --systemd "
+          "nwg-dock-hyprland -r -i 35 -ml 12 -mr 12 -mb 12 -nolauncher -x -l bottom"
         ];
         input = {
-          kb_layout = "us,ru";
-          kb_options = "grp:alt_shift_toggle";
+          kb_layout = keyboardLayout;
           repeat_delay = 200;
           follow_mouse = 1;
           touchpad = {
@@ -205,7 +207,7 @@ in {
         submap=reset
       '';
     };
-
+    systemd.user.targets.hyprland-session.Unit.Wants = ["xdg-desktop-autostart.target"];
     programs.hyprlock = mkIf cfg.hyprlock {
       enable = true;
       settings = {
