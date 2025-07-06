@@ -38,7 +38,7 @@ in {
     ../../nixos/tabletdriver.nix
     ../../nixos/greeter.nix
     ../../nixos/lanzaboote.nix # Secure boot
-    #    ../../nixos/fan.nix
+    ../../nixos/games.nix
 
     ./hardware-configuration.nix
     ./variables.nix
@@ -119,6 +119,11 @@ in {
   # services.desktopManager.cosmic.enable = false;
   home-manager.users."${config.var.username}" = import ./home.nix;
   services.flatpak.enable = true;
+
+  # Game
+  programs.gamescope.enable = true;
+  programs.gamemode.enable = true;
+
   boot.extraModulePackages = [
     acermodule
     config.boot.kernelPackages.v4l2loopback

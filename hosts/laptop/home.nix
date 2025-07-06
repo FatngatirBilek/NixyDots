@@ -29,6 +29,7 @@
     ../../home/programs/zed
     ../../home/programs/wezterm
     ../../home/programs/obs
+    ../../home/programs/heroic
 
     # Scripts
     ../../home/scripts # All scripts
