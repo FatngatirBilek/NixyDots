@@ -13,6 +13,15 @@
     "ELECTRON_OZONE_PLATFORM_HINT,auto"
     "GTK_THEME,Fluent-Dark"
     "GTK2_RC_FILES,\${HOME}/.local/share/themes/Fluent-Dark/gtk-2.0/gtkrc"
+    "__GL_GSYNC_ALLOWED,0"
+    "__GL_VRR_ALLOWED,0"
+    "DIRENV_LOG_FORMAT,"
+    "WLR_DRM_NO_ATOMIC,1"
+    "WLR_BACKEND,vulkan"
+    "WLR_RENDERER,vulkan"
+    "WLR_NO_HARDWARE_CURSORS,1"
+    "SDL_VIDEODRIVER,wayland"
+    "CLUTTER_BACKEND,wayland"
     "AQ_DRM_DEVICES,/dev/dri/card0:/dev/dri/card1"
     # Add/adjust more as needed for your system
   ];
