@@ -24,7 +24,6 @@
     # ../../nixos/tuigreet.nix
     ../../nixos/users.nix
     ../../nixos/utils.nix
-    ../../nixos/xdg-portal.nix
     ../../nixos/variables-config.nix
     ../../nixos/docker.nix
     ../../nixos/warp.nix

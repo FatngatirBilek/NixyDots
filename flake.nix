@@ -33,10 +33,6 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprspace = {
-      url = "github:KZDKM/Hyprspace";
-      inputs.hyprland.follows = "hyprland";
-    };
     thirr-wallpapers = {
       url = "github:FatngatirBilek/Dots-Wall";
       flake = false;
@@ -50,7 +46,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     ghostty.url = "github:ghostty-org/ghostty";
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    # hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     apple-fonts.url = "github:Lyndeno/apple-fonts.nix";
     nur.url = "github:nix-community/NUR";
     zen-browser.url = "git+https://git.sr.ht/~canasta/zen-browser-flake/";
@@ -64,13 +60,13 @@
         system = "x86_64-linux";
         modules = [
           {
-            nix.settings = {
-              substituters = ["https://cosmic.cachix.org/" "https://hyprland.cachix.org"];
-              trusted-public-keys = [
-                "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
-                "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-              ];
-            };
+            # nix.settings = {
+            #   substituters = ["https://cosmic.cachix.org/" "https://hyprland.cachix.org"];
+            #   trusted-public-keys = [
+            #     "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
+            #     "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+            #   ];
+            # };
             nixpkgs.overlays = [
               inputs.nur.overlays.default
             ];
@@ -79,7 +75,7 @@
           inputs.nixos-hardware.nixosModules.omen-16-n0005ne
           inputs.home-manager.nixosModules.home-manager
           inputs.lanzaboote.nixosModules.lanzaboote
-          inputs.nixos-cosmic.nixosModules.default
+          # inputs.nixos-cosmic.nixosModules.default
           inputs.chaotic.nixosModules.default
           inputs.nix-index-database.nixosModules.nix-index
           ./hosts/laptop/configuration.nix
@@ -90,13 +86,13 @@
         system = "x86_64-linux";
         modules = [
           {
-            nix.settings = {
-              substituters = ["https://cosmic.cachix.org/" "https://hyprland.cachix.org"];
-              trusted-public-keys = [
-                "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
-                "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-              ];
-            };
+            # nix.settings = {
+            #   substituters = ["https://cosmic.cachix.org/" "https://hyprland.cachix.org"];
+            #   trusted-public-keys = [
+            #     "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
+            #     "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+            #   ];
+            # };
             nixpkgs.overlays = [
               inputs.nur.overlays.default
             ];
@@ -105,7 +101,7 @@
           inputs.nixos-hardware.nixosModules.omen-16-n0005ne
           inputs.home-manager.nixosModules.home-manager
           inputs.lanzaboote.nixosModules.lanzaboote
-          inputs.nixos-cosmic.nixosModules.default
+          # inputs.nixos-cosmic.nixosModules.default
           inputs.chaotic.nixosModules.default
           ./hosts/desktop/configuration.nix
         ];

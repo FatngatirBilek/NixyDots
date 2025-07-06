@@ -51,17 +51,7 @@ in {
     ];
     wayland.windowManager.hyprland = {
       portalPackage = null;
-      package = inputs.hyprland.packages."${pkgs.system}".hyprland;
-      plugins =
-        lib.optionals (cfg.enable-plugins && cfg.stable && !cfg.from-unstable) [
-          pkgs.hyprlandPlugins.hyprtrails
-        ]
-        ++ lib.optionals (cfg.enable-plugins && !cfg.stable && !cfg.from-unstable) [
-          inputs.hyprland-plugins.packages.${pkgs.system}.hyprtrails
-        ]
-        ++ lib.optionals (cfg.enable-plugins && !cfg.stable && cfg.from-unstable) [
-          inputs.unstable.legacyPackages.${pkgs.system}.hyprlandPlugins.hyprtrails
-        ];
+      package = null;
       enable = true;
       xwayland.enable = true;
       systemd.enable = true;
