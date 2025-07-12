@@ -132,9 +132,6 @@ in {
           enable_stdout_logs = false;
           disable_logs = true;
         };
-        cursor = {
-          no_hardware_cursors = false;
-        };
         decoration = {
           rounding = 10;
           blur = {
@@ -179,12 +176,12 @@ in {
             gesture_distance = 300;
             gesture_positive = true;
           };
-          dynamic-cursors = {
-            enabled = false;
-            mode = "tilt";
-            shake.enabled = false;
-            stretch.function = "negative_quadratic";
-          };
+          # dynamic-cursors = {
+          #   enabled = false;
+          #   mode = "tilt";
+          #   shake.enabled = false;
+          #   stretch.function = "negative_quadratic";
+          # };
           hyprtrails = {
             color = "rgba(bbddffff)";
             bezier_step = 0.001;
