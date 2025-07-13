@@ -14,7 +14,7 @@
     ../../home/programs/zsh
     ../../home/programs/fetch
     ../../home/programs/git
-    # ../../home/programs/spicetify
+    ../../home/programs/spicetify
     ../../home/programs/fastfetch
     ../../home/programs/anyrun
     # ../../home/programs/nextcloud
