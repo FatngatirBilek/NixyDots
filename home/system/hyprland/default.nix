@@ -104,7 +104,6 @@ in {
         exec-once = [
           "wl-paste --type text --watch cliphist store"
           "wl-paste --type image --watch cliphist store"
-          "hyprctl setcursor Bibata-Modern-Classic 24"
           "dbus-update-activation-environment --systemd "
           "nwg-dock-hyprland -r -i 35 -ml 12 -mr 12 -mb 12 -nolauncher -x -l bottom"
         ];
