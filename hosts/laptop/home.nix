@@ -38,7 +38,7 @@
     ../../home/system/hyprland
     ../../home/system/hypridle
     ../../home/system/hyprlock
-    ../../home/system/gtk
+    ../../home/system/theming
     ../../home/system/batsignal
     ../../home/system/zathura
     ../../home/system/mime
