@@ -7,7 +7,7 @@
 }: {
   home.packages = with pkgs; [bat ripgrep tldr sesh lazydocker];
 
-  home.sessionPath = ["$HOME/go/bin"];
+  home.sessionPath = ["$HOME/go/bin" "/usr/local/bin"];
 
   programs.zsh = {
     enable = true;

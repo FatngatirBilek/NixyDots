@@ -45,6 +45,10 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    winapps = {
+      url = "github:winapps-org/winapps";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     ghostty.url = "github:ghostty-org/ghostty";
     # hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     apple-fonts.url = "github:Lyndeno/apple-fonts.nix";
@@ -60,13 +64,11 @@
         system = "x86_64-linux";
         modules = [
           {
-            # nix.settings = {
-            #   substituters = ["https://cosmic.cachix.org/" "https://hyprland.cachix.org"];
-            #   trusted-public-keys = [
-            #     "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
-            #     "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-            #   ];
-            # };
+            nix.settings = {
+              substituters = ["https://winapps.cachix.org/"];
+              trusted-public-keys = ["winapps.cachix.org-1:HI82jWrXZsQRar/PChgIx1unmuEsiQMQq+zt05CD36g="];
+            };
+
             nixpkgs.overlays = [
               inputs.nur.overlays.default
             ];
