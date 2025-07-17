@@ -83,7 +83,8 @@ in {
     # virtualbox = {
     #   host.enable = true;
     # };
-
+    vmware.host.enable = true;
+    vmware.guest.enable = true;
     libvirtd = {
       enable = true;
       qemu = {
