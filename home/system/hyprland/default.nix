@@ -61,7 +61,7 @@ in {
         monitor = [
           "eDP-1, 1920x1080@165, 0x0, 1"
           ", preffered, auto, 1, mirror, eDP-1"
-          "HDMI-A-1, 1920x1080@120, 1920x0,1"
+          #"HDMI-A-1, 1920x1080@120, 1920x0,1"
         ];
         windowrule = [
           "nomaxsize, class:^(polkit-gnome-authentication-agent-1)$"
