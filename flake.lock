@@ -300,7 +300,9 @@
       "inputs": {
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs_4",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
         "zig": "zig",
         "zon2nix": "zon2nix"
       },
@@ -490,7 +492,7 @@
     "nixos-cosmic": {
       "inputs": {
         "flake-compat": "flake-compat_3",
-        "nixpkgs": "nixpkgs_5",
+        "nixpkgs": "nixpkgs_4",
         "nixpkgs-stable": "nixpkgs-stable_2",
         "rust-overlay": "rust-overlay_3"
       },
@@ -621,19 +623,6 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1748189127,
-        "narHash": "sha256-zRDR+EbbeObu4V2X5QCd2Bk5eltfDlCr5yvhBwUT6pY=",
-        "rev": "7c43f080a7f28b2774f3b3f43234ca11661bf334",
-        "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/25.05/nixos-25.05.802491.7c43f080a7f2/nixexprs.tar.xz"
-      },
-      "original": {
-        "type": "tarball",
-        "url": "https://channels.nixos.org/nixos-25.05/nixexprs.tar.xz"
-      }
-    },
-    "nixpkgs_5": {
-      "locked": {
         "lastModified": 1751011381,
         "narHash": "sha256-krGXKxvkBhnrSC/kGBmg5MyupUUT5R6IBCLEzx9jhMM=",
         "owner": "NixOS",
@@ -643,6 +632,22 @@
       },
       "original": {
         "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_5": {
+      "locked": {
+        "lastModified": 1753549186,
+        "narHash": "sha256-Znl7rzuxKg/Mdm6AhimcKynM7V3YeNDIcLjBuoBcmNs=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "17f6bd177404d6d43017595c5264756764444ab8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
         "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
@@ -666,22 +671,6 @@
     },
     "nixpkgs_7": {
       "locked": {
-        "lastModified": 1753549186,
-        "narHash": "sha256-Znl7rzuxKg/Mdm6AhimcKynM7V3YeNDIcLjBuoBcmNs=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "17f6bd177404d6d43017595c5264756764444ab8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_8": {
-      "locked": {
         "lastModified": 1753100475,
         "narHash": "sha256-FF53JgK0MHjCkaac+GMnikfnK9dJkwHaqXfgKrtDkhs=",
         "owner": "nixos",
@@ -695,7 +684,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_9": {
+    "nixpkgs_8": {
       "locked": {
         "lastModified": 1753429684,
         "narHash": "sha256-9h7+4/53cSfQ/uA3pSvCaBepmZaz/dLlLVJnbQ+SJjk=",
@@ -714,7 +703,7 @@
     "nur": {
       "inputs": {
         "flake-parts": "flake-parts_3",
-        "nixpkgs": "nixpkgs_7"
+        "nixpkgs": "nixpkgs_6"
       },
       "locked": {
         "lastModified": 1753709244,
@@ -836,7 +825,7 @@
         "nix-index-database": "nix-index-database",
         "nixos-cosmic": "nixos-cosmic",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs_6",
+        "nixpkgs": "nixpkgs_5",
         "nur": "nur",
         "nvchad-starter": "nvchad-starter",
         "nvchad4nix": "nvchad4nix",
@@ -1153,7 +1142,7 @@
     "zed-editor-flake": {
       "inputs": {
         "flake-parts": "flake-parts_4",
-        "nixpkgs": "nixpkgs_8",
+        "nixpkgs": "nixpkgs_7",
         "patched-nixpkgs": "patched-nixpkgs"
       },
       "locked": {
@@ -1172,7 +1161,7 @@
     },
     "zen-browser": {
       "inputs": {
-        "nixpkgs": "nixpkgs_9"
+        "nixpkgs": "nixpkgs_8"
       },
       "locked": {
         "lastModified": 1753628986,

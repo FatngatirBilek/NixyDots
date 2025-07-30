@@ -49,7 +49,10 @@
       url = "github:winapps-org/winapps";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    ghostty.url = "github:ghostty-org/ghostty";
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     apple-fonts.url = "github:Lyndeno/apple-fonts.nix";
     nur.url = "github:nix-community/NUR";
