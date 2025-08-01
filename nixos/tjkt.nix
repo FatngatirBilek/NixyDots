@@ -11,7 +11,6 @@
     ubridge
     inetutils
     remmina
-    # qemu
     nil
     alejandra
     zig
