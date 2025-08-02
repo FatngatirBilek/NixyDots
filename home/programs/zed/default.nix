@@ -13,7 +13,7 @@ in {
   ];
   programs.zed-editor = {
     enable = true;
-    #    package = zedEditorFlakes;
+    package = pkgs.zed-editor_git;
     installRemoteServer = true;
 
     extensions = [
