@@ -107,7 +107,7 @@ in {
           "wl-paste --type image --watch cliphist store"
           "dbus-update-activation-environment --systemd "
           "nwg-dock-hyprland -r -i 35 -ml 12 -mr 12 -mb 12 -nolauncher -x -l bottom"
-          "caelestia-shell -d"
+          "caelestia-shell"
         ];
         input = {
           kb_layout = keyboardLayout;

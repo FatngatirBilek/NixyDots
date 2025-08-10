@@ -14,6 +14,7 @@
     remmina
     nil
     alejandra
+    app2unit
     zig
     lsof
     mongodb-compass

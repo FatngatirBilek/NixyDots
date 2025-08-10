@@ -104,14 +104,14 @@
       fish
       jq
       fd
-      (pkgs.python3.withPackages (
-        python-pkgs:
-          with python-pkgs; [
-            aubio
-            pyaudio
-            numpy
-          ]
-      ))
+      # (pkgs.python3.withPackages (
+      #   python-pkgs:
+      #     with python-pkgs; [
+      #       aubio
+      #       pyaudio
+      #       numpy
+      #     ]
+      # ))
       # quickemu
       gnome-disk-utility
       gnumake

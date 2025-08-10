@@ -8,7 +8,7 @@
         "$mod,K, exec, ${pkgs.bitwarden}/bin/bitwarden" # Bitwarden
         "$mod,L, exec, ${pkgs.hyprlock}/bin/hyprlock" # Lock
         "$mod,P, exec, powermenu" # Powermenu
-        "$mod, D, exec, anyrun"
+        "$mod, D, exec, caelestia-quickshell shell toggle launcher"
         "$mod,C, exec, quickmenu" # Quickmenu
         "$shiftMod,SPACE, exec, hyprfocus-toggle" # Toggle HyprFocus
         "$mod,R, exec, notify-send 'Recording' && wf-recorder --audio -g \"$(slurp)\" --file=Videos/$(date '+%d_%B_%Y-%H.%M.%S').mp4 && notify-send 'Recording Stop'" # Start Recording
