@@ -1,8 +1,11 @@
-{ inputs, ... }: {
+{inputs, ...}: {
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
     backupFileExtension = "backup";
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = {
+      inherit inputs;
+      inherit (inputs) caelestia;
+    };
   };
 }

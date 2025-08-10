@@ -81,7 +81,6 @@ in {
           provider = "copilot_chat";
           model = "gpt-4.1";
         };
-        version = "2";
       };
       language_models = {
         ollama = {

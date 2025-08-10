@@ -2,6 +2,7 @@
   pkgs,
   config,
   inputs,
+  caelestia,
   lib,
   ...
 }: {
@@ -47,6 +48,7 @@
     ../../home/system/clipman
     ../../home/system/waybar
     ../../home/system/swaync
+    ../../home/system/quickshell
     ./secrets # CHANGEME: You should probably remove this line, this is where I store my secrets
   ];
 
@@ -66,7 +68,7 @@
       obsidian
       # zed-editor
       nodejs
-      python3Full
+      # python3Full
       jq
       figlet
       just
@@ -97,7 +99,19 @@
       # libsForQt5.qt5.qtgraphicaleffects
       # kdePackages.qtbase
       # kdePackages.qtdeclarative
-
+      #quickshell.packages.${pkgs.system}.default
+      caelestia.packages.${pkgs.system}.default
+      fish
+      jq
+      fd
+      (pkgs.python3.withPackages (
+        python-pkgs:
+          with python-pkgs; [
+            aubio
+            pyaudio
+            numpy
+          ]
+      ))
       # quickemu
       gnome-disk-utility
       gnumake

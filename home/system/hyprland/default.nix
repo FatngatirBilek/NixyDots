@@ -60,7 +60,7 @@ in {
         "$shiftMod" = "SUPER_SHIFT";
         monitor = [
           "eDP-1, 1920x1080@165, 0x0, 1"
-          ", preffered, auto, 1, mirror, eDP-1"
+          #", preffered, auto, 1, mirror, eDP-1"
           "HDMI-A-1, 1920x1080@120, 1920x0,1"
         ];
         windowrule = [
@@ -107,6 +107,7 @@ in {
           "wl-paste --type image --watch cliphist store"
           "dbus-update-activation-environment --systemd "
           "nwg-dock-hyprland -r -i 35 -ml 12 -mr 12 -mb 12 -nolauncher -x -l bottom"
+          "caelestia-shell -d"
         ];
         input = {
           kb_layout = keyboardLayout;

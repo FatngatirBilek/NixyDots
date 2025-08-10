@@ -12,9 +12,9 @@ in {
 
   config = mkIf cfg.enable {
     programs.waybar = {
-      enable = true;
+      enable = false;
       systemd = {
-        enable = true;
+        enable = false;
         target = "hyprland-session.target";
       };
       style = ''

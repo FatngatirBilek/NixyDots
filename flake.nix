@@ -1,12 +1,11 @@
 {
   description = ''
-    Nixy is a NixOS configuration with home-manager, secrets and custom theming all in one place.
-    It's a simple way to manage your system configuration and dotfiles.
+    My NixOS configuration for laptop and desktop.
+    It includes various modules and overlays for a customized NixOS experience.
   '';
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -59,6 +58,8 @@
     zen-browser.url = "git+https://git.sr.ht/~canasta/zen-browser-flake/";
     zed-editor-flake.url = "github:FatngatirBilek/zed-editor-flake";
     anyrun.url = "github:fufexan/anyrun/launch-prefix";
+    caelestia.url = "github:caelestia-dots/shell";
+    caelestia.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs @ {nixpkgs, ...}: {
