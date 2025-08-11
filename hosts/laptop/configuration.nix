@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  inputs,
   ...
 }: let
   acermodule =
@@ -9,7 +8,6 @@
 in {
   environment.systemPackages = with pkgs; [
     # Enables v4l2loopback GUI utilities.
-    inputs.quickshell.packages.${pkgs.system}.default
     v4l-utils
   ];
   imports = [

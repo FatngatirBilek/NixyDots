@@ -5,7 +5,6 @@
     backupFileExtension = "backup";
     extraSpecialArgs = {
       inherit inputs;
-      inherit (inputs) caelestia;
     };
   };
 }

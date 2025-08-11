@@ -9,15 +9,6 @@
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    astal = {
-      url = "github:aylur/astal";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    quickshell = {
-      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -66,8 +57,6 @@
     zen-browser.url = "git+https://git.sr.ht/~canasta/zen-browser-flake/";
     zed-editor-flake.url = "github:FatngatirBilek/zed-editor-flake";
     anyrun.url = "github:fufexan/anyrun/launch-prefix";
-    caelestia.url = "github:caelestia-dots/shell";
-    caelestia.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs @ {nixpkgs, ...}: {
