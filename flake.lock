@@ -686,11 +686,11 @@
     },
     "nixpkgs_8": {
       "locked": {
-        "lastModified": 1753429684,
-        "narHash": "sha256-9h7+4/53cSfQ/uA3pSvCaBepmZaz/dLlLVJnbQ+SJjk=",
+        "lastModified": 1754725699,
+        "narHash": "sha256-iAcj9T/Y+3DBy2J0N+yF9XQQQ8IEb5swLFzs23CdP88=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "7fd36ee82c0275fb545775cc5e4d30542899511d",
+        "rev": "85dbfc7aaf52ecb755f87e577ddbe6dbbdbc1054",
         "type": "github"
       },
       "original": {
@@ -1164,11 +1164,11 @@
         "nixpkgs": "nixpkgs_8"
       },
       "locked": {
-        "lastModified": 1753628986,
-        "narHash": "sha256-NCrTTU0FQelQ2cutFo5mIdzWuacjbPSQIxJFn7SRyS4=",
+        "lastModified": 1754860085,
+        "narHash": "sha256-HejweK1BTNtLcIQbrXw+DMs+vymSKrFM11uR7+L94AU=",
         "ref": "refs/heads/main",
-        "rev": "23fd8da0eabe2e823609be2d547028016b765546",
-        "revCount": 118,
+        "rev": "8f0517f96b6b95968fe4f204874cda9706b4f4c8",
+        "revCount": 120,
         "type": "git",
         "url": "https://git.sr.ht/~canasta/zen-browser-flake/"
       },
