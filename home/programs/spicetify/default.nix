@@ -12,7 +12,7 @@ in {
 
   programs.spicetify = {
     enable = true;
-    theme = lib.mkForce spicePkgs.themes.text;
+    theme = lib.mkForce spicePkgs.themes.dracula;
 
     enabledExtensions = with spicePkgs.extensions; [
       playlistIcons

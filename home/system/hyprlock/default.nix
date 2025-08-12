@@ -2,6 +2,7 @@
 {
   lib,
   inputs,
+  pkgs,
   ...
 }: let
   foreground = "rgba(5, 5, 5, 0.70)";
@@ -56,6 +57,30 @@ in {
           halign = "center";
           valign = "center";
         }
+        # Battery
+        {
+          monitor = "";
+          text = ''cmd[update:1000] battery'';
+          shadow_passes = "1";
+          shadow_boost = "0.5";
+          color = foreground;
+          font_size = "14";
+          font_family = "Fira Code Mono Nerd";
+          position = "-10, 10";
+          halign = "right";
+          valign = "bottom";
+        }
+        # Now Playing
+        {
+          monitor = "";
+          text = ''cmd[update:5000] nowplay'';
+          color = foreground;
+          font_family = "Fira Code Mono Nerd";
+          font_size = "14";
+          position = "10, 10";
+          halign = "left";
+          valign = "bottom";
+        }
       ];
 
       # INPUT FIELD
@@ -79,4 +104,8 @@ in {
       };
     };
   };
+  home.packages = [
+    (import ./battery.nix {inherit pkgs;})
+    (import ./nowplay.nix {inherit pkgs;})
+  ];
 }
