@@ -34,7 +34,7 @@ in {
       "nu"
       "git-firefly"
       "dockerfile"
-
+      "live-server"
       "discord-presence"
 
       # Themes
@@ -153,14 +153,14 @@ in {
         };
         Python = {
           format_on_save = {
-            language_server = [
-              "ruff"
-            ];
+            language_server = {
+              ruff = {};
+            };
           };
           formatter = {
-            language_server = [
-              "ruff"
-            ];
+            language_server = {
+              ruff = {};
+            };
           };
           language_servers = [
             "pyright"

@@ -26,6 +26,7 @@
     icu
     libcxx
     clang-tools
+    jetbrains-toolbox
   ];
 
   # Winbox setup
