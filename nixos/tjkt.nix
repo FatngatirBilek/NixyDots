@@ -2,8 +2,8 @@
   environment.systemPackages = with pkgs; [
     eww
     nixd
-    gns3-gui
-    gns3-server
+    #gns3-gui
+    #gns3-server
     bun
     fnm
     distrobox
