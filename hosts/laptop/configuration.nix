@@ -38,7 +38,7 @@ in {
     ../../nixos/greeter.nix
     ../../nixos/lanzaboote.nix # Secure boot
     ../../nixos/games.nix
-
+    ../../nixos/packettracer.nix
     ./hardware-configuration.nix
     ./variables.nix
   ];
