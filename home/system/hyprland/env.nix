@@ -1,4 +1,4 @@
-{...}: {
+{pkgs, ...}: {
   wayland.windowManager.hyprland.settings.env = [
     "XDG_SESSION_TYPE,wayland"
     "XDG_CURRENT_DESKTOP,Hyprland"
@@ -11,8 +11,8 @@
     "QT_QPA_PLATFORM,wayland;xcb"
     "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
     "ELECTRON_OZONE_PLATFORM_HINT,auto"
-    "GTK_THEME,Fluent-Dark"
-    "GTK2_RC_FILES,\${HOME}/.local/share/themes/Fluent-Dark/gtk-2.0/gtkrc"
+    "GTK_THEME,WhiteSur-Dark"
+    "GTK2_RC_FILES,${pkgs.whitesur-gtk-theme}/share/themes/WhiteSur-Dark/gtk-2.0/gtkrc"
     "__GL_GSYNC_ALLOWED,0"
     "__GL_VRR_ALLOWED,0"
     "DIRENV_LOG_FORMAT,"

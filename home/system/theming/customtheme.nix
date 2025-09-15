@@ -6,19 +6,55 @@
 }:
 with lib; let
   cfg = config.theming;
+
+  themerepo = pkgs.fetchFromGitHub {
+    owner = "FatngatirBilek";
+    repo = "themes-repo";
+    rev = "main";
+    sha256 = "sha256-XSflGc9CO4mmm6HDWwMFg8+DK5fPpVXdQ0HIr0tEOtU=";
+  };
+
+  mkSourcePrefix = prefix: attrs:
+    builtins.listToAttrs (
+      lib.mapAttrsToList (
+        name: value: {
+          name = "${prefix}/${name}";
+          value = {source = value;};
+        }
+      )
+      attrs
+    );
 in {
   options.theming = {
     enable = mkEnableOption "Enable theming stuff like cursor theme, icon theme and etc";
   };
 
   config = mkIf cfg.enable {
-    xdg.configFile = {
-      "Kvantum".source = "${pkgs.whitesur-gtk-theme}/share/themes/WhiteSur-Dark/Kvantum";
-      "qt5ct".source = "${pkgs.whitesur-gtk-theme}/share/themes/WhiteSur-Dark/qt5ct";
-      "qt6ct".source = "${pkgs.whitesur-gtk-theme}/share/themes/WhiteSur-Dark/qt6ct";
-      # Remove any Fluent-Dark/gtk-4.0 and vesktop/Vencord theme references
-    };
+    # All theming files come from the GitHub repo!
+    home.file.".themes".source = "${themerepo}/.themes";
 
+    xdg.configFile =
+      {
+        "Kvantum".source = "${themerepo}/Kvantum";
+        "qt5ct".source = "${themerepo}/qt5ct";
+        "qt6ct".source = "${themerepo}/qt6ct";
+      }
+      // (mkSourcePrefix "gtk-4.0" {
+        "assets" = "${themerepo}/.themes/Fluent-Dark/gtk-4.0/assets";
+        "gtk.css" = "${themerepo}/.themes/Fluent-Dark/gtk-4.0/gtk.css";
+        "icons" = "${themerepo}/.themes/Fluent-Dark/gtk-4.0/gtk-dark.css";
+      })
+      // (mkSourcePrefix "vesktop" {
+        "settings" = "${themerepo}/vesktop/settings";
+        "settings.json" = "${themerepo}/vesktop/settings.json";
+        "themes" = "${themerepo}/vesktop/themes";
+      })
+      // (mkSourcePrefix "Vencord" {
+        "settings" = "${themerepo}/vesktop/settings";
+        "themes" = "${themerepo}/vesktop/themes";
+      });
+
+    # ... rest of your config unchanged ...
     xdg.desktopEntries.discord.settings = {
       Exec = "discord --ozone-platform-hint=auto %U";
       Categories = "Network;InstantMessaging;Chat";
@@ -68,19 +104,16 @@ in {
         size = 22;
       };
       iconTheme = {
-        name = "WhiteSur-dark";
-        package = pkgs.whitesur-icon-theme;
+        name = "Papirus-Dark";
+        package = pkgs.papirus-icon-theme;
       };
-      theme = {
-        name = "WhiteSur-dark";
-        package = pkgs.whitesur-gtk-theme;
-      };
+      theme.name = "Fluent-Dark";
       font.name = "Noto Sans Medium";
       font.size = 11;
     };
 
     home.sessionVariables = {
-      GTK_THEME = "WhiteSur-dark";
+      GTK_THEME = "Fluent-Dark";
       GTK_APPLICATION_PREFER_DARK_THEME = "1";
     };
   };
