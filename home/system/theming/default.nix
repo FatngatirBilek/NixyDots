@@ -72,7 +72,7 @@ in {
         package = pkgs.whitesur-icon-theme;
       };
       theme = {
-        name = "WhiteSur-dark";
+        name = "WhiteSur-Dark";
         package = pkgs.whitesur-gtk-theme;
       };
       font.name = "Noto Sans Medium";
@@ -80,7 +80,7 @@ in {
     };
 
     home.sessionVariables = {
-      GTK_THEME = "WhiteSur-dark";
+      GTK_THEME = "WhiteSur-Dark";
       GTK_APPLICATION_PREFER_DARK_THEME = "1";
     };
   };
