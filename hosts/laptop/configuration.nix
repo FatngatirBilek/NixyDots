@@ -83,8 +83,8 @@ in {
     # virtualbox = {
     #   host.enable = true;
     # };
-    vmware.host.enable = true;
-    vmware.guest.enable = true;
+    # vmware.host.enable = true;
+    # vmware.guest.enable = true;
     libvirtd = {
       enable = true;
       qemu = {
@@ -125,13 +125,13 @@ in {
   programs.gamemode.enable = true;
 
   boot.extraModulePackages = [
-    acermodule
+    # acermodule
     config.boot.kernelPackages.v4l2loopback
   ];
   boot.kernelModules = [
-    "facer"
-    "wmi"
-    "sparse-keymap"
+    # "facer"
+    # "wmi"
+    # "sparse-keymap"
     "video"
     "v4l2loopback"
   ];

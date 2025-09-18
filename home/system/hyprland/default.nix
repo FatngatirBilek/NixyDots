@@ -106,8 +106,8 @@ in {
           "wl-paste --type text --watch cliphist store"
           "wl-paste --type image --watch cliphist store"
           "dbus-update-activation-environment --systemd "
+          "hyprctl setcursor Bibata-Modern-Ice 25"
           "nwg-dock-hyprland -r -i 35 -ml 12 -mr 12 -mb 12 -nolauncher -x -l bottom"
-          "caelestia-shell"
         ];
         input = {
           kb_layout = keyboardLayout;
@@ -151,9 +151,9 @@ in {
           pseudotile = true;
           preserve_split = true;
         };
-        gestures = {
-          workspace_swipe = true;
-        };
+        # gestures = {
+        #   workspace_swipe = true;
+        # };
         misc = {
           disable_hyprland_logo = true;
           background_color = "0x000000";

@@ -1,16 +1,22 @@
 # Wofi is a launcher for Wayland, inspired by rofi.
-{ config, pkgs, lib, ... }:
-let
-  accent = "#${config.lib.stylix.colors.base0D}";
-  background = "#${config.lib.stylix.colors.base00}";
-  background-alt = "#${config.lib.stylix.colors.base01}";
-  foreground = "#${config.lib.stylix.colors.base05}";
-  font = config.stylix.fonts.serif.name;
-  rounding = config.var.theme.rounding;
-  font-size = config.stylix.fonts.sizes.popups;
-in {
+{
+  pkgs,
+  lib,
+  ...
+}: let
+  # Catppuccin Mocha palette (you can adjust to Latte, Frappe, or Macchiato if you prefer)
+  catppuccin = {
+    background = "#1e1e2e";
+    background-alt = "#313244";
+    foreground = "#cdd6f4";
+    accent = "#89b4fa";
+  };
 
-  home.packages = with pkgs; [ wofi-emoji ];
+  font = "SFProDisplay Nerd Font, Noto Color Emoji";
+  font-size = 14;
+  rounding = 12;
+in {
+  home.packages = with pkgs; [wofi-emoji];
 
   programs.wofi = {
     enable = true;
@@ -43,67 +49,65 @@ in {
       key_exit = "Escape";
     };
 
-    style = lib.mkForce
-      # css
-      ''
-        * {
-          font-family: "${font}";
-          font-weight: 500;
-          font-size: ${toString font-size}px;
-        }
+    style = lib.mkForce ''
+      * {
+        font-family: ${font};
+        font-weight: 500;
+        font-size: ${toString font-size}px;
+      }
 
-        #window {
-          background-color: ${background};
-          color: ${foreground};
-          border-radius: ${toString rounding}px;
-        }
+      #window {
+        background-color: ${catppuccin.background};
+        color: ${catppuccin.foreground};
+        border-radius: ${toString rounding}px;
+      }
 
-        #outer-box {
-          padding: 20px;
-        }
+      #outer-box {
+        padding: 20px;
+      }
 
-        #input {
-          background-color: ${background-alt};
-          border: 0px solid ${accent};
-          color: ${foreground};
-          padding: 8px 12px;
-        }
+      #input {
+        background-color: ${catppuccin.background-alt};
+        border: 0px solid ${catppuccin.accent};
+        color: ${catppuccin.foreground};
+        padding: 8px 12px;
+      }
 
-        #scroll {
-          margin-top: 20px;
-        }
+      #scroll {
+        margin-top: 20px;
+      }
 
-        #inner-box {}
+      #inner-box {}
 
-        #img {
-          padding-right: 8px;
-        }
+      #img {
+        padding-right: 8px;
+      }
 
-        #text {
-          color: ${foreground};
-        }
+      #text {
+        color: ${catppuccin.foreground};
+      }
 
-        #text:selected {
-          color: ${foreground};
-        }
+      #text:selected {
+        color: ${catppuccin.foreground};
+      }
 
-        #entry {
-          padding: 6px;
-        }
+      #entry {
+        padding: 6px;
+      }
 
-        #entry:selected {
-          background-color: ${accent};
-          color: ${foreground};
-        }
+      #entry:selected {
+        background-color: ${catppuccin.accent};
+        color: ${catppuccin.foreground};
+      }
 
-        #unselected {}
+      #unselected {}
 
-        #selected {}
+      #selected {}
 
-        #input,
-        #entry:selected {
-          border-radius: ${toString rounding}px;
-        }
-      '';
+      #input,
+      #entry:selected {
+        border-radius: ${toString rounding}px;
+      }
+    '';
   };
 }
