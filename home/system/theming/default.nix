@@ -1,55 +1,86 @@
-{pkgs, ...}: {
-  home.packages = with pkgs; [
-    whitesur-gtk-theme
-    bibata-cursors
-    whitesur-icon-theme
-    catppuccin-gtk
-    lxappearance
-    layan-gtk-theme
-    fluent-gtk-theme
-  ];
-  qt = {
-    enable = true;
-    platformTheme.name = "qt5ct";
-    style.name = "kvantum";
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
+  cfg = config.theming;
+in {
+  options.theming = {
+    enable = mkEnableOption "Enable theming stuff like cursor theme, icon theme and etc";
   };
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Fluent-Dark";
-      package = pkgs.fluent-gtk-theme;
+
+  config = mkIf cfg.enable {
+    xdg.configFile = {
+      "Kvantum".source = "${pkgs.whitesur-gtk-theme}/share/themes/WhiteSur-Dark/Kvantum";
+      "qt5ct".source = "${pkgs.whitesur-gtk-theme}/share/themes/WhiteSur-Dark/qt5ct";
+      "qt6ct".source = "${pkgs.whitesur-gtk-theme}/share/themes/WhiteSur-Dark/qt6ct";
     };
-    font = {
-      name = "Noto Sans Medium";
-      size = 11;
+
+    xdg.desktopEntries.discord.settings = {
+      Exec = "discord --ozone-platform-hint=auto %U";
+      Categories = "Network;InstantMessaging;Chat";
+      GenericName = "All-in-one cross-platform voice and text chat for gamers";
+      Icon = "discord";
+      MimeType = "x-scheme-handler/discord";
+      Keywords = "discord;vencord;electron;chat";
+      Name = "Discord";
+      StartupWMClass = "discord";
+      Type = "Application";
     };
-    iconTheme = {
-      name = "WhiteSur";
-      package = pkgs.whitesur-icon-theme;
+
+    dconf.settings = {
+      "org/nemo/preferences" = {
+        default-folder-viewer = "list-view";
+        show-hidden-files = true;
+        thumbnail-limit = lib.hm.gvariant.mkUint64 68719476736;
+      };
+      "org/gnome/nautilus/preferences" = {
+        default-folder-viewer = "list-view";
+        migrated-gtk-settings = true;
+      };
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+      };
     };
-    cursorTheme = {
-      name = "Bibata-Modern-Ice";
+
+    qt = {
+      enable = true;
+      platformTheme.name = "qtct";
+    };
+
+    home.pointerCursor = {
+      gtk.enable = true;
+      x11.enable = true;
       package = pkgs.bibata-cursors;
-      size = 20;
+      name = "Bibata-Modern-Ice";
+      size = 24;
+    };
+
+    gtk = {
+      enable = true;
+      gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
+      gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
+      cursorTheme = lib.mkForce {
+        name = "Bibata-Modern-Ice";
+        size = 22;
+      };
+      iconTheme = {
+        name = "WhiteSur-dark";
+        package = pkgs.whitesur-icon-theme;
+      };
+      theme = {
+        name = "WhiteSur-Dark";
+        package = pkgs.whitesur-gtk-theme;
+      };
+      font.name = "Noto Sans Medium";
+      font.size = 11;
+    };
+
+    home.sessionVariables = {
+      GTK_THEME = "WhiteSur-Dark";
+      GTK_APPLICATION_PREFER_DARK_THEME = "1";
     };
   };
-
-  # GTK4 configuration
-  xdg.configFile."gtk-4.0/settings.ini".text = ''
-    [Settings]
-    gtk-icon-theme-name=WhiteSur
-    gtk-theme-name=Fluent-Dark
-    gtk-cursor-theme-name=Bibata-Modern-Ice
-    gtk-cursor-theme-size=20
-    gtk-font-name=Noto Sans Medium 11
-  '';
-
-  # GTK2 configuration (uses different format)
-  xdg.configFile."gtk-2.0/gtkrc".text = ''
-    gtk-theme-name="Fluent-Dark"
-    gtk-icon-theme-name="WhiteSur"
-    gtk-font-name="Noto Sans Medium 11"
-    gtk-cursor-theme-name="Bibata-Modern-Ice"
-    gtk-cursor-theme-size=20
-  '';
 }

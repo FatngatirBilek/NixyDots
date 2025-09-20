@@ -20,6 +20,7 @@
     "WLR_NO_HARDWARE_CURSORS,1"
     "SDL_VIDEODRIVER,wayland"
     "CLUTTER_BACKEND,wayland"
+    "GSK_RENDERER,gl"
     "AQ_DRM_DEVICES,/dev/dri/card0:/dev/dri/card1"
     # Add/adjust more as needed for your system
   ];

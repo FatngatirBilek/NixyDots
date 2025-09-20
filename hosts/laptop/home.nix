@@ -47,7 +47,6 @@
     ../../home/system/clipman
     ../../home/system/waybar
     ../../home/system/swaync
-    ../../home/system/theming
     ../../home/system/wofi
     ./secrets # CHANGEME: You should probably remove this line, this is where I store my secrets
   ];
@@ -132,7 +131,8 @@
     enableZshIntegration = true;
     package = inputs.nix-index-database.packages.${pkgs.system}.nix-index-with-small-db;
   };
-
+  theming.enable = true;
+  swaync.enable = true;
   hyprland = {
     enable = true;
     hyprpaper = true;

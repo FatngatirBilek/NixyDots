@@ -60,6 +60,7 @@ in {
     TERMINAL = "ghostty";
     TERM = "ghostty";
     BROWSER = "zen-beta";
+    GSK_RENDERER = "gl";
   };
 
   services.libinput.enable = true;
