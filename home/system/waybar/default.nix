@@ -522,7 +522,7 @@ in {
             tooltip-format-disconnected = "No Connection";
           };
           "backlight" = {
-            device = "intel_backlight";
+            device = "acpi_video1";
             format = "{percent}% {icon}";
             format-icons = [
               ""
