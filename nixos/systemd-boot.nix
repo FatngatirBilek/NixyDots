@@ -25,7 +25,7 @@
     initrd.verbose = false;
   };
   services.scx = {
-    enable = false; # by default uses scx_rustland scheduler
+    enable = true; # by default uses scx_rustland scheduler
     # package = pkgs.scx_git.full;
   };
 }
