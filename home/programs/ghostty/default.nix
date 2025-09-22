@@ -13,7 +13,7 @@
       font-size = 15;
 
       # Theme
-      theme = "tokyonight";
+      theme = "TokyoNight";
       unfocused-split-opacity = 0.5;
 
       # Mouse
