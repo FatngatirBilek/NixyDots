@@ -48,6 +48,12 @@
     ../../home/system/waybar
     ../../home/system/swaync
     ../../home/system/wofi
+    # REMOVE this custom shell import if using Caelestia flake module:
+    # ../../home/system/shell
+
+    # Import the Caelestia Home Manager module from your flake input!
+    inputs.caelestia-shell.homeManagerModules.default
+
     ./secrets # CHANGEME: You should probably remove this line, this is where I store my secrets
   ];
 
@@ -115,17 +121,19 @@
       # Backup
       vscode
       gnome-tweaks
+      # Caelestia shell package is NOT required here if using the module,
+      # but you can still add it manually if you want:
+      # inputs.caelestia-shell.packages.${pkgs.system}.default
     ];
-    # Import my profile picture, used by the hyprpanel dashboard
     file.".face.icon" = {source = ./profile_picture.png;};
-    # Don't touch this
     stateVersion = "24.05";
   };
+
   services.cliphist = {
     enable = true;
     allowImages = true;
   };
-  waybar.enable = true;
+  waybar.enable = false;
   programs.nix-index = {
     enable = true;
     enableZshIntegration = true;
@@ -141,4 +149,25 @@
   };
   nixpkgs.overlays = lib.mkForce null; # fix evaluation warning about nixpkgs.overlays
   programs.home-manager.enable = true;
+
+  programs.caelestia = {
+    enable = true;
+    systemd = {
+      enable = true; # if you prefer starting from your compositor
+      target = "graphical-session.target";
+      environment = [];
+    };
+    settings = {
+      bar.status = {
+        showBattery = false;
+      };
+      paths.wallpaperDir = "~/Images";
+    };
+    cli = {
+      enable = true; # Also add caelestia-cli to path
+      settings = {
+        theme.enableGtk = false;
+      };
+    };
+  };
 }

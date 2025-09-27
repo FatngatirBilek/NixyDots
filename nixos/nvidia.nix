@@ -19,7 +19,6 @@
     NVD_BACKEND = "direct";
   };
   hardware = {
-    # deprecated for graphics.enable
     graphics = {
       enable = true;
       extraPackages = [pkgs.nvidia-vaapi-driver];

@@ -8,7 +8,7 @@
         "$mod,K, exec, ${pkgs.bitwarden}/bin/bitwarden" # Bitwarden
         "$mod,L, exec, ${pkgs.hyprlock}/bin/hyprlock" # Lock
         "$mod,P, exec, powermenu" # Powermenu
-        "$mod, D, exec, wofi"
+        "$mod, D, global, caelestia:launcher"
         "$mod,C, exec, quickmenu" # Quickmenu
         "$shiftMod,SPACE, exec, hyprfocus-toggle" # Toggle HyprFocus
         "$mod,R, exec, notify-send 'Recording' && wf-recorder --audio -g \"$(slurp)\" --file=Videos/$(date '+%d_%B_%Y-%H.%M.%S').mp4 && notify-send 'Recording Stop'" # Start Recording
@@ -63,8 +63,8 @@
     bindle = [
       ",XF86AudioRaiseVolume, exec, sound-up" # Sound Up
       ",XF86AudioLowerVolume, exec, sound-down" # Sound Down
-      ",XF86MonBrightnessUp, exec, brightness-up" # Brightness Up
-      ",XF86MonBrightnessDown, exec, brightness-down" # Brightness Down
+      ",XF86MonBrightnessUp, global, caelestia:brightnessUp" # Brightness Up
+      ",XF86MonBrightnessDown, global, caelestia:brightnessUp" # Brightness Down
     ];
   };
 }
