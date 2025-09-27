@@ -64,7 +64,7 @@
       ",XF86AudioRaiseVolume, exec, sound-up" # Sound Up
       ",XF86AudioLowerVolume, exec, sound-down" # Sound Down
       ",XF86MonBrightnessUp, global, caelestia:brightnessUp" # Brightness Up
-      ",XF86MonBrightnessDown, global, caelestia:brightnessUp" # Brightness Down
+      ",XF86MonBrightnessDown, global, caelestia:brightnessDown" # Brightness Down
     ];
   };
 }
