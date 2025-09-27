@@ -199,7 +199,7 @@ in {
       '';
     };
     systemd.user.targets.hyprland-session.Unit.Wants = ["xdg-desktop-autostart.target"];
-    systemd.user.services.swaync.Service.Environment = "GSK_RENDERER=gl";
+    systemd.user.services.swaync.Service.Environment = "GSK_RENDERER=ngl";
     services.hyprpaper = mkIf (cfg.hyprpaper && !cfg.mpvpaper) {
       enable = true;
       settings = {

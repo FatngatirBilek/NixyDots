@@ -6,8 +6,8 @@
         "$mod,E, exec, ${pkgs.nautilus}/bin/nautilus" # Thunar
         # "$mod,B, exec, ${pkgs.qutebrowser}/bin/qutebrowser" # Qutebrowser
         "$mod,K, exec, ${pkgs.bitwarden}/bin/bitwarden" # Bitwarden
-        "$mod,L, exec, ${pkgs.hyprlock}/bin/hyprlock" # Lock
-        "$mod,P, exec, powermenu" # Powermenu
+        "$mod,L, global, caelestia:lock" # Lock
+        "$mod,P, global, caelestia:session" # Powermenu
         "$mod, D, global, caelestia:launcher"
         "$mod,C, exec, quickmenu" # Quickmenu
         "$shiftMod,SPACE, exec, hyprfocus-toggle" # Toggle HyprFocus
@@ -34,8 +34,8 @@
         "ALT,PRINT, exec, screenshot region swappy" # Screenshot region then edit
         "$shiftMod,T, exec, hyprpanel-toggle" # Toggle hyprpanel
         # "$shiftMod,S, exec, ${pkgs.qutebrowser}/bin/qutebrowser :open $(wofi --show dmenu -L 1 -p ' Search on internet')" # Search on internet with wofi
-        "$mod,V, exec, clipboard" # Clipboard picker with wofi
-        "$mod,Period, exec, ${pkgs.wofi-emoji}/bin/wofi-emoji" # Emoji picker with wofi
+        "$mod,V, exec, pkill fuzzel || caelestia clipboard" # Clipboard picker with wofi
+        "$mod,Period, exec, pkill fuzzel || caelestia emoji -p" # Emoji picker with wofi
         "$mod,F2, exec, night-shift" # Toggle night shift
         "$mod,F3, exec, night-shift" # Toggle night shift
       ]

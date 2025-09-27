@@ -159,7 +159,10 @@
     };
     settings = {
       bar.status = {
-        showBattery = false;
+        showBattery = true;
+      };
+      services = {
+        useFahrenheit = false;
       };
       paths.wallpaperDir = "~/Images";
     };
