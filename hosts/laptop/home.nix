@@ -140,7 +140,7 @@
     package = inputs.nix-index-database.packages.${pkgs.system}.nix-index-with-small-db;
   };
   theming.enable = true;
-  swaync.enable = true;
+  swaync.enable = false;
   hyprland = {
     enable = true;
     hyprpaper = true;

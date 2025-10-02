@@ -7,17 +7,16 @@
   zedEditorFlakes = inputs.zed-editor-flake.packages.${pkgs.system}.zed-editor-preview-bin;
 in {
   home.packages = with pkgs; [
-    # For LSP
     vtsls
     nodePackages.prettier
   ];
+
   programs.zed-editor = {
     enable = true;
     package = pkgs.zed-editor;
     installRemoteServer = true;
 
     extensions = [
-      # Language/Tool Support
       "html"
       "superhtml"
       "tera"
@@ -36,61 +35,212 @@ in {
       "dockerfile"
       "live-server"
       "discord-presence"
-
-      # Themes
       "material-icon-theme"
       "catppuccin"
       "tokyo-night"
     ];
 
     userSettings = lib.mkForce {
-      base_keymap = "VSCode";
-      theme = "Tokyo Night";
+      # Panels & Docking
+      debugger = {dock = "bottom";};
+      agent = {dock = "right";};
+      collaboration_panel = {
+        button = false;
+        dock = "right";
+      };
+      outline_panel = {
+        button = false;
+        dock = "right";
+        default_width = 300;
+        file_icons = true;
+        folder_icons = true;
+        git_status = true;
+        indent_size = 20;
+        auto_reveal_entries = true;
+        auto_fold_dirs = true;
+        indent_guides = {show = "always";};
+        scrollbar = {show = null;};
+      };
+      notification_panel = {dock = "right";};
+
+      # Appearance
       icon_theme = "Material Icon Theme";
-      ui_font_size = 16;
-      buffer_font_size = 18;
-
+      theme = "Tokyo Night";
       buffer_font_family = "JetBrainsMono Nerd Font";
+      buffer_font_size = 16;
+      ui_font_size = 17;
+      wrap_guides = [80 120];
+      soft_wrap = "editor_width";
 
-      vim_mode = true;
-      auto_update = false;
-      relative_line_numbers = true;
+      # Editor Preferences
+      diagnostics_max_severity = "hint";
+      inlay_hints = {
+        show_type_hints = true;
+        show_parameter_hints = true;
+        show_other_hints = true;
+        show_background = false;
+        edit_debounce_ms = 700;
+        scroll_debounce_ms = 50;
+        toggle_on_modifiers_press = {control = true;};
+        show_value_hints = true;
+      };
+
+      # Status Bar
+      status_bar = {
+        active_language_button = true;
+        cursor_position_button = false;
+      };
+
+      # Tabs
       tab_bar = {
         show = true;
+        show_nav_history_buttons = false;
+        show_tab_bar_buttons = false;
       };
-      scrollbar = {
+      tab_size = 2;
+      tabs = {
+        close_position = "right";
+        file_icons = true;
+        git_status = true;
+        activate_on_close = "neighbour";
+        show_close_button = "hover";
+        show_diagnostics = "all";
+      };
+
+      # Title Bar
+      title_bar = {
+        show_branch_icon = true;
+        show_branch_name = false;
+        show_project_items = false;
+        show_onboarding_banner = false;
+        show_user_picture = false;
+        show_sign_in = true;
+        show_menus = false;
+      };
+
+      # Toolbar
+      toolbar = {
+        breadcrumbs = true;
+        quick_actions = true;
+        selections_menu = true;
+        agent_review = true;
+      };
+
+      # Minimap
+      minimap = {
         show = "never";
+        thumb = "always";
+        thumb_border = "left_open";
+        current_line_highlight = null;
       };
+
+      # Git
+      git = {
+        git_gutter = "tracked_files";
+        inline_blame = {
+          enabled = true;
+          show_commit_summary = true;
+          padding = 7;
+        };
+        branch_picker = {show_author_name = true;};
+        hunk_style = "unstaged_hollow";
+      };
+
+      # Editor
+      cursor_blink = true;
+      show_whitespaces = "none";
       indent_guides = {
         enabled = true;
+        line_width = 1;
+        active_line_width = 0;
         coloring = "indent_aware";
+        background_coloring = "disabled";
       };
-      diagnostics = {
-        inline = {
-          enabled = true;
+
+      # Project Panel / Explorer
+      project_panel = {
+        button = true;
+        dock = "left";
+        default_width = 240;
+        folder_icons = false;
+        indent_size = 20;
+        auto_fold_dirs = false;
+        drag_and_drop = true;
+        git_status = true;
+        auto_reveal_entries = true;
+        entry_spacing = "comfortable";
+        starts_open = true;
+        scrollbar = {show = null;};
+        indent_guides = {show = "always";};
+      };
+
+      # Scrollbar
+      scrollbar = {
+        show = "never";
+        cursors = true;
+      };
+
+      # File types
+      file_types = {
+        css = ["*.css"];
+        json = [".prettierrc"];
+        dotenv = [".env.*"];
+        Dockerfile = ["Dockerfile" "Dockerfile.*"];
+        JSON = ["json" "jsonc" "*.code-snippets"];
+      };
+
+      # File scan exclusions
+      file_scan_exclusions = [
+        "**/.svn"
+        "**/.hg"
+        "**/CVS"
+        "**/.DS_Store"
+        "**/Thumbs.db"
+        "**/.classpath"
+        "**/.settings"
+        "**/out"
+        "**/.husky"
+        "**/.turbo"
+        "**/.vscode-test"
+        "**/.vscode"
+        "**/.storybook"
+        "**/.tap"
+        "**/.nyc_output"
+        "**/report"
+      ];
+
+      # Telemetry
+      telemetry = {
+        diagnostics = false;
+        metrics = false;
+      };
+
+      # Edit Predictions
+      edit_predictions = {
+        mode = "subtle";
+        copilot = {
+          proxy = null;
+          proxy_no_verify = null;
+          enterprise_uri = null;
         };
+        enabled_in_text_threads = false;
       };
-      # NOTE: Zen mode, refer https://github.com/zed-industries/zed/issues/4382 when it's resolved
-      centered_layout = {
-        left_padding = 0.15;
-        right_padding = 0.15;
-      };
-      # Use Copilot Chat AI as default
+
+      # Agent config
       agent = {
         default_model = {
           provider = "copilot_chat";
           model = "gpt-4.1";
         };
       };
+
+      # Language Models
       language_models = {
         ollama = {
           api_url = "http://localhost:11434";
         };
       };
-      # Inlay hints preconfigured by Zed: Go, Rust, Typescript and Svelte
-      inlay_hints = {
-        enabled = true;
-      };
+
       # LSP
       lsp = {
         tailwindcss-language-server = {
@@ -105,31 +255,28 @@ in {
             };
           };
         };
-
         nixd = {
           settings = {
-            diagnostic = {
-              suppress = ["sema-extra-with"];
-            };
+            diagnostic = {suppress = ["sema-extra-with"];};
           };
         };
         nil = {
           settings = {
-            diagnostics = {
-              ignored = ["unused_binding"];
-            };
+            diagnostics = {ignored = ["unused_binding"];};
           };
         };
       };
 
+      # Features
       features = {
         edit_prediction_provider = "copilot";
-        #inline_completion_provider = "copilot";
       };
+
       format_on_save = "on";
+
+      # Languages
       languages = {
         TypeScript = {
-          # Refer https://github.com/jellydn/ts-inlay-hints for how to setup for Neovim and VSCode
           inlay_hints = {
             enabled = true;
             show_parameter_hints = false;
@@ -179,73 +326,8 @@ in {
           };
         };
       };
-      terminal = {
-        env = {
-          EDITOR = "zed --wait";
-        };
-      };
-
-      # File syntax highlighting
-      file_types = {
-        Dockerfile = [
-          "Dockerfile"
-          "Dockerfile.*"
-        ];
-        "JSON" = [
-          "json"
-          "jsonc"
-          "*.code-snippets"
-        ];
-      };
-      # File scan exclusions, hide on the file explorer and search
-      file_scan_exclusions = [
-        # "**/.git"
-        "**/.svn"
-        "**/.hg"
-        "**/CVS"
-        "**/.DS_Store"
-        "**/Thumbs.db"
-        "**/.classpath"
-        "**/.settings"
-        # above is default from Zed
-        "**/out"
-        # "**/dist"
-        "**/.husky"
-        "**/.turbo"
-        "**/.vscode-test"
-        "**/.vscode"
-        # "**/.next"
-        "**/.storybook"
-        "**/.tap"
-        "**/.nyc_output"
-        "**/report"
-        # "**/node_modules"
-      ];
-      # Turn off telemetry
-      telemetry = {
-        diagnostics = false;
-        metrics = false;
-      };
-      # Move all panel to the right
-      project_panel = {
-        button = true;
-        dock = "left";
-        git_status = true;
-      };
-      outline_panel = {
-        dock = "right";
-      };
-      collaboration_panel = {
-        dock = "right";
-      };
-      # Move some unnecessary panels to the left
-      notification_panel = {
-        dock = "right";
-      };
-      chat_panel = {
-        dock = "right";
-      };
     };
+
     userKeymaps = [
       {
         context = "Editor && (vim_mode == normal || vim_mode == visual) && !VimWaiting && !menu";
