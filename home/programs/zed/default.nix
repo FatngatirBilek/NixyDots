@@ -9,6 +9,11 @@ in {
   home.packages = with pkgs; [
     vtsls
     nodePackages.prettier
+    rust-analyzer
+    cargo
+    rustc
+    lldb
+    gdb
   ];
 
   programs.zed-editor = {
@@ -264,6 +269,31 @@ in {
           settings = {
             diagnostics = {ignored = ["unused_binding"];};
           };
+        };
+
+        rust-analyzer = {
+          binary = {
+            # Optionally force Zed to use this binary only:
+            # ignore_system_version = true;
+            # path = "${pkgs.rust-analyzer}/bin/rust-analyzer";
+            # arguments = [];
+          };
+          initialization_options = {
+            inlayHints = {
+              maxLength = null;
+              lifetimeElisionHints = {
+                enable = "skip_trivial";
+                useParameterNames = true;
+              };
+              closureReturnTypeHints = {
+                enable = "always";
+              };
+            };
+            rust = {
+              analyzerTargetDir = true;
+            };
+          };
+          enable_lsp_tasks = true;
         };
       };
 
