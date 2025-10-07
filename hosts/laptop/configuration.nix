@@ -104,7 +104,10 @@ in {
       };
     };
   };
-  programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+  };
   services = {
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
