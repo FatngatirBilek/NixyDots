@@ -2,13 +2,13 @@
   wayland.windowManager.hyprland.settings = {
     bind =
       [
-        "$mod,T, exec, uwsm-app ghostty" # idk, i prefer ghostty
-        "$mod,E, exec, uwsm-app ${pkgs.nautilus}/bin/nautilus" # Thunar
+        "$mod,T, exec, ghostty" # idk, i prefer ghostty
+        "$mod,E, exec,  ${pkgs.nautilus}/bin/nautilus" # Thunar
         # "$mod,B, exec, ${pkgs.qutebrowser}/bin/qutebrowser" # Qutebrowser
-        "$mod,K, exec, uwsm-app ${pkgs.bitwarden}/bin/bitwarden" # Bitwarden
-        "$mod,L, global, caelestia:lock" # Lock
-        "$mod,P, global, caelestia:session" # Powermenu
-        "$mod, D, global, caelestia:launcher"
+        "$mod,K, exec,${pkgs.bitwarden}/bin/bitwarden" # Bitwarden
+        "$mod,L, exec, hyprlock" # Lock
+        "$mod,P, exec, caelestia:session" # Powermenu
+        "$mod, D, exec, wofi"
         "$mod,C, exec, quickmenu" # Quickmenu
         "$shiftMod,SPACE, exec, hyprfocus-toggle" # Toggle HyprFocus
         "$mod,R, exec, notify-send 'Recording' && wf-recorder --audio -g \"$(slurp)\" --file=Videos/$(date '+%d_%B_%Y-%H.%M.%S').mp4 && notify-send 'Recording Stop'" # Start Recording

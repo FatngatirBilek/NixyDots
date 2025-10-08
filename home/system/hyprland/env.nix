@@ -21,7 +21,7 @@
     "SDL_VIDEODRIVER,wayland"
     "CLUTTER_BACKEND,wayland"
     "GSK_RENDERER,ngl"
-    "AQ_DRM_DEVICES,/dev/dri/card0:/dev/dri/card1"
+    "AQ_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0"
     # Add/adjust more as needed for your system
   ];
 }

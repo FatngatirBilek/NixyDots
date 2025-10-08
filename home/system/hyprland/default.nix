@@ -54,7 +54,7 @@ in {
       package = null;
       enable = true;
       xwayland.enable = true;
-      systemd.enable = false;
+      systemd.enable = true;
       settings = {
         "$mod" = "SUPER";
         "$shiftMod" = "SUPER_SHIFT";

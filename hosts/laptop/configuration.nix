@@ -106,7 +106,7 @@ in {
   };
   programs.hyprland = {
     enable = true;
-    withUWSM = true;
+    withUWSM = false;
   };
   services = {
     displayManager.gdm.enable = true;
