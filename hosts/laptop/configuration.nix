@@ -91,7 +91,8 @@ in {
         package = pkgs.qemu_kvm;
         runAsRoot = true;
         swtpm.enable = true;
-        ovmf = {
+        /*
+           ovmf = {
           enable = true;
           packages = [
             (pkgs.OVMF.override {
@@ -101,6 +102,7 @@ in {
             .fd
           ];
         };
+        */
       };
     };
   };

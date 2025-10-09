@@ -655,6 +655,21 @@
     },
     "nixpkgs_10": {
       "locked": {
+        "lastModified": 1753100475,
+        "narHash": "sha256-FF53JgK0MHjCkaac+GMnikfnK9dJkwHaqXfgKrtDkhs=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "bb65d58d5f5a779df1d018b0e3418969ba530628",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_11": {
+      "locked": {
         "lastModified": 1759036355,
         "narHash": "sha256-0m27AKv6ka+q270dw48KflE0LwQYrO7Fm4/2//KCVWg=",
         "owner": "nixos",
@@ -780,15 +795,16 @@
     },
     "nixpkgs_9": {
       "locked": {
-        "lastModified": 1753100475,
-        "narHash": "sha256-FF53JgK0MHjCkaac+GMnikfnK9dJkwHaqXfgKrtDkhs=",
-        "owner": "nixos",
+        "lastModified": 1758690382,
+        "narHash": "sha256-NY3kSorgqE5LMm1LqNwGne3ZLMF2/ILgLpFr1fS4X3o=",
+        "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "bb65d58d5f5a779df1d018b0e3418969ba530628",
+        "rev": "e643668fd71b949c53f8626614b21ff71a07379d",
         "type": "github"
       },
       "original": {
-        "owner": "nixos",
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -949,6 +965,7 @@
         "thirr-wallpapers": "thirr-wallpapers",
         "vicinae": "vicinae",
         "winapps": "winapps",
+        "winboat": "winboat",
         "zed-editor-flake": "zed-editor-flake",
         "zen-browser": "zen-browser"
       }
@@ -1289,10 +1306,28 @@
         "type": "github"
       }
     },
+    "winboat": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_9"
+      },
+      "locked": {
+        "lastModified": 1759912177,
+        "narHash": "sha256-dipBg3v7TSAUzqxj8B2V4UNEpkCiHHj/7zelUZgKbWs=",
+        "owner": "TibixDev",
+        "repo": "winboat",
+        "rev": "a01038e0828913b8aaac4bf4d67777a2999a50e1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "TibixDev",
+        "repo": "winboat",
+        "type": "github"
+      }
+    },
     "zed-editor-flake": {
       "inputs": {
         "flake-parts": "flake-parts_4",
-        "nixpkgs": "nixpkgs_9",
+        "nixpkgs": "nixpkgs_10",
         "patched-nixpkgs": "patched-nixpkgs"
       },
       "locked": {
@@ -1311,7 +1346,7 @@
     },
     "zen-browser": {
       "inputs": {
-        "nixpkgs": "nixpkgs_10"
+        "nixpkgs": "nixpkgs_11"
       },
       "locked": {
         "lastModified": 1759180079,

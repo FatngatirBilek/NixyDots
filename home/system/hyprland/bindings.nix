@@ -6,9 +6,9 @@
         "$mod,E, exec,  ${pkgs.nautilus}/bin/nautilus" # Thunar
         # "$mod,B, exec, ${pkgs.qutebrowser}/bin/qutebrowser" # Qutebrowser
         "$mod,K, exec,${pkgs.bitwarden}/bin/bitwarden" # Bitwarden
-        "$mod,L, exec, hyprlock" # Lock
-        "$mod,P, exec, caelestia:session" # Powermenu
-        "$mod, D, exec, wofi"
+        "$mod,L, global, caelestia:lock" # Lock
+        "$mod,P, global, caelestia:session" # Powermenu
+        "$mod, D, global, caelestia:launcher"
         "$mod,C, exec, quickmenu" # Quickmenu
         "$shiftMod,SPACE, exec, hyprfocus-toggle" # Toggle HyprFocus
         "$mod,R, exec, notify-send 'Recording' && wf-recorder --audio -g \"$(slurp)\" --file=Videos/$(date '+%d_%B_%Y-%H.%M.%S').mp4 && notify-send 'Recording Stop'" # Start Recording
@@ -57,7 +57,8 @@
       ",XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause" # Play/Pause Song
       ",XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next" # Next Song
       ",XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous" # Previous Song
-      ",switch:Lid Switch, exec, ${pkgs.hyprlock}/bin/hyprlock" # Lock when closing Lid
+      # ",switch:Lid Switch, exec, ${pkgs.hyprlock}/bin/hyprlock" # Lock when closing Lid
+      ",switch:Lid Switch, global, caelestia:lock" # Lock when closing Lid
     ];
 
     bindle = [

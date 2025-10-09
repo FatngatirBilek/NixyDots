@@ -52,7 +52,7 @@
     # ../../home/system/shell
 
     # Import the Caelestia Home Manager module from your flake input!
-    # inputs.caelestia-shell.homeManagerModules.default
+    inputs.caelestia-shell.homeManagerModules.default
 
     ./secrets # CHANGEME: You should probably remove this line, this is where I store my secrets
   ];
@@ -61,6 +61,7 @@
     inherit (config.var) username;
     homeDirectory = "/home/" + config.var.username;
     packages = with pkgs; [
+      inputs.winboat.packages.x86_64-linux.winboat
       # Apps
       webcord # Chat
       bitwarden # Password manager
@@ -133,14 +134,14 @@
     enable = true;
     allowImages = true;
   };
-  waybar.enable = true;
+  waybar.enable = false;
   programs.nix-index = {
     enable = true;
     enableZshIntegration = true;
     package = inputs.nix-index-database.packages.${pkgs.system}.nix-index-with-small-db;
   };
   theming.enable = true;
-  swaync.enable = true;
+  swaync.enable = false;
   hyprland = {
     enable = true;
     hyprpaper = true;
@@ -150,27 +151,27 @@
   nixpkgs.overlays = lib.mkForce null; # fix evaluation warning about nixpkgs.overlays
   programs.home-manager.enable = true;
 
-  # programs.caelestia = {
-  #   enable = true;
-  #   systemd = {
-  #     enable = true; # if you prefer starting from your compositor
-  #     target = "graphical-session.target";
-  #     environment = [];
-  #   };
-  #   settings = {
-  #     bar.status = {
-  #       showBattery = true;
-  #     };
-  #     services = {
-  #       useFahrenheit = false;
-  #     };
-  #     paths.wallpaperDir = "~/Images";
-  #   };
-  #   cli = {
-  #     enable = true; # Also add caelestia-cli to path
-  #     settings = {
-  #       theme.enableGtk = false;
-  #     };
-  #   };
-  # };
+  programs.caelestia = {
+    enable = true;
+    systemd = {
+      enable = true; # if you prefer starting from your compositor
+      target = "graphical-session.target";
+      environment = [];
+    };
+    settings = {
+      bar.status = {
+        showBattery = true;
+      };
+      services = {
+        useFahrenheit = false;
+      };
+      paths.wallpaperDir = "~/Images";
+    };
+    cli = {
+      enable = true; # Also add caelestia-cli to path
+      settings = {
+        theme.enableGtk = false;
+      };
+    };
+  };
 }

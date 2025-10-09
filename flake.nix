@@ -21,6 +21,9 @@
       url = "github:FatngatirBilek/nvchad-conf";
       flake = false;
     };
+    winboat = {
+      url = "github:TibixDev/winboat";
+    };
     # NvChad:
     nvchad4nix = {
       url = "github:nix-community/nix4nvchad";
