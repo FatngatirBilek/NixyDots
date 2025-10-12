@@ -33,7 +33,7 @@
         "$shiftMod,PRINT, exec, screenshot window" # Screenshot window
         "ALT,PRINT, exec, screenshot region swappy" # Screenshot region then edit
         "$shiftMod,T, exec, hyprpanel-toggle" # Toggle hyprpanel
-        # "$shiftMod,S, exec, ${pkgs.qutebrowser}/bin/qutebrowser :open $(wofi --show dmenu -L 1 -p ' Search on internet')" # Search on internet with wofi
+        # "$shiftMod,S, exec, zen :open $(wofi --show dmenu -L 1 -p ' Search on internet')" # Search on internet with wofi
         "$mod,V, exec, pkill fuzzel || caelestia clipboard" # Clipboard picker with wofi
         "$mod,Period, exec, pkill fuzzel || caelestia emoji -p" # Emoji picker with wofi
         "$mod,F2, exec, night-shift" # Toggle night shift
