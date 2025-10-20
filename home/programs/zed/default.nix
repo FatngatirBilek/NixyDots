@@ -46,9 +46,14 @@ in {
     ];
 
     userSettings = lib.mkForce {
+      vim_mode = true;
       # Panels & Docking
-      debugger = {dock = "bottom";};
-      agent = {dock = "right";};
+      debugger = {
+        dock = "bottom";
+      };
+      agent = {
+        dock = "right";
+      };
       collaboration_panel = {
         button = false;
         dock = "right";
@@ -63,10 +68,16 @@ in {
         indent_size = 20;
         auto_reveal_entries = true;
         auto_fold_dirs = true;
-        indent_guides = {show = "always";};
-        scrollbar = {show = null;};
+        indent_guides = {
+          show = "always";
+        };
+        scrollbar = {
+          show = null;
+        };
       };
-      notification_panel = {dock = "right";};
+      notification_panel = {
+        dock = "right";
+      };
 
       # Appearance
       icon_theme = "Material Icon Theme";
@@ -74,7 +85,10 @@ in {
       buffer_font_family = "JetBrainsMono Nerd Font";
       buffer_font_size = 16;
       ui_font_size = 17;
-      wrap_guides = [80 120];
+      wrap_guides = [
+        80
+        120
+      ];
       soft_wrap = "editor_width";
 
       # Editor Preferences
@@ -86,7 +100,9 @@ in {
         show_background = false;
         edit_debounce_ms = 700;
         scroll_debounce_ms = 50;
-        toggle_on_modifiers_press = {control = true;};
+        toggle_on_modifiers_press = {
+          control = true;
+        };
         show_value_hints = true;
       };
 
@@ -147,7 +163,9 @@ in {
           show_commit_summary = true;
           padding = 7;
         };
-        branch_picker = {show_author_name = true;};
+        branch_picker = {
+          show_author_name = true;
+        };
         hunk_style = "unstaged_hollow";
       };
 
@@ -175,8 +193,12 @@ in {
         auto_reveal_entries = true;
         entry_spacing = "comfortable";
         starts_open = true;
-        scrollbar = {show = null;};
-        indent_guides = {show = "always";};
+        scrollbar = {
+          show = null;
+        };
+        indent_guides = {
+          show = "always";
+        };
       };
 
       # Scrollbar
@@ -190,8 +212,15 @@ in {
         css = ["*.css"];
         json = [".prettierrc"];
         dotenv = [".env.*"];
-        Dockerfile = ["Dockerfile" "Dockerfile.*"];
-        JSON = ["json" "jsonc" "*.code-snippets"];
+        Dockerfile = [
+          "Dockerfile"
+          "Dockerfile.*"
+        ];
+        JSON = [
+          "json"
+          "jsonc"
+          "*.code-snippets"
+        ];
       };
 
       # File scan exclusions
@@ -250,7 +279,12 @@ in {
       lsp = {
         tailwindcss-language-server = {
           settings = {
-            classAttributes = ["class" "className" "ngClass" "styles"];
+            classAttributes = [
+              "class"
+              "className"
+              "ngClass"
+              "styles"
+            ];
           };
         };
         eslint = {
@@ -262,12 +296,16 @@ in {
         };
         nixd = {
           settings = {
-            diagnostic = {suppress = ["sema-extra-with"];};
+            diagnostic = {
+              suppress = ["sema-extra-with"];
+            };
           };
         };
         nil = {
           settings = {
-            diagnostics = {ignored = ["unused_binding"];};
+            diagnostics = {
+              ignored = ["unused_binding"];
+            };
           };
         };
 
@@ -329,16 +367,6 @@ in {
           };
         };
         Python = {
-          format_on_save = {
-            language_server = {
-              ruff = {};
-            };
-          };
-          formatter = {
-            language_server = {
-              ruff = {};
-            };
-          };
           language_servers = [
             "pyright"
             "ruff"
@@ -405,7 +433,7 @@ in {
           "space ." = "editor::ToggleCodeActions";
           "space /" = "pane::DeploySearch";
           "space b d" = "pane::CloseActiveItem";
-          "space b o" = "pane::CloseInactiveItems";
+          "space b o" = "pane::CloseOtherItems";
           "space c a" = "editor::ToggleCodeActions";
           "space c r" = "editor::Rename";
           "space e" = "pane::RevealInProjectPanel";
@@ -486,7 +514,10 @@ in {
       {
         context = "EmptyPane || SharedScreen || vim_mode == normal";
         bindings = {
-          "space r t" = ["editor::SpawnNearestTask" {reveal = "no_focus";}];
+          "space r t" = [
+            "editor::SpawnNearestTask"
+            {reveal = "no_focus";}
+          ];
         };
       }
     ];

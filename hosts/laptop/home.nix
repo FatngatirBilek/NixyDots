@@ -29,7 +29,7 @@
     ../../home/programs/zed
     ../../home/programs/wezterm
     ../../home/programs/obs
-    ../../home/programs/winapps
+    # ../../home/programs/winapps
     # ../../home/programs/heroic
 
     # Scripts
