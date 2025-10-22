@@ -108,6 +108,7 @@ in {
           "dbus-update-activation-environment --systemd "
           "hyprctl setcursor Bibata-Modern-Ice 25"
           "nwg-dock-hyprland -r -i 35 -ml 12 -mr 12 -mb 12 -nolauncher -x -l bottom"
+          "caelestia shell"
         ];
         input = {
           kb_layout = keyboardLayout;
