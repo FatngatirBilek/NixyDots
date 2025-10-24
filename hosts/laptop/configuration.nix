@@ -40,6 +40,7 @@ in {
     ../../nixos/lanzaboote.nix # Secure boot
     ../../nixos/games.nix
     ../../nixos/packettracer.nix
+    ../../nixos/ollama.nix
     ./hardware-configuration.nix
     ./variables.nix
   ];
@@ -112,7 +113,7 @@ in {
     withUWSM = false;
   };
   services = {
-    # displayManager.gdm.enable = true;
+    displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
     # displayManager.sddm.enable = true;
     # desktopManager.plasma6.enable = true;
