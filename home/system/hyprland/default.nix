@@ -108,7 +108,7 @@ in {
           "dbus-update-activation-environment --systemd "
           "hyprctl setcursor Bibata-Modern-Ice 25"
           "nwg-dock-hyprland -r -i 35 -ml 12 -mr 12 -mb 12 -nolauncher -x -l bottom"
-          "caelestia shell"
+          # "caelestia shell"
         ];
         input = {
           kb_layout = keyboardLayout;
@@ -212,16 +212,16 @@ in {
         ];
       };
     };
-    # systemd.user.services.mpvpaper = mkIf (!cfg.hyprpaper && cfg.mpvpaper) {
-    #   Unit = {
-    #     Description = "Play video wallpaper.";
-    #   };
-    #   Install = {
-    #     WantedBy = ["graphical-session.target"];
-    #   };
-    #   Service = {
-    #     ExecStart = "${pkgs.mpvpaper}/bin/mpvpaper -s -o 'no-audio loop input-ipc-server=/tmp/mpvpaper-socket hwdec=auto' '*' ${../../../stuff/wallpaper.mp4}";
-    #   };
-    # };
+    systemd.user.services.mpvpaper = mkIf (!cfg.hyprpaper && cfg.mpvpaper) {
+      Unit = {
+        Description = "Play video wallpaper.";
+      };
+      Install = {
+        WantedBy = ["graphical-session.target"];
+      };
+      Service = {
+        ExecStart = "${pkgs.mpvpaper}/bin/mpvpaper -s -o 'no-audio loop input-ipc-server=/tmp/mpvpaper-socket hwdec=auto' '*' ${/home/fathirbimashabri/Pictures/Wallpapers/wallpaper.mp4}";
+      };
+    };
   };
 }

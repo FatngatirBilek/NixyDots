@@ -1,10 +1,10 @@
 {lib, ...}: {
   services.ollama = {
-    enable = true;
+    enable = false;
     acceleration = "cuda";
   };
   services.open-webui = {
-    enable = true;
-    port = 8080;
+    enable = false;
+    port = 1111;
   };
 }

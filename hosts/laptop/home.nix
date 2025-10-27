@@ -133,14 +133,14 @@
     enable = true;
     allowImages = true;
   };
-  waybar.enable = false;
+  waybar.enable = true;
   programs.nix-index = {
     enable = true;
     enableZshIntegration = true;
     package = inputs.nix-index-database.packages.${pkgs.system}.nix-index-with-small-db;
   };
   theming.enable = true;
-  swaync.enable = false;
+  swaync.enable = true;
   hyprland = {
     enable = true;
     hyprpaper = true;
@@ -151,7 +151,7 @@
   programs.home-manager.enable = true;
 
   programs.caelestia = {
-    enable = true;
+    enable = false;
     systemd = {
       enable = false; # if you prefer starting from your compositor
       target = "graphical-session.target";

@@ -35,7 +35,7 @@ in {
     ../../nixos/wine.nix
     ../../nixos/fcitx.nix
     ../../nixos/overrides.nix
-    ../../nixos/tabletdriver.nix
+    # ../../nixos/tabletdriver.nix
     ../../nixos/greeter.nix
     ../../nixos/lanzaboote.nix # Secure boot
     ../../nixos/games.nix
@@ -121,6 +121,9 @@ in {
 
   # kde connect
   programs.kdeconnect.enable = true;
+
+  # local send
+  programs.localsend.enable = true;
 
   # Cosmic Trouble
   # services.displayManager.cosmic-greeter.enable = true;
