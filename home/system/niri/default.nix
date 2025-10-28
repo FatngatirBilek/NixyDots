@@ -31,7 +31,7 @@
           width = 4;
           active.color = "#0654ba";
         };
-        shadow.enable = true;
+        shadow.enable = false;
         tab-indicator = {
           position = "top";
           gaps-between-tabs = 10;
@@ -46,6 +46,7 @@
             bottom-right = 12.0;
           };
           clip-to-geometry = true;
+          draw-border-with-background = false;
         }
       ];
       clipboard.disable-primary = true;
