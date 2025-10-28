@@ -49,7 +49,17 @@ in {
       enable = true;
       resyncTimer = "10m";
     };
+    dbus = {
+      enable = true;
+      implementation = "broker";
+      packages = with pkgs; [gcr gnome-settings-daemon];
+    };
+    gvfs.enable = true;
+    upower.enable = true;
+    power-profiles-daemon.enable = true;
+    udisks2.enable = true;
   };
+
   console.keyMap = keyboardLayout;
 
   environment.variables = {
@@ -64,17 +74,6 @@ in {
 
   services.libinput.enable = true;
   programs.dconf.enable = true;
-  services = {
-    dbus = {
-      enable = true;
-      implementation = "broker";
-      packages = with pkgs; [gcr gnome-settings-daemon];
-    };
-    gvfs.enable = true;
-    upower.enable = true;
-    power-profiles-daemon.enable = true;
-    udisks2.enable = true;
-  };
 
   # enable zsh autocompletion for system packages (systemd, etc)
   environment.pathsToLink = ["/share/zsh"];
@@ -108,19 +107,16 @@ in {
       common.default = ["gtk"];
       hyprland.default = ["gtk" "hyprland"];
     };
-
     extraPortals = [pkgs.xdg-desktop-portal-gtk];
   };
 
   security = {
     # allow wayland lockers to unlock the screen
     pam.services.hyprlock.text = "auth include login";
-
     # userland niceness
     rtkit.enable = true;
-
     # don't ask for password for wheel group
-    #    sudo.wheelNeedsPassword = false;
+    # sudo.wheelNeedsPassword = false;
   };
 
   # services.logind.extraConfig = ''

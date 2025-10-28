@@ -47,6 +47,10 @@
     ../../home/system/waybar
     ../../home/system/swaync
     ../../home/system/wofi
+
+    inputs.niri.homeModules.niri
+    ../../home/system/niri
+
     # REMOVE this custom shell import if using Caelestia flake module:
     # ../../home/system/shell
 

@@ -50,7 +50,6 @@ in {
       wttrbar
     ];
     wayland.windowManager.hyprland = {
-      portalPackage = null;
       package = null;
       enable = true;
       xwayland.enable = true;
