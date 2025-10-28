@@ -149,7 +149,7 @@
     enable = true;
     hyprpaper = true;
     mpvpaper = false;
-    wlogout = true;
+    wlogout = false;
   };
   nixpkgs.overlays = lib.mkForce null; # fix evaluation warning about nixpkgs.overlays
   programs.home-manager.enable = true;

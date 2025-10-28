@@ -28,8 +28,8 @@
         always-center-single-column = true;
         empty-workspace-above-first = true;
         focus-ring = {
-          width = 10000;
-          active.color = "#00000055";
+          width = 4;
+          active.color = "#0654ba";
         };
         shadow.enable = true;
         tab-indicator = {
@@ -37,7 +37,17 @@
           gaps-between-tabs = 10;
         };
       };
-
+      window-rules = [
+        {
+          geometry-corner-radius = {
+            top-left = 12.0;
+            top-right = 12.0;
+            bottom-left = 12.0;
+            bottom-right = 12.0;
+          };
+          clip-to-geometry = true;
+        }
+      ];
       clipboard.disable-primary = true;
       overview.zoom = 0.5;
       screenshot-path = "~/Pictures/Screenshots/%Y-%m-%dT%H:%M:%S.png";
@@ -93,7 +103,7 @@
             "Mod+D".action = spawn "wofi";
             "Mod+O".action = show-hotkey-overlay;
             "Mod+W".action = sh "systemctl --user restart waybar.service";
-            "Mod+L".action = spawn "blurred-locker";
+            "Mod+L".action = spawn "hyprlock";
             "Mod+Shift+S".action.screenshot = [];
             "Print".action.screenshot-screen = [];
             "Mod+Print".action.screenshot-window = [];

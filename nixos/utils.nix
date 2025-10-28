@@ -40,7 +40,7 @@ in {
 
   services = {
     xserver = {
-      enable = true;
+      enable = false;
       xkb.layout = keyboardLayout;
       xkb.variant = "";
     };
