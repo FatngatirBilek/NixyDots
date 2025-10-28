@@ -26,7 +26,7 @@
     mongosh
     postman
     docker-compose
-    libreoffice-qt6-fresh
+    # libreoffice-qt6-fresh
     icu.dev
     icu
     libcxx
