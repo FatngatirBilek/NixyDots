@@ -96,12 +96,12 @@
         videoSource = "portal";
       };
       wallpaper = {
-        enabled = false;
-        directory = "";
+        enabled = true;
+        directory = "${inputs.thirr-wallpapers}/wallpapers/";
         enableMultiMonitorDirectories = false;
         recursiveSearch = false;
         setWallpaperOnAllMonitors = true;
-        defaultWallpaper = "";
+        defaultWallpaper = "${inputs.thirr-wallpapers}/wallpapers/wallpaper.jpg";
         fillMode = "crop";
         fillColor = "#000000";
         randomEnabled = false;

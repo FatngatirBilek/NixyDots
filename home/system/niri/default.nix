@@ -85,6 +85,7 @@ in {
           draw-border-with-background = false;
         }
       ];
+      input.focus-follows-mouse.enable = true;
       clipboard.disable-primary = true;
       overview.zoom = 0.5;
       screenshot-path = "~/Pictures/Screenshots/%Y-%m-%dT%H:%M:%S.png";
@@ -252,6 +253,11 @@ in {
             "swaybg"
             "--image"
             "${inputs.thirr-wallpapers}/wallpapers/wallpaper.jpg"
+          ];
+        }
+        {
+          command = [
+            "noctalia-shell"
           ];
         }
       ];
