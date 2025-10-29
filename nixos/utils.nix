@@ -91,24 +91,17 @@ in {
   environment.systemPackages = with pkgs; [
     hyprland-qtutils
     fd
+    xwayland-satellite
     bc
     gcc
     git-ignore
     xdg-utils
     wget
     curl
+    xdg-desktop-portal-gnome
+    polkit_gnome
     vim
   ];
-
-  xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = true;
-    config = {
-      common.default = ["gtk"];
-      hyprland.default = ["gtk" "hyprland"];
-    };
-    extraPortals = [pkgs.xdg-desktop-portal-gtk];
-  };
 
   security = {
     # allow wayland lockers to unlock the screen
@@ -119,6 +112,25 @@ in {
     # sudo.wheelNeedsPassword = false;
   };
 
+  xdg.portal = {
+    enable = true;
+    extraPortals = [pkgs.xdg-desktop-portal-gnome];
+    config = {
+      common = {
+        default = ["gnome"];
+      };
+    };
+  };
+
+  systemd.user.services.polkit-gnome-authentication-agent-1 = {
+    description = "polkit-gnome-authentication-agent-1";
+    wantedBy = ["graphical-session.target"];
+    after = ["graphical-session.target"];
+    serviceConfig = {
+      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+      Restart = "on-failure";
+    };
+  };
   # services.logind.extraConfig = ''
   #   # don’t shutdown when power button is short-pressed
   #   HandlePowerKey=ignore

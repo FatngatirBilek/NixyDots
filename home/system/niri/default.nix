@@ -2,8 +2,12 @@
   pkgs,
   lib,
   config,
+  inputs,
   ...
 }: {
+  home.packages = with pkgs; [
+    swaybg
+  ];
   programs.niri = {
     enable = true;
     # package = pkgs.niri-unstable;
@@ -38,6 +42,25 @@
         };
       };
       window-rules = [
+        {
+          matches = [
+            {is-window-cast-target = true;}
+          ];
+          focus-ring = {
+            active = {color = "#f38ba8";};
+            inactive = {color = "#7d0d2d";};
+          };
+          border = {
+            inactive = {color = "#7d0d2d";};
+          };
+          shadow = {
+            color = "#7d0d2d70";
+          };
+          tab-indicator = {
+            active = {color = "#f38ba8";};
+            inactive = {color = "#7d0d2d";};
+          };
+        }
         {
           geometry-corner-radius = {
             top-left = 12.0;
@@ -163,7 +186,7 @@
               }) (lib.range 1 9)
             );
             prefixes."Mod" = "focus";
-            prefixes."Mod+Ctrl" = "move-window-to";
+            prefixes."Mod+Shift" = "move-window-to";
           })
           {
             "Mod+Comma".action = consume-window-into-column;
@@ -182,6 +205,43 @@
             "Mod+Shift+Ctrl+T".action = toggle-debug-tint;
           }
         ];
+      outputs = {
+        "eDP-1" = {
+          mode = {
+            width = 1920;
+            height = 1080;
+            refresh = 165.0;
+          };
+          position = {
+            x = 0;
+            y = 0;
+          };
+          enable = true;
+          name = "eDP-1";
+        };
+        "HDMI-A-1" = {
+          mode = {
+            width = 1920;
+            height = 1080;
+            refresh = 120.0;
+          };
+          position = {
+            x = 1920;
+            y = 0;
+          };
+          enable = true;
+          name = "HDMI-A-1";
+        };
+      };
+      spawn-at-startup = [
+        {
+          argv = [
+            "swaybg"
+            "--image"
+            "${inputs.thirr-wallpapers}/wallpapers/wallpaper.jpg"
+          ];
+        }
+      ];
     };
   };
 }
