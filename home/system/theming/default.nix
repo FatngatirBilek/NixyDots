@@ -47,7 +47,6 @@ in {
 
     qt = {
       enable = true;
-      platformTheme.name = "qtct";
     };
 
     home.pointerCursor = {

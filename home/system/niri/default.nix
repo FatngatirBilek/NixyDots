@@ -4,10 +4,23 @@
   config,
   inputs,
   ...
-}: {
+}: let
+  noctalia = cmd:
+    [
+      "noctalia-shell"
+      "ipc"
+      "call"
+    ]
+    ++ (pkgs.lib.splitString " " cmd);
+in {
   home.packages = with pkgs; [
     swaybg
   ];
+  home.sessionVariables = {
+    QT_QPA_PLATFORMTHEME = "gtk3";
+    GTK_THEME = "WhiteSur-Dark";
+    QT_ICON_THEME = "WhiteSur-dark";
+  };
   programs.niri = {
     enable = true;
     # package = pkgs.niri-unstable;
@@ -124,10 +137,10 @@
         lib.attrsets.mergeAttrsList [
           {
             "Mod+T".action = spawn "ghostty";
-            "Mod+D".action = spawn "wofi";
+            "Mod+D".action.spawn = noctalia "launcher toggle";
+            "Mod+L".action.spawn = noctalia "lockScreen lock";
+            "Mod+P".action.spawn = noctalia "sessionMenu toggle";
             "Mod+O".action = show-hotkey-overlay;
-            "Mod+W".action = sh "systemctl --user restart waybar.service";
-            "Mod+L".action = spawn "hyprlock";
             "Mod+Shift+S".action.screenshot = [];
             "Print".action.screenshot-screen = [];
             "Mod+Print".action.screenshot-window = [];
