@@ -141,6 +141,7 @@ in {
             "Mod+D".action.spawn = dms "spotlight toggle";
             "Mod+L".action.spawn = dms "lock lock";
             "Mod+P".action.spawn = dms "powermenu toggle";
+            "Mod+V".action.spawn = dms "clipboard toggle";
             "Mod+O".action = show-hotkey-overlay;
             "Mod+Shift+S".action.screenshot = [];
             "Print".action.screenshot-screen = [];
@@ -174,8 +175,8 @@ in {
             substitutions."monitor-window" = "monitor";
           })
           {
-            "Mod+V".action = switch-focus-between-floating-and-tiling;
-            "Mod+Shift+V".action = toggle-window-floating;
+            "Mod+Space".action = switch-focus-between-floating-and-tiling;
+            "Mod+Shift+Space".action = toggle-window-floating;
           }
           (binds {
             suffixes."Home" = "first";
