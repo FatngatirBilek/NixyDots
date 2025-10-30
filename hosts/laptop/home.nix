@@ -4,7 +4,9 @@
   inputs,
   lib,
   ...
-}: {
+}: let
+  quickshell = inputs.quickshell;
+in {
   imports = [
     ./variables.nix
 
@@ -45,10 +47,11 @@
     ../../home/system/waybar
     ../../home/system/swaync
     ../../home/system/wofi
-    ../../home/system/noctalia
 
     inputs.niri.homeModules.niri
     ../../home/system/niri
+    inputs.dankMaterialShell.homeModules.dankMaterialShell.default
+    inputs.dankMaterialShell.homeModules.dankMaterialShell.niri
 
     # REMOVE this custom shell import if using Caelestia flake module:
     # ../../home/system/shell
@@ -125,7 +128,11 @@
     file.".face.icon" = {source = ./profile_picture.png;};
     stateVersion = "24.05";
   };
-
+  programs.dankMaterialShell = {
+    enable = true;
+    quickshell.package = quickshell.packages.${pkgs.system}.default;
+    enableSystemd = true;
+  };
   services.cliphist = {
     enable = true;
     allowImages = true;
