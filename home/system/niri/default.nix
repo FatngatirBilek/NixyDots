@@ -24,7 +24,11 @@ in {
   programs.niri = {
     enable = true;
     # package = pkgs.niri-unstable;
+
     settings = {
+      debug = {
+        render-drm-device = "/dev/dri/renderD128";
+      };
       input.keyboard.xkb.layout = "us";
       input.mouse.accel-speed = 1.0;
       input.touchpad = {
