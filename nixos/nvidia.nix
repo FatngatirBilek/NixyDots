@@ -35,7 +35,6 @@
       # of just the bare essentials.
       powerManagement = {
         enable = true;
-        finegrained = true;
       };
       # Use the NVidia open source kernel module (not to be confused with the
       # independent third-party "nouveau" open source driver).
