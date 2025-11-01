@@ -60,9 +60,9 @@
     nix-ld = {
       enable = true;
     };
-    ssh = {
-      startAgent = true;
-    };
+   # ssh = {
+   #   startAgent = true;
+   # };
     virt-manager = {
       enable = true;
     };
@@ -112,8 +112,6 @@
     config.boot.kernelPackages.v4l2loopback
   ];
   boot.kernelModules = [
-    "wmi"
-    "sparse-keymap"
     "video"
     "v4l2loopback"
   ];

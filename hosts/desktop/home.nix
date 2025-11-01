@@ -1,9 +1,12 @@
 {
   pkgs,
   config,
+  inputs,
   lib,
   ...
-}: {
+}: let
+  quickshell = inputs.quickshell;
+in {
   imports = [
     ./variables.nix
 
@@ -27,6 +30,7 @@
     ../../home/programs/zed
     ../../home/programs/wezterm
     ../../home/programs/obs
+
     # Scripts
     ../../home/scripts # All scripts
 
@@ -34,13 +38,23 @@
     ../../home/system/hyprland
     ../../home/system/hypridle
     ../../home/system/hyprlock
-    ../../home/system/gtk
-    ../../home/system/wofi
+    ../../home/system/theming
     ../../home/system/batsignal
     ../../home/system/zathura
     ../../home/system/mime
     ../../home/system/udiskie
     ../../home/system/clipman
+    ../../home/system/waybar
+    ../../home/system/swaync
+    ../../home/system/wofi
+
+    inputs.niri.homeModules.niri
+    ../../home/system/niri
+    inputs.dankMaterialShell.homeModules.dankMaterialShell.default
+    inputs.dankMaterialShell.homeModules.dankMaterialShell.niri
+
+    # REMOVE this custom shell import if using Caelestia flake module:
+    # ../../home/system/shell
 
     ../../hosts/laptop/secrets # CHANGEME: You should probably remove this line, this is where I store my secrets
   ];
@@ -49,6 +63,7 @@
     inherit (config.var) username;
     homeDirectory = "/home/" + config.var.username;
     packages = with pkgs; [
+      inputs.winboat.packages.x86_64-linux.winboat
       # Apps
       webcord # Chat
       bitwarden # Password manager
@@ -61,7 +76,7 @@
       obsidian
       # zed-editor
       nodejs
-      python3Full
+      # python3Full
       jq
       figlet
       just
@@ -78,15 +93,26 @@
       nautilus
       pavucontrol
       nwg-look
-      obs-studio
       networkmanagerapplet
       imagemagick
-      ffmpeg
+      ffmpeg-full
+      nv-codec-headers
       tree
-      quickemu
+      kmon
+      termtosvg
+      pciutils
+
+      # quickemu
       gnome-disk-utility
+      gnumake
+      cargo
+      ghc
+      opam
       nix-output-monitor
       nvd
+      woeusb
+      ntfs3g
+      unetbootin
       # zed-editor
       # Just cool
       peaclock
@@ -99,11 +125,30 @@
       vscode
       gnome-tweaks
     ];
-
-    # Import my profile picture, used by the hyprpanel dashboard
     file.".face.icon" = {source = ./profile_picture.png;};
-    # Don't touch this
     stateVersion = "24.05";
+  };
+  programs.dankMaterialShell = {
+    enable = true;
+    quickshell.package = quickshell.packages.${pkgs.system}.default;
+    enableSystemd = true;
+  };
+  services.cliphist = {
+    enable = true;
+    allowImages = true;
+  };
+  programs.nix-index = {
+    enable = true;
+    enableZshIntegration = true;
+    package = inputs.nix-index-database.packages.${pkgs.system}.nix-index-with-small-db;
+  };
+  theming.enable = true;
+  swaync.enable = false;
+  hyprland = {
+    enable = true;
+    hyprpaper = false;
+    mpvpaper = false;
+    wlogout = false;
   };
   nixpkgs.overlays = lib.mkForce null; # fix evaluation warning about nixpkgs.overlays
   programs.home-manager.enable = true;
