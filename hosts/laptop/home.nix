@@ -4,7 +4,9 @@
   inputs,
   lib,
   ...
-}: {
+}: let
+  quickshell = inputs.quickshell;
+in {
   imports = [
     ./variables.nix
 
@@ -45,11 +47,12 @@
     ../../home/system/waybar
     ../../home/system/swaync
     ../../home/system/wofi
-    ../../home/system/noctalia
+    # ../../home/system/noctalia
 
     inputs.niri.homeModules.niri
     ../../home/system/niri
-
+    inputs.dankMaterialShell.homeModules.dankMaterialShell.default
+    inputs.dankMaterialShell.homeModules.dankMaterialShell.niri
     # REMOVE this custom shell import if using Caelestia flake module:
     # ../../home/system/shell
 
@@ -60,10 +63,9 @@
     inherit (config.var) username;
     homeDirectory = "/home/" + config.var.username;
     packages = with pkgs; [
-      inputs.winboat.packages.x86_64-linux.winboat
       # Apps
       webcord # Chat
-      bitwarden # Password manager
+      bitwarden-desktop # Password manager
       vlc # Video player
       blanket # White-noise app
       firefox
@@ -125,7 +127,12 @@
     file.".face.icon" = {source = ./profile_picture.png;};
     stateVersion = "24.05";
   };
-
+  # dank shell
+  programs.dankMaterialShell = {
+    enable = true;
+    quickshell.package = quickshell.packages.${pkgs.system}.default;
+    enableSystemd = true;
+  };
   services.cliphist = {
     enable = true;
     allowImages = true;
@@ -138,7 +145,7 @@
   theming.enable = true;
   swaync.enable = false;
   hyprland = {
-    enable = true;
+    enable = false;
     hyprpaper = false;
     mpvpaper = false;
     wlogout = false;

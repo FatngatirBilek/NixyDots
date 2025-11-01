@@ -12,7 +12,7 @@
     fnm
     distrobox
     # lunar-client
-    onlyoffice-bin
+    onlyoffice-desktopeditors
     droidcam
     ubridge
     inetutils

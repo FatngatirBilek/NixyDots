@@ -5,7 +5,7 @@
         "$mod,T, exec, ghostty" # idk, i prefer ghostty
         "$mod,E, exec,  ${pkgs.nautilus}/bin/nautilus" # Thunar
         # "$mod,B, exec, ${pkgs.qutebrowser}/bin/qutebrowser" # Qutebrowser
-        "$mod,K, exec,${pkgs.bitwarden}/bin/bitwarden" # Bitwarden
+        "$mod,K, exec,${pkgs.bitwarden-desktop}/bin/bitwarden-desktop" # Bitwarden
         "$mod,L, exec, hyprlock" # Lock
         "$mod,P, exec, powermenu" # Powermenu
         "$mod, D, exec, wofi"

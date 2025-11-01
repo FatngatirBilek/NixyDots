@@ -63,10 +63,9 @@ in {
     inherit (config.var) username;
     homeDirectory = "/home/" + config.var.username;
     packages = with pkgs; [
-      inputs.winboat.packages.x86_64-linux.winboat
       # Apps
       webcord # Chat
-      bitwarden # Password manager
+      bitwarden-desktop # Password manager
       vlc # Video player
       blanket # White-noise app
       firefox

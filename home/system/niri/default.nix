@@ -5,9 +5,9 @@
   inputs,
   ...
 }: let
-  noctalia = cmd:
+  dms = cmd:
     [
-      "noctalia-shell"
+      "dms"
       "ipc"
       "call"
     ]
@@ -24,11 +24,7 @@ in {
   programs.niri = {
     enable = true;
     # package = pkgs.niri-unstable;
-
     settings = {
-      debug = {
-        render-drm-device = "/dev/dri/renderD128";
-      };
       input.keyboard.xkb.layout = "us";
       input.mouse.accel-speed = 1.0;
       input.touchpad = {
@@ -89,7 +85,6 @@ in {
           draw-border-with-background = false;
         }
       ];
-      input.focus-follows-mouse.enable = true;
       clipboard.disable-primary = true;
       overview.zoom = 0.5;
       screenshot-path = "~/Pictures/Screenshots/%Y-%m-%dT%H:%M:%S.png";
@@ -142,9 +137,10 @@ in {
         lib.attrsets.mergeAttrsList [
           {
             "Mod+T".action = spawn "ghostty";
-            "Mod+D".action.spawn = noctalia "launcher toggle";
-            "Mod+L".action.spawn = noctalia "lockScreen lock";
-            "Mod+P".action.spawn = noctalia "sessionMenu toggle";
+            "Mod+D".action.spawn = dms "spotlight toggle";
+            "Mod+L".action.spawn = dms "lock lock";
+            "Mod+P".action.spawn = dms "powermenu toggle";
+            "Mod+V".action.spawn = dms "clipboard toggle";
             "Mod+O".action = show-hotkey-overlay;
             "Mod+Shift+S".action.screenshot = [];
             "Print".action.screenshot-screen = [];
@@ -152,9 +148,10 @@ in {
             "Mod+Insert".action = set-dynamic-cast-window;
             "Mod+Shift+Insert".action = set-dynamic-cast-monitor;
             "Mod+Delete".action = clear-dynamic-cast-target;
-            "XF86AudioRaiseVolume".action = sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+";
-            "XF86AudioLowerVolume".action = sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-";
-            "XF86AudioMute".action = sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+            "XF86AudioRaiseVolume".action.spawn = dms "audio increment 3";
+            "XF86AudioLowerVolume".action.spawn = dms "audio decrement 3";
+            "XF86AudioMute".action.spawn = dms "audio mute";
+            "XF86AudioMicMute".action.spawn = dms "audio micmute";
             "XF86MonBrightnessUp".action = sh "brightnessctl set 10%+";
             "XF86MonBrightnessDown".action = sh "brightnessctl set 10%-";
             "Mod+Q".action = close-window;
@@ -252,18 +249,18 @@ in {
         };
       };
       spawn-at-startup = [
-        # {
-        #   argv = [
-        #     "swaybg"
-        #     "--image"
-        #     "${inputs.thirr-wallpapers}/wallpapers/wallpaper.jpg"
-        #   ];
-        # }
         {
-          command = [
-            "noctalia-shell"
+          argv = [
+            "swaybg"
+            "--image"
+            "${inputs.thirr-wallpapers}/wallpapers/wallpaper.jpg"
           ];
         }
+        # {
+        #   command = [
+        #     "noctalia-shell"
+        #   ];
+        # }
       ];
     };
   };
