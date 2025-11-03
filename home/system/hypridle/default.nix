@@ -1,6 +1,6 @@
 {
   services.hypridle = {
-    enable = true;
+    enable = false;
     settings = {
       general = {
         ignore_dbus_inhibit = false;
