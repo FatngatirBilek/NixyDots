@@ -4,109 +4,104 @@
 
     settings = {
       display = {
-        color = {
-          output = "magenta";
-        };
+        separator = " ";
+        # color = {
+        #   output = "magenta";
+        # };
       };
 
+      # Uncomment and adapt if you want to use a logo
       # logo = {
-      #   source = ./nixos.png;
-      #   height = 15;
-      #   width = 30;
-      #   padding = {
-      #     top = 3;
-      #     left = 3;
-      #   };
-      #   position = "left";
+      #   type = "kitty-icat";
+      #   source = "~/.config/fastfetch/logo/blue-lirios.png";
+      #   width = 25;
+      #   height = 25;
       # };
 
       modules = [
-        "break"
         {
+          key = "  ";
           type = "custom";
-          format = "┌──────────────────────Hardware──────────────────────┐";
         }
         {
-          type = "cpu";
-          key = "│  ";
-        }
-        {
-          type = "gpu";
-          key = "│  ";
-        }
-        {
-          type = "memory";
-          key = "│  ";
-        }
-        {
+          key = "  ";
           type = "custom";
-          format = "└────────────────────────────────────────────────────┘";
         }
-        "break"
         {
+          key = "╭───────────╮";
           type = "custom";
-          format = "┌──────────────────────Software──────────────────────┐";
         }
         {
+          key = "│ {#32}  user   {#keys}│";
+          type = "title";
+          format = "{user-name}";
+        }
+        {
+          key = "│ {#32}󰇅  hname  {#keys}│";
+          type = "title";
+          format = "{host-name}";
+        }
+        # { key = "│ {#33}󰅐 uptime  {#keys}│"; type = "uptime"; }
+        {
+          key = "│ {#32}{icon}  distro {#keys}│";
           type = "os";
-          key = " OS -> ";
         }
         {
+          key = "│ {#32}  kernel {#keys}│";
           type = "kernel";
-          key = "│ ├ ";
         }
         {
+          key = "│ {#32}  pckgs  {#keys}│";
           type = "packages";
-          key = "│ ├󰏖 ";
         }
         {
-          type = "shell";
-          key = "└ └ ";
-        }
-        "break"
-        {
+          key = "│ {#32}󰇄  WM     {#keys}│";
           type = "wm";
-          key = " WM";
         }
         {
-          type = "wmtheme";
-          key = "│ ├󰉼 ";
-        }
-        {
+          key = "│ {#32}  term   {#keys}│";
           type = "terminal";
-          key = "└ └ ";
         }
         {
-          type = "custom";
-          format = "└────────────────────────────────────────────────────┘";
+          key = "│ {#32}  shell  {#keys}│";
+          type = "shell";
         }
-        "break"
         {
-          type = "custom";
-          format = "┌────────────────────Uptime / Age────────────────────┐";
+          key = "│ {#32}󰍛  cpu    {#keys}│";
+          type = "cpu";
+          showPeCoreCount = true;
         }
+        {
+          key = "│ {#32}󰉉  disk   {#keys}│";
+          type = "disk";
+          folders = "/";
+        }
+        {
+          key = "│ {#32}  memory {#keys}│";
+          type = "memory";
+        }
+        # { key = "│ {#32}󰩟  network{#keys}│"; type = "localip"; format = "{ipv4} ({ifname})"; }
         {
           type = "command";
-          key = "│ 󱦟 ";
-          text =
-            # bash
-            ''
-              birth_install=$(stat -c %W /)
-              current=$(date +%s)
-              delta=$((current - birth_install))
-              delta_days=$((delta / 86400))
-              echo $delta_days days
-            '';
+          key = "│ {#32}󱦟  livesys{#keys}│";
+          text = ''
+            birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days
+          '';
+          format = "This system lives {1}";
         }
         {
-          type = "uptime";
-          key = "│  ";
-        }
-        {
+          key = "├───────────┤";
           type = "custom";
-          format = "└────────────────────────────────────────────────────┘";
         }
-        "break"
+        {
+          key = "│ {#32}  colors {#keys}│";
+          type = "colors";
+          symbol = "circle";
+        }
+        {
+          key = "╰───────────╯";
+          type = "custom";
+        }
       ];
     };
   };

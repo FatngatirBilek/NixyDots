@@ -98,6 +98,7 @@ in {
     xdg-utils
     wget
     curl
+    swayimg
     xdg-desktop-portal-gnome
     polkit_gnome
     vim
