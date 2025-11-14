@@ -1,6 +1,6 @@
 {lib, ...}: {
   services.ollama = {
-    enable = false;
+    enable = true;
     acceleration = "cuda";
   };
   services.open-webui = {

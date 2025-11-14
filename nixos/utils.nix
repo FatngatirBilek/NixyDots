@@ -101,7 +101,9 @@ in {
     swayimg
     xdg-desktop-portal-gnome
     polkit_gnome
+    openssl
     vim
+    direnv
   ];
 
   security = {
