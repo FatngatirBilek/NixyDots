@@ -26,6 +26,7 @@
     mongosh
     postman
     docker-compose
+    telegram-desktop
     # libreoffice-qt6-fresh
     icu.dev
     icu
