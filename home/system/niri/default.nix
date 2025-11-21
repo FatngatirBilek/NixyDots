@@ -256,11 +256,11 @@ in {
             "${inputs.thirr-wallpapers}/wallpapers/wallpaper.jpg"
           ];
         }
-        # {
-        #   command = [
-        #     "noctalia-shell"
-        #   ];
-        # }
+        {
+          command = [
+            "dms run -d"
+          ];
+        }
       ];
     };
   };

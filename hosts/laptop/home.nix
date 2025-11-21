@@ -131,7 +131,7 @@ in {
   programs.dankMaterialShell = {
     enable = true;
     quickshell.package = quickshell.packages.${pkgs.system}.default;
-    enableSystemd = true;
+    enableSystemd = false;
   };
   services.cliphist = {
     enable = true;

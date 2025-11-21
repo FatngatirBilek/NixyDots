@@ -83,6 +83,7 @@ in {
   # users.extraGroups.vboxusers.members = ["${config.var.username}"];
   users.groups.libvirtd.members = ["${config.var.username}"];
   virtualisation = {
+    waydroid.enable = true;
     # virtualbox = {
     #   host.enable = true;
     # };
