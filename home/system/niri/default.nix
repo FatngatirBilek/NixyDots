@@ -258,7 +258,9 @@ in {
         }
         {
           command = [
-            "dms run -d"
+            "dms"
+            "run"
+            "-d"
           ];
         }
       ];
