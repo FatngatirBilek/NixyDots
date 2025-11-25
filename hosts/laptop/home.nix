@@ -47,7 +47,6 @@ in {
     ../../home/system/waybar
     ../../home/system/swaync
     ../../home/system/wofi
-    # ../../home/system/noctalia
 
     inputs.niri.homeModules.niri
     ../../home/system/niri
