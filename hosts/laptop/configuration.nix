@@ -18,7 +18,6 @@ in {
     ../../nixos/prime.nix # Prime
 
     ../../nixos/audio.nix
-    ../../nixos/auto-upgrade.nix
     ../../nixos/bluetooth.nix
     ../../nixos/fonts.nix
     ../../nixos/home-manager.nix

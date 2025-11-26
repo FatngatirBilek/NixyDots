@@ -13,7 +13,6 @@
     # ../../nixos/prime.nix # Prime
 
     ../../nixos/audio.nix
-    ../../nixos/auto-upgrade.nix
     ../../nixos/bluetooth.nix
     ../../nixos/fonts.nix
     ../../nixos/home-manager.nix
@@ -60,9 +59,9 @@
     nix-ld = {
       enable = true;
     };
-   # ssh = {
-   #   startAgent = true;
-   # };
+    # ssh = {
+    #   startAgent = true;
+    # };
     virt-manager = {
       enable = true;
     };
