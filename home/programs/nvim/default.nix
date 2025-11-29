@@ -114,8 +114,12 @@
         snippets.luasnip.enable = true;
 
         filetree = {
-          neo-tree = {
+          nvimTree = {
             enable = true;
+            openOnSetup = false;
+          };
+          neo-tree = {
+            enable = false;
           };
         };
 
