@@ -108,8 +108,8 @@
         # enable blink-cmp in maximal because it needs to build its rust fuzzy
         # matcher library.
         autocomplete = {
-          nvim-cmp.enable = false;
-          blink-cmp.enable = true;
+          nvim-cmp.enable = true;
+          blink-cmp.enable = false;
         };
         snippets.luasnip.enable = true;
 
