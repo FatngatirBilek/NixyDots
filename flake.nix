@@ -65,11 +65,6 @@
       url = "github:outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.quickshell.follows = "quickshell"; # Use same quickshell version
-    };
     nvf = {
       url = "github:NotAShelf/nvf";
       # You can override the input nixpkgs to follow your system's

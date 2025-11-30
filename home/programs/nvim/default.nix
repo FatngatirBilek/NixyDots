@@ -169,7 +169,7 @@
         utility = {
           ccc.enable = true;
           diffview-nvim.enable = true;
-          yanky-nvim.enable = true;
+          yanky-nvim.enable = false;
           icon-picker.enable = true;
           surround.enable = true;
           multicursors.enable = true;

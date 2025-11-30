@@ -129,8 +129,8 @@ in {
   # dank shell
   programs.dankMaterialShell = {
     enable = true;
-    quickshell.package = quickshell.packages.${pkgs.system}.default;
-    enableSystemd = false;
+    quickshell.package = quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    systemd.enable = false;
   };
   services.cliphist = {
     enable = true;
@@ -139,7 +139,7 @@ in {
   programs.nix-index = {
     enable = true;
     enableZshIntegration = true;
-    package = inputs.nix-index-database.packages.${pkgs.system}.nix-index-with-small-db;
+    package = inputs.nix-index-database.packages.${pkgs.stdenv.hostPlatform.system}.nix-index-with-small-db;
   };
   theming.enable = true;
   swaync.enable = false;

@@ -855,26 +855,6 @@
         "type": "github"
       }
     },
-    "noctalia": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1764033324,
-        "narHash": "sha256-saH/OCaMnqZpKQ12hQaEXNiG2WThLW6tlXOBCMvl51o=",
-        "owner": "noctalia-dev",
-        "repo": "noctalia-shell",
-        "rev": "70b19791bbf65da73b96b8af3c9a74d1ec5b90c0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "noctalia-dev",
-        "repo": "noctalia-shell",
-        "type": "github"
-      }
-    },
     "nur": {
       "inputs": {
         "flake-parts": "flake-parts_2",
@@ -1037,11 +1017,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1763629934,
-        "narHash": "sha256-jWz10RbNAyylJbH4cUTLS/CsDjkd8gxfT8OsIgQIgEg=",
+        "lastModified": 1764482797,
+        "narHash": "sha256-ynV90KoBrPe38YFlKAHtPFk4Ee3IANUsIFGxRaq7H/s=",
         "owner": "outfoxxed",
         "repo": "quickshell",
-        "rev": "ed036d514b0fdbce03158a0b331305be166f4555",
+        "rev": "d24e8e9736287d01ee73ef9d573d2bc316a62d5c",
         "type": "github"
       },
       "original": {
@@ -1066,7 +1046,6 @@
         "nixos-cosmic": "nixos-cosmic",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_7",
-        "noctalia": "noctalia",
         "nur": "nur",
         "nvchad-starter": "nvchad-starter",
         "nvchad4nix": "nvchad4nix",

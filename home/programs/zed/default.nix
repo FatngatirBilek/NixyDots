@@ -4,7 +4,7 @@
   inputs,
   ...
 }: let
-  zedEditorFlakes = inputs.zed-editor-flake.packages.${pkgs.system}.zed-editor-preview-bin;
+  zedEditorFlakes = inputs.zed-editor-flake.packages.${pkgs.stdenv.hostPlatform.system}.zed-editor-preview-bin;
 in {
   home.packages = with pkgs; [
     vtsls

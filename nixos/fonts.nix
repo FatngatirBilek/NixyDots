@@ -22,7 +22,7 @@
       nerd-fonts.jetbrains-mono
       openmoji-color
       twemoji-color-font
-      inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd
+      inputs.apple-fonts.packages.${pkgs.stdenv.hostPlatform.system}.sf-pro-nerd
       corefonts
       vista-fonts
       material-symbols
