@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [
     inputs.nvf.homeManagerModules.default
   ];
@@ -17,6 +21,10 @@
             ui.enable = true;
           };
         };
+        # startPlugins = [
+        #   pkgs.vimPlugins.alpha-nvim
+        #   pkgs.vimPlugins.plenary-nvim
+        # ];
 
         lsp = {
           enable = true;
@@ -57,7 +65,7 @@
 
           # Language modules that are not as common.
           assembly.enable = false;
-          astro.enable = false;
+          astro.enable = true;
           nu.enable = false;
           csharp.enable = false;
           julia.enable = false;
@@ -72,7 +80,7 @@
           ruby.enable = false;
           fsharp.enable = false;
 
-          tailwind.enable = false;
+          tailwind.enable = true;
           svelte.enable = true;
         };
         visuals = {
@@ -159,9 +167,9 @@
           project-nvim.enable = true;
         };
         utility = {
-          ccc.enable = false;
+          ccc.enable = true;
           diffview-nvim.enable = true;
-          yanky-nvim.enable = false;
+          yanky-nvim.enable = true;
           icon-picker.enable = true;
           surround.enable = true;
           multicursors.enable = true;
@@ -221,10 +229,10 @@
         assistant = {
           chatgpt.enable = false;
           copilot = {
-            enable = true;
-            cmp.enable = true;
+            enable = false;
+            cmp.enable = false;
           };
-          codecompanion-nvim.enable = false;
+          codecompanion-nvim.enable = true;
           avante-nvim.enable = false;
         };
 
