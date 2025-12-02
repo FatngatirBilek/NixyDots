@@ -114,7 +114,7 @@ in {
 
   # local send
   programs.localsend.enable = true;
-
+  services.desktopManager.gnome.enable = true;
   # Cosmic Trouble
   # services.displayManager.cosmic-greeter.enable = true;
   # environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;

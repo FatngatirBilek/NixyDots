@@ -12,39 +12,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    xdg.configFile = {
-      "Kvantum".source = "${pkgs.whitesur-gtk-theme}/share/themes/WhiteSur-Dark/Kvantum";
-      "qt5ct".source = "${pkgs.whitesur-gtk-theme}/share/themes/WhiteSur-Dark/qt5ct";
-      "qt6ct".source = "${pkgs.whitesur-gtk-theme}/share/themes/WhiteSur-Dark/qt6ct";
-    };
-
-    xdg.desktopEntries.discord.settings = {
-      Exec = "discord --ozone-platform-hint=auto %U";
-      Categories = "Network;InstantMessaging;Chat";
-      GenericName = "All-in-one cross-platform voice and text chat for gamers";
-      Icon = "discord";
-      MimeType = "x-scheme-handler/discord";
-      Keywords = "discord;vencord;electron;chat";
-      Name = "Discord";
-      StartupWMClass = "discord";
-      Type = "Application";
-    };
-
-    dconf.settings = {
-      "org/nemo/preferences" = {
-        default-folder-viewer = "list-view";
-        show-hidden-files = true;
-        thumbnail-limit = lib.hm.gvariant.mkUint64 68719476736;
-      };
-      "org/gnome/nautilus/preferences" = {
-        default-folder-viewer = "list-view";
-        migrated-gtk-settings = true;
-      };
-      "org/gnome/desktop/interface" = {
-        color-scheme = "prefer-dark";
-      };
-    };
-
     qt = {
       enable = true;
     };
@@ -79,7 +46,10 @@ in {
 
     home.sessionVariables = {
       GTK_THEME = "WhiteSur-Dark";
+      GTK_ICON_THEME = "WhiteSur-dark";
+      GTK_CURSOR_THEME = "Bibata-Modern-Ice";
       GTK_APPLICATION_PREFER_DARK_THEME = "1";
+      GTK2_RC_FILES = "${config.home.homeDirectory}/.gtkrc-2.0";
     };
   };
 }

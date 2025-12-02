@@ -19,6 +19,10 @@ in {
   home.sessionVariables = {
     QT_QPA_PLATFORMTHEME = "gtk3";
     GTK_THEME = "WhiteSur-Dark";
+    GTK_ICON_THEME = "WhiteSur-dark";
+    GTK_CURSOR_THEME = "Bibata-Modern-Ice";
+    GTK_APPLICATION_PREFER_DARK_THEME = "1";
+    GTK2_RC_FILES = "${config.home.homeDirectory}/.gtkrc-2.0";
     QT_ICON_THEME = "WhiteSur-dark";
   };
   programs.niri = {
