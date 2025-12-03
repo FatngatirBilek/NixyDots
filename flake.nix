@@ -67,7 +67,10 @@
     };
     # hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     apple-fonts.url = "github:Lyndeno/apple-fonts.nix";
-    zen-browser.url = "git+https://git.sr.ht/~canasta/zen-browser-flake/";
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     zed-editor-flake.url = "github:FatngatirBilek/zed-editor-flake";
     anyrun.url = "github:fufexan/anyrun/launch-prefix";
   };
