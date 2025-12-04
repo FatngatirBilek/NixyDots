@@ -15,6 +15,8 @@
 in {
   home.packages = with pkgs; [
     swaybg
+    pulseaudio
+    myxer
   ];
 
   programs.niri = {

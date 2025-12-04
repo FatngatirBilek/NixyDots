@@ -40,7 +40,7 @@ in {
           font-size: 16px
         }
         #waybar {
-          background: none;
+          background: rgba(17,17,27,1);
         }
         .modules-left {
           background: rgba(0,0,0,0.2);
