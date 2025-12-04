@@ -142,13 +142,14 @@ in {
     package = inputs.nix-index-database.packages.${pkgs.stdenv.hostPlatform.system}.nix-index-with-small-db;
   };
   theming.enable = true;
-  swaync.enable = false;
+  swaync.enable = true;
   hyprland = {
     enable = false;
     hyprpaper = false;
     mpvpaper = false;
     wlogout = false;
   };
+  waybar.enable = true;
   nixpkgs.overlays = lib.mkForce null; # fix evaluation warning about nixpkgs.overlays
   programs.home-manager.enable = true;
 }

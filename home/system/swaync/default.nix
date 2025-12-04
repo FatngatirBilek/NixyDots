@@ -14,215 +14,237 @@ in {
     services.swaync = {
       enable = true;
       settings = {
+        ignore-gtk-theme = true;
         positionX = "left";
         positionY = "top";
-        layer = "overlay";
-        control-center-layer = "overlay";
-        layer-shell = true;
-        cssPriority = "application";
         control-center-margin-top = 10;
-        control-center-margin-bottom = 0;
-        control-center-margin-right = 0;
-        control-center-margin-left = 10;
-        notification-2fa-action = true;
-        notification-inline-replies = false;
-        notification-icon-size = 64;
+        control-center-margin-bottom = 10;
+        control-center-margin-right = 10;
         notification-body-image-height = 100;
         notification-body-image-width = 200;
         timeout = 10;
         timeout-low = 5;
         timeout-critical = 0;
         fit-to-screen = false;
-        relative-timestamps = true;
-        control-center-width = 370;
-        control-center-height = 1030;
-        notification-window-width = 350;
+        control-center-width = 500;
+        control-center-height = 1035;
+        notification-window-width = 500;
         keyboard-shortcuts = true;
         image-visibility = "when-available";
         transition-time = 200;
         hide-on-clear = false;
         hide-on-action = true;
+        script-fail-notify = true;
+        text-empty = "No Notification";
         widgets = [
-          "inhibitors"
           "title"
           "dnd"
-          "notifications"
+          "buttons-grid"
+          "mpris"
         ];
         widget-config = {
-          inhibitors = {
-            text = "Inhibitors";
-            button-text = "Clear";
-            clear-all-button = true;
-          };
           title = {
-            text = "Notifications";
+            text = "Notification Center";
             clear-all-button = true;
-            button-text = "Clear All";
-          };
-          dnd = {
-            text = "Do not disturb";
+            button-text = "󰆴 Clear All";
           };
           mpris = {
-            image-size = 96;
-            image-radius = 12;
+            blacklist = ["playerctl"];
+            autohide = false;
+            show-album-art = "always";
+            loop-carousel = false;
+          };
+          volume = {
+            label = "󰕾";
+          };
+          backlight = {
+            label = "󰃟";
+          };
+          buttons-grid = {
+            actions = [
+              {
+                label = "󰐥";
+                command = "systemctl poweroff";
+              }
+              {
+                label = "󰜉";
+                command = "systemctl reboot";
+              }
+              {
+                label = "󰌾";
+                command = "hyprlock";
+              }
+              {
+                label = "󰍃";
+                command = "swaymsg exit";
+              }
+              {
+                label = "󰆴";
+                command = "swaync-client -C";
+              }
+              {
+                label = "";
+                command = "caffeine";
+              }
+              # {
+              #   label = "󰕾";
+              #   command = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
+              #   type = "toggle";
+              # }
+              # {
+              #   label = "󰍬";
+              #   command = "pactl set-source-mute @DEFAULT_SOURCE@ toggle";
+              #   type = "toggle";
+              # }
+              # {
+              #   label = "󰖩";
+              #   command = "iwgtk";
+              # }
+              # {
+              #   label = "󰂯";
+              #   command = "blueman-manager";
+              # }
+              # {
+              #   label = "";
+              #   command = "kooha";
+              # }
+            ];
           };
         };
       };
       style = ''
-        /*
-        * vim: ft=less
-        */
+        @define-color cc-bg #16161d;
+        @define-color noti-border-color #dcd7ba;
+        @define-color noti-bg #11111b;
+        @define-color noti-bg-darker #2b2b39;
+        @define-color noti-bg-hover #1b1b2b;
+        @define-color noti-bg-focus #1b1b1b;
+        @define-color noti-close-bg #dcd7ba;
+        @define-color noti-close-bg-hover #dcd7ba;
+        @define-color text-color #dcd7ba;
+        @define-color text-color-disabled #828282;
+        @define-color bg-selected #7e9cd8;
+        @define-color border-green #76946a;
+        @define-color red-base #c34043;
+        @define-color red-hover #e46876;
+        @define-color green-base #98bb6c;
+        @define-color blue-base #7e9cd8;
 
-        @define-color cc-bg rgba(0, 0, 0, 0.01);
+        * {
+          font-family: "JetBrainsMono NFM SemiBold", monospace;
+          border-radius: 0;
+        }
 
-        @define-color noti-border-color transparent;
-        @define-color noti-bg rgba(0, 0, 0, 0.01);
-        @define-color noti-bg-darker rgb(38, 38, 38);
-        @define-color noti-bg-hover rgba(56, 56, 56, 0.3);
-        @define-color noti-bg-focus rgba(68, 68, 68, 0);
-        @define-color noti-close-bg rgba(255, 255, 255, 0.1);
-        @define-color noti-close-bg-hover rgba(255, 255, 255, 0.15);
-
-        @define-color text-color rgb(255, 255, 255);
-        @define-color text-color-disabled rgb(150, 150, 150);
-
-        @define-color bg-selected rgb(0, 128, 255);
-
-        /* Add new colors for dnd switch thumb (slider) */
-        @define-color dnd-switch-off rgba(120, 120, 120, 0.25);
-        @define-color dnd-switch-slider-off #b0b0b0;
-        @define-color dnd-switch-slider-on #ffffff;
+        .control-center .notification-row:focus,
+        .control-center .notification-row:hover {
+          opacity: 1;
+          background: @noti-bg-darker;
+        }
 
         .notification-row {
           outline: none;
+          margin: 0;
+          padding: 0;
         }
-        * {
-          box-shadow: none;
-        }
-        .notification-row:focus,
-        .notification-row:hover {
-          background: @noti-bg-focus;
+
+        .notification,
+        .notification-content,
+        .notification-action,
+        .notification-default-action,
+        .inline-reply-entry,
+        .inline-reply-button,
+        .widget-title,
+        .widget-title>button,
+        .widget-dnd,
+        .widget-dnd>switch,
+        .widget-dnd>switch slider,
+        .widget-label>label,
+        .widget-buttons-grid,
+        .widget-buttons-grid>flowbox>flowboxchild>button,
+        .widget-volume,
+        .widget-backlight,
+        .widget-mpris,
+        .widget-mpris>box>button,
+        .widget-mpris-player,
+        .widget-mpris-album-art {
+          border-radius: 0;
         }
 
         .notification {
-          border-radius: 12px;
-          margin: 6px 12px;
-          border: none;
-          padding: 0;
-          background: rgba(0,0,0,0.1);
-        }
-
-        .notification-content {
-          background: transparent;
-          padding: 6px;
-          border-radius: 12px;
+          background: @cc-bg;
+          border: 2px solid @border-green;
+          margin: 3px -2px 3px 0;
         }
 
         .close-button {
-          background: @noti-close-bg;
-          color: @text-color;
+          background: @red-base;
+          color: @cc-bg;
           text-shadow: none;
           padding: 0;
-          border-radius: 100%;
-          margin-top: 10px;
-          margin-right: 16px;
-          box-shadow: none;
+          margin-top: 5px;
+          margin-right: 5px;
+          opacity: 0;
+          transition: opacity 0.2s ease-in-out;
+          border-radius: 0;
           border: none;
-          min-width: 24px;
-          min-height: 24px;
+        }
+
+        .notification:hover .close-button {
+          opacity: 1;
         }
 
         .close-button:hover {
+          background: @red-hover;
           box-shadow: none;
-          background: @noti-close-bg-hover;
           transition: all 0.15s ease-in-out;
-          border: none;
         }
 
-        .notification-default-action,
         .notification-action {
-          padding: 4px;
-          margin: 0;
-          box-shadow: none;
-          background: @noti-bg;
-          color: @text-color;
-          transition: all 0.15s ease-in-out;
+          border: 2px solid @border-green;
         }
 
         .notification-default-action:hover,
         .notification-action:hover {
-          -gtk-icon-effect: none;
-          background: @noti-bg-hover;
+          color: @blue-base;
+          background: @cc-bg;
         }
 
-        .notification-default-action {
-          border-radius: 12px;
-        }
-
-        /* When alternative actions are visible */
-        .notification-default-action:not(:only-child) {
-          border-bottom-left-radius: 0px;
-          border-bottom-right-radius: 0px;
-        }
-
-        .notification-action {
-          border-radius: 0px;
-          border-top: none;
-          border-right: none;
-        }
-
-        /* add bottom border radius to eliminate clipping */
-        .notification-action:first-child {
-          border-bottom-left-radius: 10px;
-        }
-
-        .notification-action:last-child {
-          border-bottom-right-radius: 10px;
-        }
-
-        .inline-reply {
-          margin-top: 8px;
-        }
         .inline-reply-entry {
           background: @noti-bg-darker;
           color: @text-color;
           caret-color: @text-color;
-          border-radius: 12px;
+          border: 1px solid @noti-border-color;
         }
+
         .inline-reply-button {
+          margin-top: 4px;
           margin-left: 4px;
           background: @noti-bg;
-          border-radius: 12px;
+          border: 1px solid @noti-border-color;
           color: @text-color;
         }
+
         .inline-reply-button:disabled {
-          background: initial;
+          background: transparent;
           color: @text-color-disabled;
+          border: 1px solid transparent;
         }
+
         .inline-reply-button:hover {
           background: @noti-bg-hover;
         }
 
-        .image {
-        }
-
-        .body-image {
-          margin-top: 6px;
-          background-color: white;
-          border-radius: 12px;
-        }
-
         .summary {
           font-size: 16px;
-          font-weight: bold;
+          font-weight: 700;
           background: transparent;
-          color: @text-color;
+          color: @green-base;
           text-shadow: none;
         }
 
         .time {
           font-size: 16px;
-          font-weight: bold;
+          font-weight: 700;
           background: transparent;
           color: @text-color;
           text-shadow: none;
@@ -231,7 +253,7 @@ in {
 
         .body {
           font-size: 15px;
-          font-weight: normal;
+          font-weight: 400;
           background: transparent;
           color: @text-color;
           text-shadow: none;
@@ -239,183 +261,114 @@ in {
 
         .control-center {
           background: @cc-bg;
+          border: 2px solid @border-green;
         }
 
-        .control-center-list {
-          background: transparent;
-        }
-
-        .control-center-list-placeholder {
-          opacity: 0.5;
-        }
-
-        .floating-notifications {
-          background: transparent;
-        }
-
-        /* Window behind control center and on all other monitors */
-        .blank-window {
-          background: alpha(black, 0);
-        }
-
-        /*** Widgets ***/
-
-        /* Title widget */
         .widget-title {
-          margin: 8px;
+          color: @blue-base;
+          background: @noti-bg-darker;
+          padding: 5px 10px;
+          margin: 10px;
           font-size: 1.5rem;
         }
-        .widget-title > button {
-          font-size: initial;
+
+        .widget-title>button {
+          font-size: 1rem;
           color: @text-color;
-          text-shadow: none;
           background: @noti-bg;
           box-shadow: none;
-          border-radius: 12px;
-        }
-        .widget-title > button:hover {
-          background: @noti-bg-hover;
         }
 
-        /* DND widget */
+        .widget-title>button:hover {
+          background: @red-base;
+          color: @cc-bg;
+        }
+
         .widget-dnd {
-          margin: 8px;
-          font-size: 1.1rem;
-        }
-        .widget-dnd > switch {
-          font-size: initial;
-          border-radius: 12px;
-          background: @dnd-switch-off;
-          box-shadow: none;
-          transition: background 0.15s;
-        }
-        .widget-dnd > switch:checked {
-          background: @bg-selected;
-        }
-        .widget-dnd > switch slider {
-          background: @dnd-switch-slider-off;
-          border-radius: 12px;
-          transition: background 0.15s;
-        }
-        .widget-dnd > switch:checked slider {
-          background: @dnd-switch-slider-on;
+          background: @noti-bg-darker;
+          padding: 5px 10px;
+          margin: 5px 10px;
+          font-size: large;
+          color: @blue-base;
         }
 
-        /* Label widget */
-        .widget-label {
-          margin: 8px;
-        }
-        .widget-label > label {
-          font-size: 1.1rem;
+        .widget-dnd>switch {
+          background: @blue-base;
+          border-radius: 0;
         }
 
-        /* Mpris widget */
-        .widget-mpris {
-          /* The parent to all players */
-        }
-        .widget-mpris-player {
-          padding: 8px;
-          margin: 8px;
-        }
-        .widget-mpris-title {
-          font-weight: bold;
-          font-size: 1.25rem;
-        }
-        .widget-mpris-subtitle {
-          font-size: 1.1rem;
+        .widget-dnd>switch:checked {
+          background: @red-base;
+          border: 1px solid @red-base;
         }
 
-        /* Buttons widget */
+        .widget-label>label {
+          font-size: 1rem;
+          color: @text-color;
+          margin: 10px;
+        }
+
         .widget-buttons-grid {
-          padding: 8px;
-          margin: 8px;
-          border-radius: 12px;
-          background-color: @noti-bg;
+          font-size: x-large;
+          padding: 5px;
+          margin: 0px 10px 10px 10px;
+          background: @noti-bg-darker;
         }
 
-        .widget-buttons-grid>flowbox>flowboxchild>button{
-          background: @noti-bg;
-          border-radius: 12px;
-        }
-
-        /* style given to the active toggle button */
-        .widget-buttons-grid>flowbox>flowboxchild>button.toggle:checked {
+        .widget-buttons-grid>flowbox>flowboxchild>button {
+          margin: 3px;
+          padding: 4px 30px;
+          background: @cc-bg;
+          color: @text-color;
+          transition: background-color 0.15s ease-in-out;
         }
 
         .widget-buttons-grid>flowbox>flowboxchild>button:hover {
+          background: @blue-base;
+          color: @cc-bg;
         }
 
-        /* Menubar widget */
-        .widget-menubar>box>.menu-button-bar>button {
-          border: none;
-          background: transparent;
+        .widget-buttons-grid>flowbox>flowboxchild>button:checked {
+          background: @green-base;
+          color: @cc-bg;
         }
 
-        /* .AnyName { Name defined in config after #
-          background-color: @noti-bg;
-          padding: 8px;
-          margin: 8px;
-          border-radius: 12px;
-        }
-
-        .AnyName>button {
-          background: transparent;
-          border: none;
-        }
-
-        .AnyName>button:hover {
-          background-color: @noti-bg-hover;
-        } */
-
-        .topbar-buttons>button { /* Name defined in config after # */
-          border: none;
-          background: transparent;
-        }
-
-        /* Volume widget */
-
-        .widget-volume {
-          background-color: @noti-bg;
-          padding: 8px;
-          margin: 8px;
-          border-radius: 12px;
-        }
-
-        .widget-volume>box>button {
-          background: transparent;
-          border: none;
-        }
-
-        .per-app-volume {
-          background-color: @noti-bg-alt;
-          padding: 4px 8px 8px 8px;
-          margin: 0px 8px 8px 8px;
-          border-radius: 12px;
-        }
-
-        /* Backlight widget */
+        .widget-volume,
         .widget-backlight {
-          background-color: @noti-bg;
-          padding: 8px;
-          margin: 8px;
-          border-radius: 12px;
+          background: @noti-bg-darker;
+          padding: 5px;
+          margin: 5px 10px;
+          font-size: 2rem;
+          color: @blue-base;
         }
 
-        /* Title widget */
-        .widget-inhibitors {
-          margin: 8px;
-          font-size: 1.5rem;
-        }
-        .widget-inhibitors > button {
-          font-size: initial;
+        .widget-mpris {
           color: @text-color;
-          text-shadow: none;
-          background: @noti-bg;
+          background: @noti-bg-darker;
+          margin: 0px 10px 10px 10px;
           box-shadow: none;
-          border-radius: 12px;
         }
-        .widget-inhibitors > button:hover {
-          background: @noti-bg-hover;
+
+        .widget-mpris>box>button,
+        .widget-mpris-player,
+        .widget-mpris-album-art {
+          border-radius: 0;
+          box-shadow: none;
+          margin: 10px;
+        }
+
+        picture.mpris-background {
+          opacity: 0;
+        }
+
+        .notification-action>button {
+          color: @text-color;
+          border-radius: 0px;
+        }
+
+        .notification-action>button:hover {
+          background-color: @border-green;
+          color: @cc-bg;
         }
       '';
     };

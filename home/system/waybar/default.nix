@@ -15,7 +15,6 @@ in {
       enable = true;
       systemd = {
         enable = true;
-        target = "hyprland-session.target";
       };
       style = ''
         @define-color accent #2362ba;
@@ -342,10 +341,11 @@ in {
           position = "top";
           modules-left = [
             "group/powermenu"
+            "niri/workspaces"
             "group/stuff"
           ];
           modules-center = [
-            "hyprland/window"
+            "niri/window"
           ];
           modules-right = [
             "tray"
@@ -379,6 +379,21 @@ in {
               "(.*)Mozilla Firefox" = "Mozilla Firefox";
               "(.*)Ablaze Floorp" = "Ablaze Floorp";
             };
+          };
+          "niri/window" = {
+            format = "{}";
+            icon = false;
+            icon-size = 24;
+            separate-outputs = false;
+            rewrite = {
+              "(.*) - Mozilla Firefox" = "🌎 $1";
+              "(.*) - zsh" = "> [$1]";
+            };
+          };
+          "niri/language" = {
+            format = "Lang: {long}";
+            format-en = "AMERICA, HELL YEAH!";
+            format-tr = "As bayrakları";
           };
           "group/powermenu" = {
             drawer = {
@@ -446,6 +461,23 @@ in {
           "tray" = {
             spacing = 8;
             icon-size = 12;
+          };
+          "niri/workspaces" = {
+            format = "{icon}";
+            format-icons = {
+              # Named workspaces
+              browser = "";
+              discord = "";
+              chat = "<b></b>";
+              # Icons by state
+              active = "";
+              default = "";
+            };
+            all-outputs = true;
+            disable-click = false;
+            disable-markup = false;
+            current-only = false;
+            rewrite = {};
           };
           "group/scroll" = {
             orientation = "horizontal";
