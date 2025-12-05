@@ -53,9 +53,6 @@ in {
     inputs.dankMaterialShell.homeModules.dankMaterialShell.default
     inputs.dankMaterialShell.homeModules.dankMaterialShell.niri
 
-    # REMOVE this custom shell import if using Caelestia flake module:
-    # ../../home/system/shell
-
     ../../hosts/laptop/secrets # CHANGEME: You should probably remove this line, this is where I store my secrets
   ];
 

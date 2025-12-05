@@ -26,9 +26,9 @@ in {
         timeout-low = 5;
         timeout-critical = 0;
         fit-to-screen = false;
-        control-center-width = 500;
+        control-center-width = 400;
         control-center-height = 1035;
-        notification-window-width = 500;
+        notification-window-width = 350;
         keyboard-shortcuts = true;
         image-visibility = "when-available";
         transition-time = 200;
