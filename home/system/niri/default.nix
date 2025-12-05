@@ -137,7 +137,7 @@ in {
             "Mod+T".action = spawn "ghostty";
             # "Mod+D".action.spawn = dms "spotlight toggle";
             "Mod+D".action = spawn "wofi";
-            "Mod+L".action.spawn = dms "lock lock";
+            "Mod+L".action = spawn "hyprlock";
             "Mod+P".action.spawn = dms "powermenu toggle";
             "Mod+V".action.spawn = dms "clipboard toggle";
             "Mod+O".action = show-hotkey-overlay;
