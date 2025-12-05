@@ -33,7 +33,7 @@ in {
           margin-right: 8px;
         }
         tooltip {
-          background-color: rgba(0,0,0,0.1);
+          background-color: rgba(17,17,27,1);
           text-shadow: none;
         }
         #custom-notification {
@@ -615,7 +615,6 @@ in {
                 TOOLTIP="Not Charging"
               fi
 
-              # Add an extra space after the icon to avoid overlap
               echo "{\"text\":\"$ICON  $PERCENT%\",\"tooltip\":\"$TOOLTIP\"}"
             '';
             return-type = "json";

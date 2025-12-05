@@ -25,6 +25,6 @@
       description="Caffeine is now deactivated! Your screen will turn off automatically."
     fi
 
-    notif "caffeine" "$title" "$description"
+    notify-send "caffeine" "$title" "$description"
   '';
 in {home.packages = [caffeine-status caffeine caffeine-status-icon];}

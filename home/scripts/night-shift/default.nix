@@ -8,31 +8,33 @@
 #- - `night-shift` toggles Night-Shift.
 #- - `night-shift-status` checks if Night-Shift is active. (0/1)
 #- - `night-shift-status-icon` checks if Night-Shift is active. (icon)
-{ pkgs, ... }:
-let
+{pkgs, ...}: let
   value = "4500"; # Default value for night-shift temperature
 
-  night-shift-on = pkgs.writeShellScriptBin "night-shift-on"
-    # bash 
+  night-shift-on =
+    pkgs.writeShellScriptBin "night-shift-on"
+    # bash
     ''
       ${pkgs.hyprsunset}/bin/hyprsunset -t ${value} &
       title="󰖔  Night-Shift Activated"
       description="Night-Shift is now activated! Your screen will be warmer and easier on the eyes."
 
-      notif "night-shift" "$title" "$description"
+      notify-send "night-shift" "$title" "$description"
     '';
 
-  night-shift-off = pkgs.writeShellScriptBin "night-shift-off"
-    # bash 
+  night-shift-off =
+    pkgs.writeShellScriptBin "night-shift-off"
+    # bash
     ''
       pkill hyprsunset
       title="󰖕  Night-Shift Deactivated"
       description="Night-Shift is now deactivated! Your screen will return to normal."
 
-      notif "night-shift" "$title" "$description"
+      notify-send "night-shift" "$title" "$description"
     '';
 
-  night-shift = pkgs.writeShellScriptBin "night-shift"
+  night-shift =
+    pkgs.writeShellScriptBin "night-shift"
     # bash
     ''
       if pidof "hyprsunset"; then
@@ -42,7 +44,8 @@ let
       fi
     '';
 
-  night-shift-status = pkgs.writeShellScriptBin "night-shift-status"
+  night-shift-status =
+    pkgs.writeShellScriptBin "night-shift-status"
     # bash
     ''
       if pidof "hyprsunset"; then
@@ -52,7 +55,8 @@ let
       fi
     '';
 
-  night-shift-status-icon = pkgs.writeShellScriptBin "night-shift-status-icon"
+  night-shift-status-icon =
+    pkgs.writeShellScriptBin "night-shift-status-icon"
     # bash
     ''
       if pidof "hyprsunset"; then
