@@ -176,6 +176,12 @@ in {
           margin: 3px -2px 3px 0;
         }
 
+        .notification.critical,
+        .notification.urgency-critical {
+          border: 2px solid @red-base;
+          background: @noti-bg-hover;
+        }
+
         .close-button {
           background: @red-base;
           color: @cc-bg;
@@ -240,6 +246,11 @@ in {
           background: transparent;
           color: @green-base;
           text-shadow: none;
+        }
+
+        .notification.critical .summary,
+        .notification.urgency-critical .summary {
+          color: @red-base;
         }
 
         .time {
