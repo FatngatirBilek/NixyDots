@@ -17,14 +17,14 @@
   caffeine = pkgs.writeShellScriptBin "caffeine" ''
     if [[ $(pidof "hypridle") ]]; then
       systemctl --user stop hypridle.service
-      title="󰅶  Caffeine Activated"
+      summary="󰅶 Caffeine Activated"
       description="Caffeine is now active! Your screen will not turn off automatically."
     else
       systemctl --user start hypridle.service
-      title="󰾪  Caffeine Deactivated"
+      summary="󰾪 Caffeine Deactivated"
       description="Caffeine is now deactivated! Your screen will turn off automatically."
     fi
 
-    notify-send "caffeine" "$title" "$description"
+    notify-send -u normal -a "caffeine" "$summary" "$description"
   '';
 in {home.packages = [caffeine-status caffeine caffeine-status-icon];}
