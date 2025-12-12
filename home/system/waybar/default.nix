@@ -14,7 +14,7 @@ in {
     programs.waybar = {
       enable = true;
       systemd = {
-        enable = true;
+        enable = false;
       };
       style = ''
         @define-color accent #2362ba;

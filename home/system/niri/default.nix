@@ -260,9 +260,7 @@ in {
         }
         {
           command = [
-            # "dms"
-            # "run"
-            # "-d"
+            "waybar"
           ];
         }
       ];
