@@ -128,11 +128,11 @@ in {
     stateVersion = "24.05";
   };
   # dank shell
-  programs.dankMaterialShell = {
-    enable = true;
-    quickshell.package = quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default;
-    systemd.enable = false;
-  };
+  # programs.dankMaterialShell = {
+  #   enable = true;
+  #   quickshell.package = quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  #   systemd.enable = false;
+  # };
   services.cliphist = {
     enable = true;
     allowImages = true;
