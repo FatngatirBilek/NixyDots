@@ -12,7 +12,7 @@ in {
 
   config = mkIf cfg.enable {
     services.swaync = {
-      enable = false;
+      enable = true;
       settings = {
         ignore-gtk-theme = true;
         positionX = "left";

@@ -78,6 +78,7 @@ in {
       jq
       figlet
       just
+      google-chrome
 
       # Utils
       zip

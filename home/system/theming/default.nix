@@ -43,7 +43,6 @@ in {
       font.name = "Noto Sans Medium";
       font.size = 11;
     };
-
     home.sessionVariables = {
       GTK_THEME = "Orchis-Dark";
       GTK_ICON_THEME = "WhiteSur-dark";
