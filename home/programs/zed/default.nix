@@ -23,6 +23,7 @@ in {
 
     extensions = [
       "html"
+      "react-typescript-snippets"
       "superhtml"
       "tera"
       "toml"
