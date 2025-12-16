@@ -240,7 +240,7 @@ in {
           mode = {
             width = 1920;
             height = 1080;
-            refresh = 120.0;
+            refresh = 119.879;
           };
           position = {
             x = 1920;
