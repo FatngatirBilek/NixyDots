@@ -439,7 +439,7 @@ in {
           "space c r" = "editor::Rename";
           "space e" = "pane::RevealInProjectPanel";
           "space space" = "file_finder::Toggle";
-          "space t h" = "terminal_panel::ToggleFocus";
+          "space t h" = "terminal_panel::Toggle";
           "space x x" = "diagnostics::Deploy";
         };
       }
