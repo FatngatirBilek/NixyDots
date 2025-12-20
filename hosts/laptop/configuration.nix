@@ -37,9 +37,9 @@ in {
     ../../nixos/overrides.nix
     # ../../nixos/tabletdriver.nix
     ../../nixos/greeter.nix
-    ../../nixos/lanzaboote.nix # Secure boot
+    #../../nixos/lanzaboote.nix # Secure boot
     ../../nixos/games.nix
-    ../../nixos/packettracer.nix
+   # ../../nixos/packettracer.nix
     # ../../nixos/ollama.nix
     ./hardware-configuration.nix
     ./variables.nix

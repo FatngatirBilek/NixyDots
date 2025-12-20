@@ -50,8 +50,8 @@ in {
 
     inputs.niri.homeModules.niri
     ../../home/system/niri
-    inputs.dankMaterialShell.homeModules.dankMaterialShell.default
-    inputs.dankMaterialShell.homeModules.dankMaterialShell.niri
+    # inputs.dankMaterialShell.homeModules.dankMaterialShell.default
+    # inputs.dankMaterialShell.homeModules.dankMaterialShell.niri
     # REMOVE this custom shell import if using Caelestia flake module:
     # ../../home/system/shell
 
