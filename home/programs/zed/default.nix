@@ -27,6 +27,7 @@ in {
       "superhtml"
       "tera"
       "toml"
+      "nix"
       "vue"
       "scss"
       "nix"
