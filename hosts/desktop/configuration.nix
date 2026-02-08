@@ -20,7 +20,6 @@
     ../../nixos/nix.nix
     ../../nixos/systemd-boot.nix
     ../../nixos/timezone.nix
-    # ../../nixos/tuigreet.nix
     ../../nixos/users.nix
     ../../nixos/utils.nix
     ../../nixos/variables-config.nix
@@ -30,7 +29,7 @@
     ../../nixos/wine.nix
     ../../nixos/fcitx.nix
     ../../nixos/overrides.nix
-    ../../nixos/tabletdriver.nix
+    # ../../nixos/tabletdriver.nix
     ../../nixos/greeter.nix
     # ../../nixos/lanzaboote.nix # Secure boot
 
@@ -99,10 +98,10 @@
   # };
 
   # Cosmic Trouble
-  # services.displayManager.cosmic-greeter.enable = true;
+  services.displayManager.cosmic-greeter.enable = false;
   # environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
 
-  services.desktopManager.cosmic.enable = false;
+  services.desktopManager.cosmic.enable = true;
 
   virtualisation.spiceUSBRedirection.enable = true;
   home-manager.users."${config.var.username}" = import ./home.nix;

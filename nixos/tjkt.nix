@@ -32,15 +32,17 @@
     icu
     libcxx
     clang-tools
-    jetbrains-toolbox
+    # jetbrains-toolbox
   ];
 
   # Winbox setup
-  programs.winbox = {
+  /*
+     programs.winbox = {
     enable = true;
     openFirewall = true;
     package = pkgs.winbox4;
   };
+  */
 
   # onlyoffice has trouble with symlinks: https://github.com/ONLYOFFICE/DocumentServer/issues/1859
   system.userActivationScripts = {

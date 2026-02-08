@@ -16,7 +16,7 @@ in {
     ../../home/programs/zsh
     ../../home/programs/fetch
     ../../home/programs/git
-    ../../home/programs/spicetify
+    # ../../home/programs/spicetify
     ../../home/programs/fastfetch
     # ../../home/programs/nextcloud
     ../../home/programs/yazi
@@ -48,10 +48,6 @@ in {
     ../../home/system/swaync
     ../../home/system/wofi
 
-    inputs.niri.homeModules.niri
-    ../../home/system/niri
-    inputs.dankMaterialShell.homeModules.dankMaterialShell.default
-    inputs.dankMaterialShell.homeModules.dankMaterialShell.niri
 
     ../../hosts/laptop/secrets # CHANGEME: You should probably remove this line, this is where I store my secrets
   ];
@@ -118,17 +114,13 @@ in {
       cava
       discord
       # Backup
-      vscode
+      # vscode
       gnome-tweaks
     ];
     file.".face.icon" = {source = ./profile_picture.png;};
     stateVersion = "24.05";
   };
-  programs.dankMaterialShell = {
-    enable = true;
-    quickshell.package = quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default;
-    enableSystemd = true;
-  };
+  
   services.cliphist = {
     enable = true;
     allowImages = true;

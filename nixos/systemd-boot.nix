@@ -11,7 +11,7 @@
 
     tmp.cleanOnBoot = true;
     kernelPackages =
-      pkgs.linuxPackages_cachyos; # _zen, _hardened, _rt, _rt_latest, etc.
+      pkgs.linuxPackages_zen; # _zen, _hardened, _rt, _rt_latest, etc.
     # Silent boot
     kernelParams = [
       "quiet"
