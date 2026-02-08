@@ -15,8 +15,8 @@
     ];
   };
   environment.variables = {
-    # GBM_BACKEND = "nvidia-drm"; # If crash in firefox, remove this line
-    # LIBVA_DRIVER_NAME = "nvidia"; # hardware acceleration
+    GBM_BACKEND = "nvidia-drm"; # If crash in firefox, remove this line
+    LIBVA_DRIVER_NAME = "nvidia"; # hardware acceleration
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     NVD_BACKEND = "direct";
   };
@@ -44,11 +44,11 @@
       # Only available from driver 515.43.04+
       # Currently alpha-quality/buggy, so false is currently the recommended setting.
       open = false;
-      forceFullCompositionPipeline = true;
+      # forceFullCompositionPipeline = true;
       nvidiaSettings = true;
 
-      # Optionally, you may need to select the appropriate driver version for your specific GPU.
-      package = config.boot.kernelPackages.nvidiaPackages.beta;
+       package = config.boot.kernelPackages.nvidiaPackages.stable;
+     # package = config.boot.kernelPackages.nvidiaPackages.legacy_535;
     };
   };
 

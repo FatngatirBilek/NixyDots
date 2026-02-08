@@ -93,10 +93,7 @@
     */
   };
 
-  # services.xserver = {
-  #   desktopManager.gnome.enable = true;
-  # };
-
+  services.desktopManager.gnome.enable = true;
   # Cosmic Trouble
   services.displayManager.cosmic-greeter.enable = false;
   # environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
