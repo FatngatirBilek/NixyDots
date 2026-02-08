@@ -4,9 +4,7 @@
   inputs,
   lib,
   ...
-}: let
-  quickshell = inputs.quickshell;
-in {
+}: {
   imports = [
     ./variables.nix
 
@@ -16,7 +14,7 @@ in {
     ../../home/programs/zsh
     ../../home/programs/fetch
     ../../home/programs/git
-    # ../../home/programs/spicetify
+    ../../home/programs/spicetify
     ../../home/programs/fastfetch
     # ../../home/programs/nextcloud
     ../../home/programs/yazi

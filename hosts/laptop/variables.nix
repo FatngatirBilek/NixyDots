@@ -16,6 +16,5 @@
     };
     autoUpgrade = false;
     autoGarbageCollector = false;
-    theme = import ../../themes/var/nixy.nix;
   };
 }

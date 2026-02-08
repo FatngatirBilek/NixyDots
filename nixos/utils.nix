@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }: let
   hostname = config.var.hostname;
@@ -10,8 +11,12 @@
   defaultLocale = config.var.defaultLocale;
   extraLocale = config.var.extraLocale;
   autoUpgrade = config.var.autoUpgrade;
+
+  isLaptop = hostname == "NixOS";
+  isDesktop = hostname == "NixDesktop";
 in {
-  networking.hostName = hostname;
+  # mkDefault supaya aman kalau ada host module lain yang set hostName
+  networking.hostName = lib.mkDefault hostname;
 
   networking.networkmanager.enable = true;
   systemd.services.NetworkManager-wait-online.enable = false;
@@ -43,16 +48,27 @@ in {
       xkb.layout = keyboardLayout;
       xkb.variant = "";
     };
+
     gnome.gnome-keyring.enable = true;
+
     psd = {
       enable = true;
       resyncTimer = "10m";
     };
-    dbus = {
-      enable = true;
-      implementation = "broker";
-      packages = with pkgs; [gcr gnome-settings-daemon];
-    };
+
+    dbus = lib.mkMerge [
+      {
+        enable = true;
+        implementation = "broker";
+      }
+      (lib.mkIf isLaptop {
+        packages = with pkgs; [gcr gnome-settings-daemon];
+      })
+      (lib.mkIf isDesktop {
+        packages = [];
+      })
+    ];
+
     gvfs.enable = true;
     upower.enable = true;
     power-profiles-daemon.enable = true;
@@ -74,10 +90,8 @@ in {
   services.libinput.enable = true;
   programs.dconf.enable = true;
 
-  # enable zsh autocompletion for system packages (systemd, etc)
   environment.pathsToLink = ["/share/zsh"];
 
-  # Faster rebuilding
   documentation = {
     enable = true;
     doc.enable = false;
@@ -87,42 +101,49 @@ in {
     nixos.enable = false;
   };
 
-  environment.systemPackages = with pkgs; [
-    hyprland-qtutils
-    fd
-    xwayland-satellite
-    bc
-    gcc
-    git-ignore
-    xdg-utils
-    wget
-    curl
-    swayimg
-    xdg-desktop-portal-gnome
-    polkit_gnome
-    openssl
-    vim
-    direnv
-  ];
+  environment.systemPackages = with pkgs;
+    [
+      hyprland-qtutils
+      fd
+      xwayland-satellite
+      bc
+      gcc
+      git-ignore
+      xdg-utils
+      wget
+      curl
+      swayimg
+      polkit_gnome
+      openssl
+      vim
+      direnv
+    ]
+    ++ lib.optionals isLaptop [
+      xdg-desktop-portal-gnome
+    ]
+    ++ lib.optionals isDesktop [
+      xdg-desktop-portal-cosmic
+    ];
 
   security = {
-    # allow wayland lockers to unlock the screen
     pam.services.hyprlock.text = "auth include login";
-    # userland niceness
     rtkit.enable = true;
-    # don't ask for password for wheel group
-    # sudo.wheelNeedsPassword = false;
   };
 
-  xdg.portal = {
-    enable = true;
-    extraPortals = [pkgs.xdg-desktop-portal-gnome];
-    config = {
-      common = {
-        default = ["gnome"];
-      };
-    };
-  };
+  # Portal: GNOME untuk laptop, COSMIC untuk desktop
+  xdg.portal = lib.mkMerge [
+    {enable = true;}
+
+    (lib.mkIf isLaptop {
+      extraPortals = [pkgs.xdg-desktop-portal-gnome];
+      config.common.default = ["gnome"];
+    })
+
+    (lib.mkIf isDesktop {
+      extraPortals = [pkgs.xdg-desktop-portal-cosmic];
+      config.common.default = ["cosmic"];
+    })
+  ];
 
   systemd.user.services.polkit-gnome-authentication-agent-1 = {
     description = "polkit-gnome-authentication-agent-1";
@@ -133,8 +154,4 @@ in {
       Restart = "on-failure";
     };
   };
-  # services.logind.extraConfig = ''
-  #   # don’t shutdown when power button is short-pressed
-  #   HandlePowerKey=ignore
-  # '';
 }
