@@ -35,19 +35,12 @@ in {
     ../../home/scripts # All scripts
 
     # System (Desktop environment like stuff)
-    ../../home/system/hyprland
-    ../../home/system/hypridle
-    ../../home/system/hyprlock
     ../../home/system/theming
     ../../home/system/batsignal
     ../../home/system/zathura
     ../../home/system/mime
     ../../home/system/udiskie
     ../../home/system/clipman
-    ../../home/system/waybar
-    ../../home/system/swaync
-    ../../home/system/wofi
-
 
     ../../hosts/laptop/secrets # CHANGEME: You should probably remove this line, this is where I store my secrets
   ];
@@ -120,7 +113,7 @@ in {
     file.".face.icon" = {source = ./profile_picture.png;};
     stateVersion = "24.05";
   };
-  
+
   services.cliphist = {
     enable = true;
     allowImages = true;
@@ -128,16 +121,9 @@ in {
   programs.nix-index = {
     enable = true;
     enableZshIntegration = true;
-    package = inputs.nix-index-database.packages.${pkgs.system}.nix-index-with-small-db;
+    package = inputs.nix-index-database.packages.${pkgs.stdenv.hostPlatform.system}.nix-index-with-small-db;
   };
   theming.enable = true;
-  swaync.enable = false;
-  hyprland = {
-    enable = true;
-    hyprpaper = false;
-    mpvpaper = false;
-    wlogout = false;
-  };
   nixpkgs.overlays = lib.mkForce null; # fix evaluation warning about nixpkgs.overlays
   programs.home-manager.enable = true;
 }
