@@ -11,11 +11,9 @@
   defaultLocale = config.var.defaultLocale;
   extraLocale = config.var.extraLocale;
   autoUpgrade = config.var.autoUpgrade;
-
   isLaptop = hostname == "NixOS";
   isDesktop = hostname == "NixDesktop";
 in {
-  # mkDefault supaya aman kalau ada host module lain yang set hostName
   networking.hostName = lib.mkDefault hostname;
 
   networking.networkmanager.enable = true;
@@ -119,7 +117,7 @@ in {
       direnv
     ]
     ++ lib.optionals isLaptop [
-      xdg-desktop-portal-gnome
+      xdg-desktop-portal-cosmic
     ]
     ++ lib.optionals isDesktop [
       xdg-desktop-portal-cosmic
@@ -130,13 +128,12 @@ in {
     rtkit.enable = true;
   };
 
-  # Portal: GNOME untuk laptop, COSMIC untuk desktop
   xdg.portal = lib.mkMerge [
     {enable = true;}
 
     (lib.mkIf isLaptop {
-      extraPortals = [pkgs.xdg-desktop-portal-gnome];
-      config.common.default = ["gnome"];
+      extraPortals = [pkgs.xdg-desktop-portal-cosmic];
+      config.common.default = ["cosmic"];
     })
 
     (lib.mkIf isDesktop {

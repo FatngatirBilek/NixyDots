@@ -32,12 +32,12 @@ in {
     ../../nixos/docker.nix
     ../../nixos/warp.nix
     ../../nixos/tjkt.nix
-    ../../nixos/wine.nix
+   #  ../../nixos/wine.nix
     ../../nixos/fcitx.nix
     ../../nixos/overrides.nix
     # ../../nixos/tabletdriver.nix
     ../../nixos/greeter.nix
-    ../../nixos/lanzaboote.nix # Secure boot
+ #   ../../nixos/lanzaboote.nix # Secure boot
     ../../nixos/games.nix
     # ../../nixos/packettracer.nix
     # ../../nixos/ollama.nix
@@ -111,15 +111,14 @@ in {
   };
   # kde connect
   programs.kdeconnect.enable = true;
-  services.desktopManager.plasma6.enable = true;
 
   # local send
   programs.localsend.enable = true;
   # services.desktopManager.gnome.enable = true;
   # Cosmic Trouble
   # services.displayManager.cosmic-greeter.enable = true;
-  # environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
-  # services.desktopManager.cosmic.enable = false;
+   environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
+   services.desktopManager.cosmic.enable = true;
   home-manager.users."${config.var.username}" = import ./home.nix;
   services.flatpak.enable = true;
 

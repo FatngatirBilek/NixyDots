@@ -47,7 +47,12 @@
       # forceFullCompositionPipeline = true;
       nvidiaSettings = true;
 
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      package =
+        if config.var.hostname == "NixDesktop"
+        then config.boot.kernelPackages.nvidiaPackages.stable
+        else if config.var.hostname == "nixos"
+        then config.boot.kernelPackages.nvidiaPackages.beta
+        else config.boot.kernelPackages.nvidiaPackages.stable;
     };
   };
 

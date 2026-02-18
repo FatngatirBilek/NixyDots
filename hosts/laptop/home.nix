@@ -48,8 +48,8 @@ in {
     ../../home/system/swaync
     ../../home/system/wofi
 
-    inputs.niri.homeModules.niri
-    ../../home/system/niri
+    # inputs.niri.homeModules.niri
+    #../../home/system/niri
     # inputs.dankMaterialShell.homeModules.dankMaterialShell.default
     # inputs.dankMaterialShell.homeModules.dankMaterialShell.niri
     # REMOVE this custom shell import if using Caelestia flake module:
