@@ -10,10 +10,10 @@
     # Use hardware.opengl for NixOS versions < 24.11
     enable = true;
     extraPackages = with pkgs; [
-      intel-media-driver # LIBVA_DRIVER_NAME=iHD
+      intel-media-driver
       intel-vaapi-driver
-      libvdpau-va-gl # Optional for VDPAU support
-      libva-utils # Optional for VAAPI utilities
+      libvdpau-va-gl
+      libva-utils
       vpl-gpu-rt
     ];
   };
