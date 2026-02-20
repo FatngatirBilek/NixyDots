@@ -144,7 +144,7 @@ in {
       };
       "cosmic-resume-fix" = {
         description = "Resume COSMIC compositor after suspend";
-        after = ["systemd-suspend.service" "systemd-hibernate.service"];
+        after = ["systemd-suspend.service" "systemd-hibernate.service" "nvidia-resume.service" "nvidia-hibernate.service"];
         wantedBy = ["systemd-suspend.service" "systemd-hibernate.service"];
         serviceConfig = {
           Type = "oneshot";

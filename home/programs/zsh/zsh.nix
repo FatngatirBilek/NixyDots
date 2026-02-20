@@ -54,8 +54,6 @@
     };
 
     shellAliases = {
-      vim = "nvim";
-      vi = "nvim";
       v = "nvim";
       c = "clear";
       clera = "clear";

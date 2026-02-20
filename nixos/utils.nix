@@ -115,6 +115,7 @@ in {
       openssl
       vim
       direnv
+      appimage-run
     ]
     ++ lib.optionals isLaptop [
       xdg-desktop-portal-cosmic

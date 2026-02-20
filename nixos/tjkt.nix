@@ -27,6 +27,7 @@
     postman
     docker-compose
     telegram-desktop
+    popsicle
     # libreoffice-qt6-fresh
     icu.dev
     icu
@@ -51,8 +52,10 @@
         rm -rf ~/.local/share/fonts
         mkdir -p ~/.local/share/fonts
         cp ${pkgs.corefonts}/share/fonts/truetype/* ~/.local/share/fonts/
-        chmod 544 ~/.local/share/fonts
+        cp ${pkgs.noto-fonts-color-emoji}/share/fonts/noto/* ~/.local/share/fonts/
+        chmod 755 ~/.local/share/fonts
         chmod 444 ~/.local/share/fonts/*
+        ${pkgs.fontconfig}/bin/fc-cache -f ~/.local/share/fonts
       '';
     };
   };
