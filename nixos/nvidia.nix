@@ -9,14 +9,14 @@
       "nvidia-drm.fbdev=1"
       "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
       "acpi_backlight=video"
-      "nvidia.NVreg_EnableS0ixPowerManagement=0"
+      "nvidia.NVreg_EnableS0ixPowerManagement=1"
 
       # "kvm.enable_virt_at_load=0"
     ];
   };
   environment.variables = {
     GBM_BACKEND = "nvidia-drm"; # If crash in firefox, remove this line
-    LIBVA_DRIVER_NAME = "nvidia"; # hardware acceleration
+    # LIBVA_DRIVER_NAME = "nvidia"; # hardware acceleration
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     NVD_BACKEND = "direct";
   };

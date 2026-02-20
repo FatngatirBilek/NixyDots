@@ -32,12 +32,12 @@ in {
     ../../nixos/docker.nix
     ../../nixos/warp.nix
     ../../nixos/tjkt.nix
-   #  ../../nixos/wine.nix
+    #  ../../nixos/wine.nix
     ../../nixos/fcitx.nix
     ../../nixos/overrides.nix
     # ../../nixos/tabletdriver.nix
-    ../../nixos/greeter.nix
- #   ../../nixos/lanzaboote.nix # Secure boot
+    # ../../nixos/greeter.nix
+    #   ../../nixos/lanzaboote.nix # Secure boot
     ../../nixos/games.nix
     # ../../nixos/packettracer.nix
     # ../../nixos/ollama.nix
@@ -115,10 +115,50 @@ in {
   # local send
   programs.localsend.enable = true;
   # services.desktopManager.gnome.enable = true;
-  # Cosmic Trouble
-  # services.displayManager.cosmic-greeter.enable = true;
-   environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
-   services.desktopManager.cosmic.enable = true;
+
+  # Fix: COSMIC compositor worker thread gets stuck on DRM mutex held by
+  # nvidia-suspend, preventing kernel from freezing userspace processes.
+  # SIGSTOP cosmic-comp before NVIDIA grabs the lock, SIGCONT on resume.
+  # Skip cgroup user session freeze (times out after 60s); SIGSTOP handles it.
+  systemd.services =
+    builtins.listToAttrs (map (service: {
+        name = service;
+        value.environment.SYSTEMD_SLEEP_FREEZE_USER_SESSIONS = "0";
+      }) [
+        "systemd-suspend"
+        "systemd-hibernate"
+        "systemd-hybrid-sleep"
+        "systemd-suspend-then-hibernate"
+      ])
+    // {
+      "cosmic-suspend-fix" = {
+        description = "Stop COSMIC compositor DRM polling before NVIDIA suspend";
+        before = ["nvidia-suspend.service" "nvidia-hibernate.service" "systemd-suspend.service" "systemd-hibernate.service"];
+        wantedBy = ["systemd-suspend.service" "systemd-hibernate.service"];
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = pkgs.writeShellScript "cosmic-suspend-stop" ''
+            ${pkgs.procps}/bin/pkill -STOP -f cosmic-comp || true
+          '';
+        };
+      };
+      "cosmic-resume-fix" = {
+        description = "Resume COSMIC compositor after suspend";
+        after = ["systemd-suspend.service" "systemd-hibernate.service"];
+        wantedBy = ["systemd-suspend.service" "systemd-hibernate.service"];
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = pkgs.writeShellScript "cosmic-resume-cont" ''
+            ${pkgs.procps}/bin/pkill -CONT -f cosmic-comp || true
+          '';
+        };
+      };
+    };
+
+  services.displayManager.cosmic-greeter.enable = true;
+  environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
+  services.desktopManager.cosmic.enable = true;
+  services.system76-scheduler.enable = true;
   home-manager.users."${config.var.username}" = import ./home.nix;
   services.flatpak.enable = true;
 
