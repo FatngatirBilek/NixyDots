@@ -8,7 +8,6 @@
   };
   hardware.graphics = {
     # Use hardware.opengl for NixOS versions < 24.11
-    enable = true;
     extraPackages = with pkgs; [
       intel-media-driver
       intel-vaapi-driver
