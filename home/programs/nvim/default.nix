@@ -152,7 +152,7 @@
         };
         minimap = {
           minimap-vim.enable = false;
-          codewindow.enable = true; # lighter, faster, and uses lua for configuration
+          codewindow.enable = false; # disabled: requires nvim-treesitter.ts_utils which breaks startup
         };
         dashboard = {
           dashboard-nvim.enable = false;
@@ -175,7 +175,7 @@
           multicursors.enable = true;
           smart-splits.enable = true;
           undotree.enable = true;
-          nvim-biscuits.enable = true;
+          nvim-biscuits.enable = false;
 
           motion = {
             hop.enable = true;
