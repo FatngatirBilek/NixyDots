@@ -6,7 +6,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
-    nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -94,7 +93,6 @@
           inputs.nixos-hardware.nixosModules.omen-16-n0005ne
           inputs.home-manager.nixosModules.home-manager
           inputs.lanzaboote.nixosModules.lanzaboote
-          # inputs.nixos-cosmic.nixosModules.default
           inputs.chaotic.nixosModules.default
           inputs.nix-index-database.nixosModules.nix-index
           ./hosts/laptop/configuration.nix
@@ -119,7 +117,6 @@
           inputs.nixos-hardware.nixosModules.omen-16-n0005ne
           inputs.home-manager.nixosModules.home-manager
           inputs.lanzaboote.nixosModules.lanzaboote
-          # inputs.nixos-cosmic.nixosModules.default
           inputs.chaotic.nixosModules.default
           inputs.nix-index-database.nixosModules.nix-index
           ./hosts/desktop/configuration.nix
