@@ -55,6 +55,10 @@ in {
       };
       agent = {
         dock = "right";
+        default_model = {
+          provider = "copilot_chat";
+          model = "claude-sonnet-4.6";
+        };
       };
       collaboration_panel = {
         button = false;
@@ -254,20 +258,13 @@ in {
       # Edit Predictions
       edit_predictions = {
         mode = "subtle";
+        provider = "copilot";
         copilot = {
           proxy = null;
           proxy_no_verify = null;
           enterprise_uri = null;
         };
         enabled_in_text_threads = false;
-      };
-
-      # Agent config
-      agent = {
-        default_model = {
-          provider = "copilot_chat";
-          model = "gpt-4.1";
-        };
       };
 
       # Language Models
@@ -335,11 +332,6 @@ in {
           };
           enable_lsp_tasks = true;
         };
-      };
-
-      # Features
-      features = {
-        edit_prediction_provider = "copilot";
       };
 
       format_on_save = "on";
