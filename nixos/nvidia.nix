@@ -1,25 +1,36 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: {
   boot = {
-    initrd.kernelModules = ["nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm"];
-    kernelParams = [
-      "nvidia-drm.fbdev=1"
-      "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
-      "acpi_backlight=video"
-      "nvidia.NVreg_EnableS0ixPowerManagement=1"
-
-      # "kvm.enable_virt_at_load=0"
-    ];
+    initrd.kernelModules =
+      lib.mkIf (config.var.hostname == "NixDesktop")
+      ["nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm"];
+    kernelParams =
+      [
+        "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
+        # "kvm.enable_virt_at_load=0"
+      ]
+      ++ lib.optionals (config.var.hostname == "NixDesktop") [
+        "nvidia-drm.fbdev=1" # NVIDIA framebuffer for TTY — desktop only
+      ]
+      ++ lib.optionals (config.var.hostname == "nixos") [
+        "acpi_backlight=video" # Laptop backlight control
+        "nvidia.NVreg_EnableS0ixPowerManagement=1" # S0ix modern standby — laptop only
+      ];
   };
-  environment.variables = {
-    GBM_BACKEND = "nvidia-drm"; # If crash in firefox, remove this line
-    # LIBVA_DRIVER_NAME = "nvidia"; # hardware acceleration
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    NVD_BACKEND = "direct";
-  };
+  environment.variables = lib.mkMerge [
+    (lib.mkIf (config.var.hostname == "NixDesktop") {
+      GBM_BACKEND = "nvidia-drm"; # If crash in firefox, remove this line
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    })
+    {
+      # LIBVA_DRIVER_NAME = "nvidia"; # hardware acceleration
+      NVD_BACKEND = "direct";
+    }
+  ];
   hardware = {
     graphics = {
       enable = true;
