@@ -15,6 +15,28 @@
         viAlias = false;
         vimAlias = false;
 
+        maps = {
+          normal = {
+            "<Space>ee" = {
+              action = ":NvimTreeToggle<CR>";
+              silent = true;
+              desc = "Toggle file tree";
+            };
+            "<Space>/" = {
+              action = "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>";
+              silent = true;
+              desc = "Toggle comment line";
+            };
+          };
+          visual = {
+            "<Space>/" = {
+              action = "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>";
+              silent = true;
+              desc = "Toggle comment selection";
+            };
+          };
+        };
+
         debugger = {
           nvim-dap = {
             enable = true;
