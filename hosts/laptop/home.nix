@@ -4,9 +4,7 @@
   inputs,
   lib,
   ...
-}: let
-  quickshell = inputs.quickshell;
-in {
+}: {
   imports = [
     ./variables.nix
 
@@ -26,7 +24,6 @@ in {
     ../../home/programs/nh
     ../../home/programs/zen
     ../../home/programs/ghostty
-    ../../home/programs/nwg-dock
     ../../home/programs/zed
     ../../home/programs/wezterm
     ../../home/programs/obs
@@ -35,25 +32,14 @@ in {
     ../../home/scripts # All scripts
 
     # System (Desktop environment like stuff)
-    ../../home/system/hyprland
-    ../../home/system/hypridle
-    ../../home/system/hyprlock
     ../../home/system/theming
     ../../home/system/batsignal
     ../../home/system/zathura
     ../../home/system/mime
     ../../home/system/udiskie
     ../../home/system/clipman
-    ../../home/system/waybar
     ../../home/system/swaync
     ../../home/system/wofi
-
-    # inputs.niri.homeModules.niri
-    #../../home/system/niri
-    # inputs.dankMaterialShell.homeModules.dankMaterialShell.default
-    # inputs.dankMaterialShell.homeModules.dankMaterialShell.niri
-    # REMOVE this custom shell import if using Caelestia flake module:
-    # ../../home/system/shell
 
     ./secrets # CHANGEME: You should probably remove this line, this is where I store my secrets
   ];
@@ -127,12 +113,6 @@ in {
     file.".face.icon" = {source = ./profile_picture.png;};
     stateVersion = "24.05";
   };
-  # dank shell
-  # programs.dankMaterialShell = {
-  #   enable = true;
-  #   quickshell.package = quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default;
-  #   systemd.enable = false;
-  # };
   services.cliphist = {
     enable = true;
     allowImages = true;
@@ -144,13 +124,7 @@ in {
   };
   theming.enable = true;
   swaync.enable = true;
-  hyprland = {
-    enable = false;
-    hyprpaper = false;
-    mpvpaper = false;
-    wlogout = false;
-  };
-  waybar.enable = true;
+
   nixpkgs.overlays = lib.mkForce null; # fix evaluation warning about nixpkgs.overlays
   programs.home-manager.enable = true;
 }

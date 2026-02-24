@@ -30,7 +30,7 @@
     ../../nixos/fcitx.nix
     ../../nixos/overrides.nix
     # ../../nixos/tabletdriver.nix
-    ../../nixos/greeter.nix
+    # ../../nixos/greeter.nix
     # ../../nixos/lanzaboote.nix # Secure boot
 
     ./hardware-configuration.nix

@@ -24,7 +24,7 @@
     ../../home/programs/nh
     ../../home/programs/zen
     ../../home/programs/ghostty
-    ../../home/programs/nwg-dock
+
     ../../home/programs/zed
     ../../home/programs/wezterm
     ../../home/programs/obs

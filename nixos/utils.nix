@@ -101,7 +101,6 @@ in {
 
   environment.systemPackages = with pkgs;
     [
-      hyprland-qtutils
       fd
       xwayland-satellite
       bc
@@ -125,7 +124,6 @@ in {
     ];
 
   security = {
-    pam.services.hyprlock.text = "auth include login";
     rtkit.enable = true;
   };
 

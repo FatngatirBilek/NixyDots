@@ -71,20 +71,12 @@ in {
                 command = "systemctl reboot";
               }
               {
-                label = "󰌾";
-                command = "hyprlock";
-              }
-              {
                 label = "󰍃";
                 command = "swaymsg exit";
               }
               {
                 label = "󰆴";
                 command = "swaync-client -C";
-              }
-              {
-                label = "";
-                command = "caffeine";
               }
               # {
               #   label = "󰕾";

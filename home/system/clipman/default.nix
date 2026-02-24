@@ -8,7 +8,6 @@
     clipman pick --tool=wofi
   '';
 in {
-  wayland.windowManager.hyprland.settings.exec-once = ["${clipboard-clear}" "wl-paste -t text --watch clipman store"];
   home.packages = with pkgs; [clipman clipboard clipboard-clear];
   services.clipman.enable = true;
 }
