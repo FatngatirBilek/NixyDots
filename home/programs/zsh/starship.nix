@@ -10,15 +10,15 @@ in {
       "$schema" = "https://starship.rs/config-schema.json";
       palette = "catppuccin_mocha";
       format = lib.concatStrings [
-        "[](red)"
+        "[](mauve)"
         "$os"
         "$username"
-        "[](bg:peach fg:red)"
+        "[](bg:pink fg:mauve)"
         "$directory"
-        "[](bg:yellow fg:peach)"
+        "[](bg:lavender fg:pink)"
         "$git_branch"
         "$git_status"
-        "[](fg:yellow bg:green)"
+        "[](fg:lavender bg:blue)"
         "$c"
         "$rust"
         "$golang"
@@ -28,8 +28,8 @@ in {
         "$kotlin"
         "$haskell"
         "$python"
-        "[](fg:green bg:blue)"
-        "[](fg:blue)"
+        "[](fg:blue bg:sapphire)"
+        "[](fg:sapphire)"
         "$line_break"
         "$character"
       ];
@@ -44,7 +44,7 @@ in {
 
       os = {
         disabled = false;
-        style = "bg:red fg:crust";
+        style = "bg:mauve fg:crust";
         symbols = {
           Windows = "";
           Ubuntu = "󰕈";
@@ -72,13 +72,13 @@ in {
 
       username = {
         show_always = true;
-        style_user = "bg:red fg:crust";
-        style_root = "bg:red fg:crust";
+        style_user = "bg:mauve fg:crust";
+        style_root = "bg:mauve fg:crust";
         format = "[ $user]($style)";
       };
 
       directory = {
-        style = "bg:peach fg:crust";
+        style = "bg:pink fg:crust";
         format = "[ $path ]($style)";
         truncation_length = 3;
         truncation_symbol = "…/";
@@ -93,67 +93,67 @@ in {
 
       git_branch = {
         symbol = "";
-        style = "bg:yellow";
-        format = "[[ $symbol $branch ](fg:crust bg:yellow)]($style)";
+        style = "bg:lavender";
+        format = "[[ $symbol $branch ](fg:crust bg:lavender)]($style)";
       };
 
       git_status = {
-        style = "bg:yellow";
-        format = "[[($all_status$ahead_behind )](fg:crust bg:yellow)]($style)";
+        style = "bg:lavender";
+        format = "[[($all_status$ahead_behind )](fg:crust bg:lavender)]($style)";
       };
 
       nodejs = {
         symbol = "";
-        style = "bg:green";
-        format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
+        style = "bg:blue";
+        format = "[[ $symbol( $version) ](fg:crust bg:blue)]($style)";
       };
 
       c = {
         symbol = " ";
-        style = "bg:green";
-        format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
+        style = "bg:blue";
+        format = "[[ $symbol( $version) ](fg:crust bg:blue)]($style)";
       };
 
       rust = {
         symbol = "";
-        style = "bg:green";
-        format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
+        style = "bg:blue";
+        format = "[[ $symbol( $version) ](fg:crust bg:blue)]($style)";
       };
 
       golang = {
         symbol = "";
-        style = "bg:green";
-        format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
+        style = "bg:blue";
+        format = "[[ $symbol( $version) ](fg:crust bg:blue)]($style)";
       };
 
       php = {
         symbol = "";
-        style = "bg:green";
-        format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
+        style = "bg:blue";
+        format = "[[ $symbol( $version) ](fg:crust bg:blue)]($style)";
       };
 
       java = {
         symbol = " ";
-        style = "bg:green";
-        format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
+        style = "bg:blue";
+        format = "[[ $symbol( $version) ](fg:crust bg:blue)]($style)";
       };
 
       kotlin = {
         symbol = "";
-        style = "bg:green";
-        format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
+        style = "bg:blue";
+        format = "[[ $symbol( $version) ](fg:crust bg:blue)]($style)";
       };
 
       haskell = {
         symbol = "";
-        style = "bg:green";
-        format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
+        style = "bg:blue";
+        format = "[[ $symbol( $version) ](fg:crust bg:blue)]($style)";
       };
 
       python = {
         symbol = "";
-        style = "bg:green";
-        format = "[[ $symbol( $version)(\\(#$virtualenv\\)) ](fg:crust bg:green)]($style)";
+        style = "bg:blue";
+        format = "[[ $symbol( $version)(\\(#$virtualenv\\)) ](fg:crust bg:blue)]($style)";
       };
 
       docker_context = {
