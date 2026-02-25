@@ -16,5 +16,10 @@
     };
     autoUpgrade = false;
     autoGarbageCollector = false;
+    printing = {
+      # Set to true if you want to print via WiFi/network
+      # Set to false if you only use USB (saves battery)
+      networkDiscovery = false;
+    };
   };
 }

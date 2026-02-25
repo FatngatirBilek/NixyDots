@@ -39,6 +39,7 @@ in {
     # ../../nixos/greeter.nix
     ../../nixos/lanzaboote.nix # Secure boot
     ../../nixos/games.nix
+    ../../nixos/printing.nix
     # ../../nixos/packettracer.nix
     # ../../nixos/ollama.nix
     ./hardware-configuration.nix

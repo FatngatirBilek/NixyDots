@@ -22,6 +22,9 @@ in {
         "ubridge"
         "tss"
         "nvidia"
+        "lp"
+        "lpadmin"
+        "scanner"
       ];
     };
   };
