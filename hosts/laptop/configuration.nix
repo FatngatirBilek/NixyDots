@@ -40,6 +40,7 @@ in {
     ../../nixos/lanzaboote.nix # Secure boot
     ../../nixos/games.nix
     ../../nixos/printing.nix
+    ../../nixos/onlyoffice.nix
     # ../../nixos/packettracer.nix
     # ../../nixos/ollama.nix
     ./hardware-configuration.nix
@@ -115,6 +116,7 @@ in {
 
   # local send
   programs.localsend.enable = true;
+
   # services.desktopManager.gnome.enable = true;
 
   # Fix: COSMIC compositor worker thread gets stuck on DRM mutex held by
