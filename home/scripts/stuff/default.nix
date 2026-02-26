@@ -162,7 +162,7 @@
     '')
     (pkgs.writeShellScriptBin "update-cloudflare-dns" ''... '')
     (pkgs.writeShellScriptBin "gamemode.sh" ''... '')
-    (pkgs.writeShellScriptBin "sheesh.sh" "pkexec env PATH=$PATH HOME=$HOME DISPLAY=$DISPLAY WAYLAND_DISPLAY=$WAYLAND_DISPLAY XDG_SESSION_TYPE=$XDG_SESSION_TYPE XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR neovide /etc/nixos")
+    (pkgs.writeShellScriptBin "sheesh.sh" "nvim $HOME/.config/nixos")
     (pkgs.writeShellScriptBin "finder.sh" ''... '')
     (pkgs.writeShellScriptBin "startup-sound" ''... '')
     (pkgs.writeShellScriptBin "update-damn-nixos" ''... '')

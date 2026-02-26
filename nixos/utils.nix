@@ -126,6 +126,17 @@ in {
 
   security = {
     rtkit.enable = true;
+    # polkit-agent-helper-1 is a setuid root binary that polkit authentication
+    # agents (including COSMIC's built-in one via cosmic-osd) use to verify
+    # passwords through PAM. COSMIC looks for it at /run/wrappers/bin/polkit-agent-helper-1,
+    # but NixOS doesn't add it there by default, causing every polkit auth prompt
+    # to crash with "No such file or directory".
+    wrappers."polkit-agent-helper-1" = {
+      setuid = true;
+      owner = "root";
+      group = "root";
+      source = "${pkgs.polkit.out}/lib/polkit-1/polkit-agent-helper-1";
+    };
   };
 
   xdg.portal = lib.mkMerge [
