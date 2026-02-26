@@ -25,5 +25,10 @@ in {
     script = "${pkgs.nbfc-linux}/${command}";
 
     wantedBy = ["multi-user.target"];
+
+    # Stop fan controller before suspend/hibernate so the fan turns off during
+    # sleep. Systemd will restart it automatically on resume via multi-user.target.
+    conflicts = ["sleep.target" "suspend.target" "hibernate.target" "hybrid-sleep.target" "suspend-then-hibernate.target"];
+    before = ["sleep.target" "suspend.target" "hibernate.target" "hybrid-sleep.target" "suspend-then-hibernate.target"];
   };
 }

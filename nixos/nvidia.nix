@@ -45,6 +45,11 @@
       # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
       # of just the bare essentials.
       powerManagement = {
+        # Must be true when NVreg_PreserveVideoMemoryAllocations=1 is set —
+        # that param requires the procfs suspend interface (nvidia-suspend.service)
+        # which is only generated when this is enabled.
+        # This is NOT mutually exclusive with finegrained: enable handles
+        # system suspend/resume VRAM save, finegrained handles runtime idle PM.
         enable = true;
       };
       # Use the NVidia open source kernel module (not to be confused with the

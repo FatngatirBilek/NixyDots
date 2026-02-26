@@ -119,10 +119,23 @@ in {
 
   # services.desktopManager.gnome.enable = true;
 
-  # Fix: COSMIC compositor worker thread gets stuck on DRM mutex held by
-  # nvidia-suspend, preventing kernel from freezing userspace processes.
-  # SIGSTOP cosmic-comp before NVIDIA grabs the lock, SIGCONT on resume.
-  # Skip cgroup user session freeze (times out after 60s); SIGSTOP handles it.
+  # Fix: userspace threads stuck in drm_mode_getconnector (D-state) block the
+  # kernel freezer during suspend, causing "Device or resource busy" failures.
+  #
+  # Root cause: cosmic-applets (and other COSMIC processes) open /dev/dri/card*
+  # *transiently* (open → ioctl → close) to query connector info for power
+  # management decisions.  Because the fd is open only briefly, lsof-based
+  # detection misses them entirely — we must stop ALL user-owned cosmic processes.
+  #
+  # We scope pkill to the login user (-u) so cosmic-greeter-daemon (UID 987
+  # system user) is never touched; stopping that kills the greeter session and
+  # produces a blank grey screen with a frozen cursor on resume.
+  #
+  # The 2 s sleep lets any thread already inside a kernel DRM call finish its
+  # in-flight mutex wait and return to userspace before nvidia-suspend grabs DRM
+  # locks and turns that wait into a permanent deadlock.
+  #
+  # Skip cgroup user-session freeze (times out after 60 s); SIGSTOP handles it.
   systemd.services =
     builtins.listToAttrs (map (service: {
         name = service;
@@ -141,7 +154,17 @@ in {
         serviceConfig = {
           Type = "oneshot";
           ExecStart = pkgs.writeShellScript "cosmic-suspend-stop" ''
-            ${pkgs.procps}/bin/pkill -STOP -f cosmic-comp || true
+            # Stop every cosmic-* process owned by the login user.
+            # Using -u scopes the kill to fathirbimashabri only, so
+            # cosmic-greeter-daemon (UID 987 system user) is never touched.
+            # This catches transient DRM openers (e.g. cosmic-applets opens
+            # card* briefly for drm_mode_getconnector) that lsof would miss.
+            ${pkgs.procps}/bin/pkill -STOP -u "${config.var.username}" -f "cosmic" || true
+
+            # Give any thread already inside a kernel DRM call up to 2 s to
+            # acquire its mutex and return to userspace before nvidia-suspend
+            # grabs DRM locks and causes a deadlock.
+            sleep 2
           '';
         };
       };
@@ -152,7 +175,8 @@ in {
         serviceConfig = {
           Type = "oneshot";
           ExecStart = pkgs.writeShellScript "cosmic-resume-cont" ''
-            ${pkgs.procps}/bin/pkill -CONT -f cosmic-comp || true
+            # Resume every user-owned cosmic-* process that was stopped.
+            ${pkgs.procps}/bin/pkill -CONT -u "${config.var.username}" -f "cosmic" || true
           '';
         };
       };
