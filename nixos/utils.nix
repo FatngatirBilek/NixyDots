@@ -110,11 +110,12 @@ in {
       wget
       curl
       swayimg
-      polkit_gnome
+
       openssl
       vim
       direnv
       appimage-run
+      ntfs3g
     ]
     ++ lib.optionals isLaptop [
       xdg-desktop-portal-cosmic
@@ -141,15 +142,16 @@ in {
     })
   ];
 
-  systemd.user.services.polkit-gnome-authentication-agent-1 = {
-    description = "polkit-gnome-authentication-agent-1";
-    wantedBy = ["graphical-session.target"];
-    after = ["graphical-session.target"];
-    serviceConfig = {
-      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-      Restart = "on-failure";
-      RestartSec = 1;
-      TimeoutStopSec = 10;
-    };
-  };
+  security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+      if (
+        (action.id == "org.freedesktop.udisks2.filesystem-mount-system" ||
+         action.id == "org.freedesktop.udisks2.filesystem-mount" ||
+         action.id == "org.freedesktop.udisks2.filesystem-mount-other-seat") &&
+        subject.isInGroup("wheel")
+      ) {
+        return polkit.Result.YES;
+      }
+    });
+  '';
 }

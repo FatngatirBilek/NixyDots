@@ -25,6 +25,7 @@ in {
         "lp"
         "lpadmin"
         "scanner"
+        "storage"
       ];
     };
   };
