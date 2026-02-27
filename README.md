@@ -6,25 +6,224 @@
 
 <br>
 
-# Nixy
+<div align="center">
 
-BIG THANKS TO HADI FOR MAKING THIS CONFIG. THIS IS MY PERSONAL PREFERENCES, ORIGINAL REPO OF THIS DOTFILES CAN BE FOUND [HERE](https://github.com/anotherhadi/nixy/)
+# ❄️ NixyDots
 
+**My personal NixOS configuration — laptop & desktop, reproducible and declarative.**
+
+BIG THANKS TO [HADI](https://github.com/anotherhadi/nixy/) FOR THE ORIGINAL CONFIG.
 QUICKSHELL BY [Rexcrazy804](https://github.com/Rexcrazy804/Zaphkiel)
 
 <br>
-<div align="center">
-    <a href="https://github.com/FatngatirBilek/NixyDots/">
-        <img src="https://img.shields.io/github/repo-size/FatngatirBilek/NixyDots?color=A594FD&labelColor=0b0b0b&style=for-the-badge&logo=github&logoColor=A594FD">
-    </a>
-    <a href="https://nixos.org">
-        <img src="https://img.shields.io/badge/NixOS-unstable-blue.svg?style=for-the-badge&labelColor=0b0b0b&logo=NixOS&logoColor=A594FD&color=A594FD">
-    </a>
-    <a href="https://github.com/anotherhadi/nixy/blob/main/LICENSE">
-        <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=MIT&colorA=0b0b0b&colorB=A594FD&logo=unlicense&logoColor=A594FD"/>
-    </a>
+
+<a href="https://github.com/FatngatirBilek/NixyDots/">
+    <img src="https://img.shields.io/github/repo-size/FatngatirBilek/NixyDots?color=A594FD&labelColor=0b0b0b&style=for-the-badge&logo=github&logoColor=A594FD">
+</a>
+<a href="https://nixos.org">
+    <img src="https://img.shields.io/badge/NixOS-unstable-blue.svg?style=for-the-badge&labelColor=0b0b0b&logo=NixOS&logoColor=A594FD&color=A594FD">
+</a>
+<a href="https://github.com/anotherhadi/nixy/blob/main/LICENSE">
+    <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=MIT&colorA=0b0b0b&colorB=A594FD&logo=unlicense&logoColor=A594FD"/>
+</a>
+
 </div>
+
 <br>
 
-**Nixy** is a **Hyprland** NixOS configuration with **home-manager**, **secrets**, and **custom theming** all in one place.
-It's a simple way to manage your system configuration and dotfiles.
+---
+
+## 🖥️ Hosts
+
+| Hostname     | Device                      | Role         |
+| ------------ | --------------------------- | ------------ |
+| `nixos`      | Acer Predator/Acer (Laptop) | Daily driver |
+| `NixDesktop` | Desktop PC                  | Workstation  |
+
+---
+
+## ✨ Features
+
+### 🔒 Secure Boot — Lanzaboote
+
+Instead of the default `systemd-boot`, this config uses **[Lanzaboote](https://github.com/nix-community/lanzaboote)** to enable UEFI Secure Boot on NixOS.
+
+By default, NixOS doesn't support Secure Boot out of the box. Lanzaboote bridges that gap by:
+
+- **Signing NixOS boot entries** — every generation in the bootloader is signed with your own custom Secure Boot keys
+- **Using `sbctl`** to enroll and manage your personal Platform Key (PK), Key Exchange Key (KEK), and Database Key (db) in UEFI firmware
+- **Replacing `systemd-boot`** as the bootloader module while keeping the same familiar boot menu experience
+- **Protecting against evil maid attacks** — any tampered bootloader or kernel will be rejected by the firmware at boot
+
+> Your keys live in `/var/lib/sbctl` and are enrolled directly into the UEFI firmware, so only kernels and bootloaders signed by _you_ are trusted.
+
+---
+
+### 🎮 NVIDIA PRIME Sync Mode
+
+This laptop runs an **Intel iGPU + NVIDIA RTX 4060** in a PRIME dual-GPU setup. The configuration uses **PRIME Sync Mode** — here's what that actually means:
+
+#### How it works
+
+```
+Internal Display  ──────────────────  Intel iGPU (eDP-1)
+External Monitor  ──────────────────  NVIDIA RTX 4060 (HDMI-A-1)  ← direct, no copy
+Apps / Games      ──────────────────  NVIDIA (automatic, no manual offload needed)
+```
+
+- The **Intel iGPU** handles the laptop's built-in display
+- The **NVIDIA GPU** drives the external monitor **directly** (no PRIME copy overhead)
+- When no external monitor is connected, **NVIDIA runtime-suspends** to save battery — it's not always-on
+- When an external monitor IS connected, NVIDIA wakes up and drives it natively at full refresh rate
+
+#### Why not Offload Mode?
+
+In offload mode, the compositor (COSMIC) ran on Intel and had to **copy every frame** to NVIDIA for scan-out to the external display. At 144Hz (6.94ms per frame), this copy overhead caused missed frame deadlines → visible **cursor lag and stutter**. Sync mode eliminates the copy entirely.
+
+#### Why not always-on Discrete mode?
+
+Unnecessary for a laptop. NVIDIA's runtime power management (`powerManagement.enable = true`) handles idle suspend automatically. The GPU only stays awake when it's actually needed.
+
+---
+
+### 🚀 Ghostty Terminal
+
+**[Ghostty](https://ghostty.org/)** is a GPU-accelerated terminal emulator built for speed and visual quality. It's pulled directly from its upstream flake input (not nixpkgs) to always get the latest version.
+
+**Config highlights:**
+
+| Feature          | Value                        |
+| ---------------- | ---------------------------- |
+| Shell            | `zsh`                        |
+| Font             | FiraCode Nerd Font, size 15  |
+| Theme            | Tokyo Night                  |
+| Background       | 80% opacity + blur radius 32 |
+| Color space      | Display-P3 (wide gamut)      |
+| Unfocused splits | 50% opacity                  |
+
+**Keybinds:**
+
+| Shortcut            | Action                      |
+| ------------------- | --------------------------- |
+| `Alt+T`             | New tab                     |
+| `Alt+W`             | Close surface               |
+| `Alt+H/J/K/L`       | Navigate splits (vim-style) |
+| `Alt+Shift+H/J/K/L` | Create splits               |
+| `Ctrl+Shift+C/V`    | Copy / Paste                |
+| `Ctrl+L`            | Clear screen                |
+| `Ctrl+Shift+Z`      | Toggle window decorations   |
+
+---
+
+### 🌌 COSMIC Desktop Environment
+
+**[COSMIC DE](https://system76.com/cosmic)** by System76 — a modern, Wayland-native desktop environment written in Rust, designed for performance and customizability.
+
+**Why COSMIC?**
+
+- Built from scratch in **Rust** — fast, memory-safe, and crash-resistant
+- Native **Wayland** compositor (`cosmic-comp`) with proper multi-GPU support
+- Tiling + floating window management in one
+- First-class **HiDPI** and **multi-monitor** support
+- Active development with frequent updates
+
+**What's configured:**
+
+- `autotile = true` — windows automatically tile, per-workspace behavior
+- `focus_follows_cursor = true` + `cursor_follows_focus = true`
+- `cosmic-greeter` as the display manager
+- `system76-scheduler` for automatic CPU scheduling based on foreground app
+
+---
+
+### 🎨 Theming — Noctalia Shell
+
+**[Noctalia](https://github.com/rexcrazy804/Zaphkiel)** is a shell/bar overlay that sits on top of COSMIC, providing a highly customized status bar, dock, wallpaper management, and control center.
+
+**Bar layout (top):**
+
+```
+[ SystemMonitor | ActiveWindow | MediaMini ]  [ Workspaces ]  [ Recorder | Tray | Notifs | Battery | Volume | Brightness | Clock | ControlCenter ]
+```
+
+**Color scheme:** Tokyo Night (dark), with wallpaper pulled from a dedicated [wallpaper flake](https://github.com/FatngatirBilek/Dots-Wall) — wallpapers are pinned as a flake input so they're versioned and reproducible.
+
+---
+
+### ⌨️ Ghostty + Zsh Stack
+
+| Tool       | Purpose               |
+| ---------- | --------------------- |
+| `zsh`      | Shell                 |
+| `starship` | Prompt                |
+| `zoxide`   | Smart `cd`            |
+| `fzf`      | Fuzzy finder          |
+| `eza`      | Better `ls`           |
+| `tmux`     | Terminal multiplexer  |
+| `yazi`     | Terminal file manager |
+
+---
+
+### 🔐 Secrets — sops-nix
+
+Secrets (SSH keys, API tokens, passwords) are managed with **[sops-nix](https://github.com/Mic92/sops-nix)**. Secrets are encrypted at rest in the repo and decrypted at activation time using age/GPG keys — nothing sensitive is ever stored in plaintext in the Nix store.
+
+---
+
+### 🛠️ Other Notable Modules
+
+| Module                | What it does                                                                                                                                  |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`acer-module.nix`** | Custom kernel module for Acer Predator RGB keyboard & Turbo button (`facer` driver by JafarAkhondali)                                         |
+| **`intel.nix`**       | Intel iGPU setup with `intel-media-driver` for hardware video acceleration (VA-API)                                                           |
+| **`nvidia.nix`**      | NVIDIA driver config — beta driver on laptop, stable on desktop. `NVreg_PreserveVideoMemoryAllocations=1` for proper suspend/resume VRAM save |
+| **`prime.nix`**       | PRIME sync mode (see above)                                                                                                                   |
+| **`audio.nix`**       | PipeWire audio stack with WirePlumber, camera disabled                                                                                        |
+| **`bluetooth.nix`**   | Bluetooth support                                                                                                                             |
+| **`fcitx.nix`**       | Fcitx5 input method framework (Indonesian/multilingual input)                                                                                 |
+| **`games.nix`**       | Gaming stack: Steam, Gamescope, GameMode                                                                                                      |
+| **`docker.nix`**      | Docker + rootless setup                                                                                                                       |
+| **`lanzaboote.nix`**  | Secure Boot (see above)                                                                                                                       |
+| **`warp.nix`**        | Cloudflare WARP VPN                                                                                                                           |
+| **`fonts.nix`**       | System fonts including Apple fonts, Nerd Fonts                                                                                                |
+| **`onlyoffice.nix`**  | OnlyOffice with custom font injection                                                                                                         |
+
+---
+
+### 📦 Flake Inputs
+
+| Input                | Purpose                                      |
+| -------------------- | -------------------------------------------- |
+| `nixpkgs`            | NixOS unstable channel                       |
+| `home-manager`       | User environment management                  |
+| `lanzaboote`         | Secure Boot                                  |
+| `sops-nix`           | Secret management                            |
+| `ghostty`            | Latest Ghostty terminal                      |
+| `nvf`                | Neovim framework (NotAShelf/nvf)             |
+| `chaotic-nyx`        | Extra packages & cached builds               |
+| `nixos-hardware`     | Hardware-specific tweaks (`omen-16-n0005ne`) |
+| `spicetify-nix`      | Spotify theming                              |
+| `zen-browser`        | Zen Browser flake                            |
+| `zed-editor-flake`   | Zed editor                                   |
+| `apple-fonts`        | SF Pro, SF Mono, NY fonts                    |
+| `thirr-wallpapers`   | Personal wallpaper collection (pinned)       |
+| `nix-index-database` | Pre-built nix-index for `comma`              |
+
+---
+
+### 🔁 Reproducibility
+
+Everything — from the kernel version to every installed package — is pinned in `flake.lock`. To reproduce this exact system on a fresh NixOS install:
+
+```sh
+git clone https://github.com/FatngatirBilek/NixyDots ~/.config/nixos
+cd ~/.config/nixos
+sudo nixos-rebuild switch --flake .#nixos        # for laptop
+sudo nixos-rebuild switch --flake .#NixDesktop   # for desktop
+```
+
+---
+
+<div align="center">
+    <sub>Built with ❄️ NixOS unstable • MIT License</sub>
+</div>
