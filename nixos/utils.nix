@@ -110,7 +110,7 @@ in {
       wget
       curl
       swayimg
-
+      openconnect
       openssl
       vim
       direnv

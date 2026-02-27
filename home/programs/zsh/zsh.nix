@@ -27,6 +27,8 @@
       bindkey -M emacs '\es' sesh-sessions
       bindkey -M vicmd '\es' sesh-sessions
       bindkey -M viins '\es' sesh-sessions
+
+
     '';
 
     history = {
@@ -67,7 +69,7 @@
       icat = "${pkgs.kitty}/bin/kitty +kitten icat";
 
       wireguard-import = "nmcli connection import type wireguard file";
-      vpn-telkom = "sudo openconnect --protocol=gp";
+      vpn-telkom = "sudo openconnect --protocol=gp --authgroup=globalrsa-mitra --csd-wrapper=${pkgs.openconnect}/libexec/openconnect/hipreport.sh";
       notes = "nvim ~/nextcloud/notes/index.md --cmd 'cd ~/nextcloud/notes' -c ':Telescope find_files'";
       note = "notes";
 
