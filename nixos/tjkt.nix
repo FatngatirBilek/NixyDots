@@ -12,7 +12,6 @@
     fnm
     distrobox
     # lunar-client
-
     droidcam
     ubridge
     inetutils
