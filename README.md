@@ -82,7 +82,13 @@ In offload mode, the compositor (COSMIC) ran on Intel and had to **copy every fr
 
 #### Why not always-on Discrete mode?
 
-Unnecessary for a laptop. NVIDIA's runtime power management (`powerManagement.enable = true`) handles idle suspend automatically. The GPU only stays awake when it's actually needed.
+Unnecessary for a laptop. NVIDIA's power management is handled by two complementary settings:
+
+- **`powerManagement.enable = true`** — handles **system suspend/resume**. When the system sleeps, NVIDIA saves the entire VRAM contents to disk (`NVreg_PreserveVideoMemoryAllocations=1`) and restores it on wake. Without this, you'd get graphical corruption or a black screen after suspend.
+
+- **`powerManagement.finegrained = false`** — controls **runtime idle power-down** (RTD3). This is set to `false` in sync mode because sync mode needs NVIDIA to be available as a display driver at any moment. When `finegrained = true` (offload mode), NVIDIA could aggressively power-gate itself when no app was using it — but in sync mode that would conflict with display ownership.
+
+> Despite `finegrained = false`, NVIDIA still **runtime-suspends** when no external monitor is connected and no app is actively using the GPU — confirmed by `/sys/bus/pci/devices/0000:01:00.0/power/runtime_status` showing `suspended` at idle. The difference is just _who_ decides when to sleep: with `finegrained = true` the driver is more aggressive about it.
 
 ---
 
@@ -208,6 +214,54 @@ Secrets (SSH keys, API tokens, passwords) are managed with **[sops-nix](https://
 | `apple-fonts`        | SF Pro, SF Mono, NY fonts                    |
 | `thirr-wallpapers`   | Personal wallpaper collection (pinned)       |
 | `nix-index-database` | Pre-built nix-index for `comma`              |
+
+---
+
+### ❓ FAQ
+
+#### Q: Suspend broken on COSMIC + NVIDIA — fan stays on, black screen after wake
+
+**Symptom:**
+
+```
+Freezing user space processes failed after 20.005 seconds (1 tasks refusing to freeze, wq_busy=0):
+ drm_mode_getconnector+0x148/0x4b0
+```
+
+The kernel fails to freeze userspace before entering sleep. The system appears to suspend but the fan keeps spinning, or suspend fails entirely with `Device or resource busy`.
+
+**Root cause:**
+
+COSMIC applets (battery, brightness, tray, etc.) open `/dev/dri/card*` **transiently** — open → ioctl → close — to query connector info when making power management decisions. Because the file descriptor is only open for a brief moment, `lsof`-based detection misses them entirely. When the kernel tries to freeze all userspace threads before suspend, any thread currently mid-syscall inside `drm_mode_getconnector` cannot be frozen → the kernel gives up after a 20-second timeout.
+
+On top of that, `nvidia-suspend.service` acquires the DRM lock while saving VRAM state. If a COSMIC thread is already waiting on that same DRM mutex, the result is a **permanent deadlock** — the system never fully sleeps.
+
+**Fix implemented** (in `hosts/laptop/configuration.nix`):
+
+Three layers working together:
+
+1. **`SYSTEMD_SLEEP_FREEZE_USER_SESSIONS=0`** — disables systemd's built-in cgroup session freeze (which would time out after 60 seconds anyway). It is replaced by a more targeted manual SIGSTOP.
+
+2. **`cosmic-suspend-fix` service** — runs `before` nvidia-suspend and systemd-suspend:
+   - Sends `SIGSTOP` to all `cosmic-*` processes owned by the login user (scoped with `-u username` so `cosmic-greeter-daemon`, a system user UID, is never touched — stopping the greeter produces a frozen grey screen on resume)
+   - Waits 2 seconds to let any thread already inside a kernel DRM call finish its in-flight mutex wait and return to userspace before NVIDIA grabs the DRM lock
+
+3. **`cosmic-resume-fix` service** — runs `after` nvidia-resume, sends `SIGCONT` to resume all stopped COSMIC processes
+
+```
+Suspend sequence:
+cosmic-suspend-fix (SIGSTOP cosmic-*)
+        ↓
+nvidia-suspend.service (save VRAM state)
+        ↓
+systemd-suspend (kernel enters sleep) ✅
+        ↓
+nvidia-resume.service (restore VRAM state)
+        ↓
+cosmic-resume-fix (SIGCONT cosmic-*)
+```
+
+> **Why SIGSTOP and not SIGTERM?** SIGTERM would kill the compositor and log out the session. SIGSTOP freezes processes in-place without closing file descriptors or corrupting Wayland state — so on resume, SIGCONT is enough to continue as if nothing happened.
 
 ---
 
