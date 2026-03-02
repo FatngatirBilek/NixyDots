@@ -7,7 +7,7 @@
 }: {
   home.packages = with pkgs; [bat ripgrep tldr sesh lazydocker];
 
-  home.sessionPath = ["$HOME/go/bin" "/usr/local/bin"];
+  home.sessionPath = ["$HOME/.local/bin" "$HOME/go/bin" "/usr/local/bin"];
 
   programs.zsh = {
     enable = true;
@@ -17,6 +17,8 @@
     historySubstringSearch.enable = true;
 
     initContent = ''
+      export PATH="$HOME/.local/bin:$PATH"
+
       function sesh-sessions() {
         session=$(sesh list -t -c | fzf --height 70% --reverse)
         [[ -z "$session" ]] && return
