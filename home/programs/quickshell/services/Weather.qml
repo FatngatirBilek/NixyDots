@@ -16,7 +16,8 @@ Singleton {
     property var cc: null
     property var forecast: null
 
-    property string cachedLoc: ""
+    property real cachedLat: 0
+    property real cachedLon: 0
     property bool locationFetched: false
 
     property bool fetching: false
@@ -24,64 +25,80 @@ Singleton {
     readonly property int maxRetries: 3
     readonly property int baseRetryDelayMs: 30000
 
+    // WMO weather code → phosphor icon name
     readonly property var weatherIcons: ({
-        "113": "sun",
-        "116": "cloud-sun",
-        "119": "cloud",
-        "122": "cloud",
-        "143": "cloud-fog",
-        "176": "cloud-rain",
-        "179": "cloud-snow",
-        "182": "cloud-snow",
-        "185": "cloud-snow",
-        "200": "cloud-lightning",
-        "227": "cloud-snow",
-        "230": "cloud-snow",
-        "248": "cloud-fog",
-        "260": "cloud-fog",
-        "263": "cloud-rain",
-        "266": "cloud-rain",
-        "281": "cloud-snow",
-        "284": "cloud-snow",
-        "293": "cloud-rain",
-        "296": "cloud-rain",
-        "299": "cloud-rain",
-        "302": "cloud-rain",
-        "305": "cloud-rain",
-        "308": "cloud-rain",
-        "311": "cloud-snow",
-        "314": "cloud-snow",
-        "317": "cloud-snow",
-        "320": "cloud-snow",
-        "323": "cloud-snow",
-        "326": "cloud-snow",
-        "329": "cloud-snow",
-        "332": "cloud-snow",
-        "335": "cloud-snow",
-        "338": "cloud-snow",
-        "350": "cloud-snow",
-        "353": "cloud-rain",
-        "356": "cloud-rain",
-        "359": "cloud-rain",
-        "362": "cloud-snow",
-        "365": "cloud-snow",
-        "368": "cloud-snow",
-        "371": "cloud-snow",
-        "374": "cloud-snow",
-        "377": "cloud-snow",
-        "386": "cloud-lightning",
-        "389": "cloud-lightning",
-        "392": "cloud-lightning",
-        "395": "cloud-snow"
+        0:  "sun",
+        1:  "sun",
+        2:  "cloud-sun",
+        3:  "cloud",
+        45: "cloud-fog",
+        48: "cloud-fog",
+        51: "cloud-rain",
+        53: "cloud-rain",
+        55: "cloud-rain",
+        56: "cloud-snow",
+        57: "cloud-snow",
+        61: "cloud-rain",
+        63: "cloud-rain",
+        65: "cloud-rain",
+        66: "cloud-snow",
+        67: "cloud-snow",
+        71: "cloud-snow",
+        73: "cloud-snow",
+        75: "cloud-snow",
+        77: "cloud-snow",
+        80: "cloud-rain",
+        81: "cloud-rain",
+        82: "cloud-rain",
+        85: "cloud-snow",
+        86: "cloud-snow",
+        95: "cloud-lightning",
+        96: "cloud-lightning",
+        99: "cloud-lightning"
+    })
+
+    // WMO weather code → human-readable description
+    readonly property var weatherDescriptions: ({
+        0:  "Clear sky",
+        1:  "Mainly clear",
+        2:  "Partly cloudy",
+        3:  "Overcast",
+        45: "Fog",
+        48: "Icy fog",
+        51: "Light drizzle",
+        53: "Drizzle",
+        55: "Heavy drizzle",
+        56: "Light freezing drizzle",
+        57: "Freezing drizzle",
+        61: "Light rain",
+        63: "Rain",
+        65: "Heavy rain",
+        66: "Light freezing rain",
+        67: "Freezing rain",
+        71: "Light snow",
+        73: "Snow",
+        75: "Heavy snow",
+        77: "Snow grains",
+        80: "Light showers",
+        81: "Showers",
+        82: "Heavy showers",
+        85: "Light snow showers",
+        86: "Snow showers",
+        95: "Thunderstorm",
+        96: "Thunderstorm w/ hail",
+        99: "Thunderstorm w/ heavy hail"
     })
 
     function getWeatherIcon(code) {
         if (code === null || code === undefined) return "sun"
-        const codeStr = code.toString()
-        if (root.weatherIcons[codeStr] !== undefined) {
-            return root.weatherIcons[codeStr]
-        }
-        return "sun"
+        const icon = root.weatherIcons[code]
+        return icon !== undefined ? icon : "sun"
+    }
+
+    function getWeatherDescription(code) {
+        if (code === null || code === undefined) return "Unknown"
+        const desc = root.weatherDescriptions[code]
+        return desc !== undefined ? desc : "Unknown"
     }
 
     function scheduleRetry(): void {
@@ -105,72 +122,106 @@ Singleton {
         root.fetching = true
         root.retryCount = 0
 
-        if (root.locationFetched && root.cachedLoc !== "") {
-            fetchWeather(root.cachedLoc)
+        if (root.locationFetched) {
+            fetchWeather(root.cachedLat, root.cachedLon)
             return
         }
 
+        // Step 1: resolve lat/lon + city name via ipinfo.io (no API key needed)
         Requests.get("https://ipinfo.io/json", function(text) {
             try {
                 const parsed = JSON.parse(text)
-                if (parsed !== null && parsed !== undefined && parsed.city !== null && parsed.city !== undefined) {
-                    root.location = parsed.city
-                    const loc = parsed.loc !== null && parsed.loc !== undefined ? parsed.loc : ""
-                    root.cachedLoc = loc
-                    root.locationFetched = true
-                    fetchWeather(loc)
+                if (parsed === null || parsed === undefined) {
+                    console.warn("[WEATHER] ipinfo.io returned null")
+                    root.scheduleRetry()
+                    return
                 }
+
+                if (parsed.city !== null && parsed.city !== undefined)
+                    root.location = parsed.city
+
+                // "loc" field is "lat,lon"
+                const locStr = parsed.loc
+                if (locStr === null || locStr === undefined || locStr === "") {
+                    console.warn("[WEATHER] ipinfo.io returned no loc field")
+                    root.scheduleRetry()
+                    return
+                }
+
+                const parts = locStr.split(",")
+                if (parts.length < 2) {
+                    console.warn("[WEATHER] could not parse loc: " + locStr)
+                    root.scheduleRetry()
+                    return
+                }
+
+                root.cachedLat = parseFloat(parts[0])
+                root.cachedLon = parseFloat(parts[1])
+                root.locationFetched = true
+
+                fetchWeather(root.cachedLat, root.cachedLon)
             } catch (e) {
-                console.warn("[WEATHER] failed to get location")
+                console.warn("[WEATHER] failed to parse ipinfo.io response: " + e)
                 root.fetching = false
+                root.scheduleRetry()
             }
         }, function(_reason) {
+            console.warn("[WEATHER] ipinfo.io request failed: " + _reason)
             root.scheduleRetry()
         })
     }
 
-    function fetchWeather(loc: string): void {
-        if (loc === null || loc === undefined || loc === "") {
-            root.fetching = false
-            return
-        }
+    function fetchWeather(lat: real, lon: real): void {
+        // Open-Meteo: free, no API key, reliable
+        const url = "https://api.open-meteo.com/v1/forecast"
+            + "?latitude=" + lat
+            + "&longitude=" + lon
+            + "&current=temperature_2m,weather_code"
+            + "&temperature_unit=celsius"
+            + "&forecast_days=1"
 
-        Requests.get("https://wttr.in/" + loc + "?format=j1", function(text) {
+        Requests.get(url, function(text) {
             root.fetching = false
             root.retryCount = 0
 
             try {
                 const json = JSON.parse(text)
-                if (json === null || json === undefined) return
-
-                const current = json.current_condition
-                if (current !== null && current !== undefined && current.length > 0) {
-                    root.cc = current[0]
-
-                    const tempC = root.cc.temp_C
-                    root.temperature = tempC !== null && tempC !== undefined ? tempC : "0"
-
-                    const weatherDesc = root.cc.weatherDesc
-                    if (weatherDesc !== null && weatherDesc !== undefined && weatherDesc.length > 0) {
-                        const firstDesc = weatherDesc[0]
-                        root.condition = firstDesc !== null && firstDesc !== undefined && firstDesc.value !== null ? firstDesc.value : ""
-                    }
-
-                    const weatherCode = root.cc.weatherCode
-                    root.icon = root.getWeatherIcon(weatherCode)
-                    root.loaded = true
+                if (json === null || json === undefined) {
+                    console.warn("[WEATHER] Open-Meteo returned null")
+                    return
                 }
 
-                root.forecast = json.weather
+                const current = json.current
+                if (current === null || current === undefined) {
+                    console.warn("[WEATHER] Open-Meteo response has no 'current' field")
+                    return
+                }
+
+                const tempRaw = current.temperature_2m
+                root.temperature = tempRaw !== null && tempRaw !== undefined
+                    ? Math.round(tempRaw).toString()
+                    : "0"
+
+                const code = current.weather_code
+                root.condition = root.getWeatherDescription(code)
+                root.icon      = root.getWeatherIcon(code)
+
+                root.cc       = current
+                root.forecast = json.daily !== undefined ? json.daily : null
+                root.loaded   = true
+
+                console.log("[WEATHER] loaded — " + root.temperature + "° " + root.condition + " @ " + root.location)
             } catch (e) {
-                console.warn("[WEATHER] failed to parse weather data")
+                console.warn("[WEATHER] failed to parse Open-Meteo response: " + e)
             }
         }, function(_reason) {
+            console.warn("[WEATHER] Open-Meteo request failed: " + _reason)
+            root.fetching = false
             root.scheduleRetry()
         })
     }
 
-    // delay initial fetch so the network stack has time to come up
+    // Delay initial fetch so the network stack has time to come up
     Timer {
         id: startupTimer
         interval: 5000
@@ -189,6 +240,7 @@ Singleton {
         }
     }
 
+    // Refresh every 15 minutes
     Timer {
         interval: 900000
         running: true
