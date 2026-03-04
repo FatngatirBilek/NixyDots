@@ -71,7 +71,7 @@
       icat = "${pkgs.kitty}/bin/kitty +kitten icat";
 
       wireguard-import = "nmcli connection import type wireguard file";
-      vpn-telkom = "sudo openconnect --protocol=gp --authgroup=globalrsa-mitra --csd-wrapper=${pkgs.openconnect}/libexec/openconnect/hipreport.sh";
+      vpn-telkom = "sudo openconnect --protocol=gp --no-dtls --csd-wrapper=${pkgs.openconnect}/libexec/openconnect/hipreport.sh";
       notes = "nvim ~/nextcloud/notes/index.md --cmd 'cd ~/nextcloud/notes' -c ':Telescope find_files'";
       note = "notes";
 
