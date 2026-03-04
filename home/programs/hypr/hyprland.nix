@@ -226,9 +226,8 @@
         "$mainMod, T, layoutmsg, togglesplit"
 
         # Quickshell panels (global shortcuts registered by the shell)
-        "$mainMod, D, global, quickshell:dashboard"
-        "$mainMod, SPACE, global, quickshell:launcher"
-        "$mainMod CTRL, L, global, quickshell:lock"
+        "$mainMod, D, global, quickshell:launcher"
+        "$mainMod, L, global, quickshell:lock"
 
         # Screenshots via quickshell
         ", Print, global, quickshell:screenshot"
