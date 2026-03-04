@@ -92,6 +92,15 @@ in {
       Environment = [
         # Required Qt platform plugin
         "QT_QPA_PLATFORM=wayland"
+        # Load the GTK3 platform theme so Qt reads icon/style settings from
+        # ~/.config/gtk-3.0/settings.ini (where home-manager writes WhiteSur-dark).
+        # libqgtk3.so ships inside qtbase and is on QT_PLUGIN_PATH via the wrapper,
+        # so no extra package is needed — this is the key variable that makes tray
+        # icons resolve correctly from systemd (terminal already has it via
+        # home.sessionVariables, systemd services don't inherit shell session vars).
+        "QT_QPA_PLATFORMTHEME=gtk3"
+        # Belt-and-suspenders: also tell Qt the theme name directly.
+        "QT_ICON_THEME=WhiteSur-dark"
       ];
     };
 
