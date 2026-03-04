@@ -10,11 +10,12 @@ Item {
     implicitWidth: 16
     implicitHeight: 16
 
+    // Glow — only shown for the active workspace
     Rectangle {
         id: glow
         anchors.centerIn: parent
-        width: 20
-        height: 20
+        width: 22
+        height: 22
         radius: width / 2
         color: Colors.withAlpha(Colors.accent, 0.3)
         opacity: root.isActive ? 1 : 0
@@ -28,20 +29,21 @@ Item {
         }
     }
 
+    // Dot — three visual states:
+    //   active   → bigger, solid accent, glow above renders the shadow
+    //   occupied → medium, solid accent, no glow
+    //   empty    → smaller, hollow ring (transparent fill + border)
     Rectangle {
         id: dot
         anchors.centerIn: parent
-        width: root.isActive ? 10 : 6
+
+        width: root.isActive ? 10 : (root.isOccupied ? 8 : 6)
         height: width
         radius: width / 2
 
-        color: {
-            if (root.isActive) return Colors.accent
-            if (root.isOccupied) return Colors.textMuted
-            return "transparent"
-        }
+        color: (root.isActive || root.isOccupied) ? Colors.accent : "transparent"
 
-        border.width: root.isOccupied === false && root.isActive === false ? 1 : 0
+        border.width: (!root.isOccupied && !root.isActive) ? 1.5 : 0
         border.color: Colors.textDim
 
         Behavior on width {

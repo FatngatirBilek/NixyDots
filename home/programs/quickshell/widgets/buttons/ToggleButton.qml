@@ -24,12 +24,11 @@ Item {
         radius: Spacing.radiusMd
         color: {
             if (root.isOn) {
-                return Colors.withAlpha(Colors.accent, root.hovered ? 0.25 : 0.2)
+                return root.hovered ? Colors.accentAlt : Colors.accent
             }
             return root.hovered ? Colors.bgHover : Colors.bgElevated
         }
-        border.width: root.isOn ? 1 : 0
-        border.color: Colors.withAlpha(Colors.accent, 0.4)
+        border.width: 0
 
         Behavior on color {
             ColorAnimation { duration: Motion.hoverDuration }
@@ -44,7 +43,13 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             name: root.icon
             size: Spacing.iconMd
-            iconState: root.isOn ? "active" : (root.hovered ? "hover" : "default")
+            // When on: use crust (very dark) so icon pops on the bright accent fill.
+            // When off: normal active/hover/default tinting.
+            color: {
+                if (root.isOn)   return Colors.crust
+                if (root.hovered) return Colors.iconHoverPrimary
+                return Colors.iconPrimary
+            }
         }
 
         Label {
@@ -52,7 +57,11 @@ Item {
             text: root.label
             font.pixelSize: Typography.sizeMicro
             font.letterSpacing: Typography.microLabelSpacing
-            color: root.isOn ? Colors.accent : Colors.textMuted
+            color: root.isOn ? Colors.crust : Colors.textMuted
+
+            Behavior on color {
+                ColorAnimation { duration: Motion.hoverDuration }
+            }
         }
     }
 
