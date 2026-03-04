@@ -6,6 +6,9 @@
   ...
 }: {
   imports = [
+    # Elephant launcher backend HM module (required by quickshell)
+    inputs.elephant.homeManagerModules.default
+
     ./variables.nix
 
     # Programs
@@ -28,6 +31,10 @@
     ../../home/programs/zed
     ../../home/programs/wezterm
     ../../home/programs/obs
+
+    # Hyprland window manager + quickshell shell
+    ../../home/programs/hypr
+    ../../home/programs/quickshell
 
     # Scripts
     ../../home/scripts # All scripts

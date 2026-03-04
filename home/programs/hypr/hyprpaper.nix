@@ -1,20 +1,29 @@
-# Hyprpaper configuration
-# CHANGEME: update the wallpaper path to your actual wallpaper file.
-# You can also set it at runtime with:
-#   hyprctl hyprpaper wallpaper ",/path/to/wallpaper.jpg"
-{
-  pkgs,
-  inputs,
-  ...
-}: {
-  home.packages = [pkgs.hyprpaper];
+# Hyprpaper wallpaper daemon
+# Uses the home-manager services.hyprpaper module which handles the systemd
+# user service, package, and config file generation automatically.
+# Remove exec-once = hyprpaper from hyprland.nix — the service starts it.
+{inputs, ...}: {
+  services.hyprpaper = {
+    enable = true;
 
-  xdg.configFile."hypr/hyprpaper.conf".text = ''
-    ipc = true
-    splash = false
+    settings = {
+      ipc = true;
+      splash = false;
 
-    preload = ${inputs.thirr-wallpapers}/wallpapers/wallpaper.jpg
+      preload = [
+        "${inputs.thirr-wallpapers}/wallpapers/wallpaper.jpg"
+      ];
 
-    wallpaper = ,${inputs.thirr-wallpapers}/wallpapers/wallpaper.jpg
-  '';
+      wallpaper = [
+        {
+          monitor = "eDP-1";
+          path = "${inputs.thirr-wallpapers}/wallpapers/wallpaper.jpg";
+        }
+        {
+          monitor = "";
+          path = "${inputs.thirr-wallpapers}/wallpapers/wallpaper.jpg";
+        }
+      ];
+    };
+  };
 }

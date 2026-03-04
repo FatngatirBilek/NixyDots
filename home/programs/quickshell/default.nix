@@ -122,7 +122,14 @@ in {
       Documentation = "https://quickshell.outfoxxed.me";
       After = ["hyprland-session.target"];
       PartOf = ["hyprland-session.target"];
-      ConditionEnvironment = "WAYLAND_DISPLAY";
+      # Only start when both a Wayland compositor is running AND it is
+      # specifically Hyprland (which always exports HYPRLAND_INSTANCE_SIGNATURE).
+      # This prevents quickshell from auto-starting under COSMIC, GNOME Wayland,
+      # or any other compositor that activates a generic wayland session target.
+      ConditionEnvironment = [
+        "WAYLAND_DISPLAY"
+        "HYPRLAND_INSTANCE_SIGNATURE"
+      ];
     };
 
     Service = {

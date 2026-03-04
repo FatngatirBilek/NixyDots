@@ -83,6 +83,7 @@
         "WLR_XCURSOR_THEME,Bibata-Modern-Ice"
         "HYPRCURSOR_THEME,Bibata-Modern-Ice"
         "WLR_XCURSOR_SIZE,24"
+        "AQ_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0"
         # Wayland / Qt
         "QT_QPA_PLATFORM,wayland"
         "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
@@ -110,7 +111,7 @@
       exec-once = [
         # Import environment into systemd so services see Wayland/Hyprland vars
         "systemctl --user import-environment WAYLAND_DISPLAY XDG_RUNTIME_DIR HYPRLAND_INSTANCE_SIGNATURE XDG_CURRENT_DESKTOP"
-        "hyprpaper"
+
         # Clipboard history (cliphist for quickshell/elephant clipboard provider)
         "wl-paste --type text --watch cliphist store"
         "wl-paste --type image --watch cliphist store"
