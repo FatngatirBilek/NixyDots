@@ -43,6 +43,19 @@ in {
       font.name = "Noto Sans Medium";
       font.size = 11;
     };
+    # Tell the XDG desktop portal (and apps that read it, like Firefox/Zen on
+    # Wayland) to use dark mode.  Firefox does NOT read GTK_THEME for this —
+    # it queries org.gnome.desktop.interface.color-scheme via the portal.
+    dconf.settings = {
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+        gtk-theme = "Orchis-Dark";
+        icon-theme = "WhiteSur-dark";
+        cursor-theme = "Bibata-Modern-Ice";
+        cursor-size = 24;
+      };
+    };
+
     home.sessionVariables = {
       GTK_THEME = "Orchis-Dark";
       GTK_ICON_THEME = "WhiteSur-dark";

@@ -90,8 +90,13 @@
         "SDL_VIDEODRIVER,wayland"
         "CLUTTER_BACKEND,wayland"
         "MOZ_ENABLE_WAYLAND,1"
-        # GTK theme (matching your theming/default.nix)
+        # GTK theme + dark mode (matching your theming/default.nix)
+        # GTK_APPLICATION_PREFER_DARK_THEME must be in the Hyprland env block
+        # (not just sessionVariables) so every app launched by Hyprland inherits it.
+        # Firefox/Zen on Wayland reads color-scheme via the XDG portal / dconf,
+        # but this covers GTK3/4 apps that check the env var directly.
         "GTK_THEME,Orchis-Dark"
+        "GTK_APPLICATION_PREFER_DARK_THEME,1"
       ];
 
       # ─── Permissions ─────────────────────────────────────────────────────────
