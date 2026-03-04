@@ -333,22 +333,6 @@
         "type": "github"
       }
     },
-    "karol-dots": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1772616890,
-        "narHash": "sha256-GRMFZSNIVFz7oaGhr/hry4iIwEJ8/OiPSF0Q9vn62GY=",
-        "owner": "karol-broda",
-        "repo": "nixos-config",
-        "rev": "5e3b2988c00d65762686854305f4119a932b8d9c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "karol-broda",
-        "repo": "nixos-config",
-        "type": "github"
-      }
-    },
     "lanzaboote": {
       "inputs": {
         "crane": "crane",
@@ -665,7 +649,6 @@
         "elephant": "elephant",
         "ghostty": "ghostty",
         "home-manager": "home-manager_3",
-        "karol-dots": "karol-dots",
         "lanzaboote": "lanzaboote",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",

@@ -1,23 +1,21 @@
 # Quickshell shell configuration
-# Sources the QML config from karol-broda/nixos-config (karol-dots flake input)
-# and overrides theme/Colors.qml + config/Config.qml with this repo's versions.
+# All QML sources live directly in this directory tree — no external flake input needed.
+#
+# Layout mirrors karol-broda/nixos-config with local overrides already applied in-place:
+#   theme/Colors.qml              — Catppuccin Frappé palette
+#   config/Config.qml             — pinned apps, shell settings
+#   services/Bluetooth.qml        — BlueZ singleton (Quickshell.Bluetooth)
+#   services/Notifs.qml           — adds doNotDisturb support
+#   shell.qml                     — adds dashboard / notifications GlobalShortcuts
+#   features/bar/sections/StatusIcons.qml              — battery % in bar
+#   features/panels/dashboard/sections/QuickToggles.qml — WiFi + BT toggles
+#   features/panels/dashboard/sections/WiFiList.qml     — live network list
+#   features/panels/dashboard/sections/BluetoothList.qml — live device list
 #
 # Elephant (https://github.com/abenz1267/elephant) provides the backend for:
-#   - App launcher
-#   - Clipboard history
-#   - File search
-#   - Calculator
-#   - Web search
-#   - Window switcher
-#
+#   - App launcher / window switcher / file search / clipboard / calc / web search
 # The elephant home-manager module is imported from the elephant flake input in
 # hosts/laptop/home.nix.
-#
-# WiFi / Bluetooth panel additions:
-#   - services/Bluetooth.qml      — BlueZ singleton (Quickshell.Bluetooth)
-#   - dashboard/sections/WiFiList.qml      — live network list
-#   - dashboard/sections/BluetoothList.qml — live device list
-#   - dashboard/sections/QuickToggles.qml  — replaces the stub with working toggles
 {
   pkgs,
   inputs,
@@ -27,64 +25,12 @@
   # Quickshell.Networking, Quickshell.Bluetooth, etc. which are missing in nixpkgs.
   quickshellPkg = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
-  # Build a merged quickshell QML config:
-  #  1. Copy everything from karol-broda's quickshell directory
-  #  2. Overwrite theme/Colors.qml and config/Config.qml with our versions
-  #  3. Inject Bluetooth service + WiFi/BT list components + updated QuickToggles
+  # Strip default.nix from the source tree so quickshell doesn't see a stray
+  # .nix file in its config root.
   quickshellConfig = pkgs.runCommand "quickshell-config" {} ''
-    cp -r ${inputs.karol-dots}/home/karolbroda/programs/quickshell/. $out
+    cp -r ${./.} $out
     chmod -R +w $out
-
-    # Drop the default.nix (Nix-only, not QML) from the output so quickshell
-    # doesn't see a stray .nix file in its config root.
     rm -f $out/default.nix
-
-    # ── Theme / config overrides ──────────────────────────────────────────────
-    cp ${./Colors.qml} $out/theme/Colors.qml
-    cp ${./Config.qml} $out/config/Config.qml
-
-    # ── Bluetooth service singleton ───────────────────────────────────────────
-    # Wraps Quickshell.Bluetooth so QML can reference `Bluetooth.*` from
-    # qs.services just like `Network.*`.
-    cp ${./Bluetooth.qml} $out/services/Bluetooth.qml
-    # Register Bluetooth as a singleton in the services qmldir.
-    echo "" >> $out/services/qmldir
-    echo "singleton Bluetooth Bluetooth.qml" >> $out/services/qmldir
-
-    # ── Notification service override ─────────────────────────────────────────
-    # Replace the upstream Notifs.qml with our version that adds doNotDisturb.
-    # QuickToggles binds to Notifs.doNotDisturb instead of calling swaync-client.
-    cp ${./Notifs.qml} $out/services/Notifs.qml
-
-    # ── Shell entry-point override ────────────────────────────────────────────
-    # The upstream shell.qml only registers GlobalShortcuts for "launcher" and
-    # "lock".  Our version adds "dashboard" (Super+D) and "notifications" so
-    # all keybinds declared in hyprland.nix are actually registered with
-    # Hyprland's hyprland_global_shortcuts_v1 protocol.
-    cp ${./shell.qml} $out/shell.qml
-
-    # ── Dashboard WiFi / Bluetooth list components ────────────────────────────
-    local sectionsDir="$out/features/panels/dashboard/sections"
-
-    # WiFiList — scrollable list of available networks with connect / disconnect.
-    cp ${./WiFiList.qml} "$sectionsDir/WiFiList.qml"
-
-    # BluetoothList — scrollable list of nearby/paired devices.
-    cp ${./BluetoothList.qml} "$sectionsDir/BluetoothList.qml"
-
-    # QuickToggles — replaces the upstream stub (BT disabled, no network list)
-    # with fully working WiFi + Bluetooth toggles that expand inline lists.
-    cp ${./QuickToggles.qml} "$sectionsDir/QuickToggles.qml"
-
-    # ── Bar StatusIcons override ───────────────────────────────────────────────
-    # Replaces the upstream StatusIcons.qml to add battery percentage text next
-    # to the battery icon in the bar right section.
-    cp ${./StatusIcons.qml} "$out/features/bar/sections/StatusIcons.qml"
-
-    # Register the two new components in the sections qmldir.
-    echo "" >> "$sectionsDir/qmldir"
-    echo "WiFiList 1.0 WiFiList.qml" >> "$sectionsDir/qmldir"
-    echo "BluetoothList 1.0 BluetoothList.qml" >> "$sectionsDir/qmldir"
   '';
 in {
   # ── Deploy QML config ────────────────────────────────────────────────────────
@@ -120,7 +66,6 @@ in {
 
   # ── Quickshell systemd user service ──────────────────────────────────────────
   # Starts quickshell after the hyprland session is up.
-  # Equivalent to `programs.quickshell.systemd` in the reference config.
   systemd.user.services.quickshell = {
     Unit = {
       Description = "Quickshell compositor shell";

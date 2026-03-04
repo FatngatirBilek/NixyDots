@@ -55,11 +55,6 @@
     # Hyprland quickshell setup
     elephant.url = "github:abenz1267/elephant";
 
-    karol-dots = {
-      url = "github:karol-broda/nixos-config";
-      flake = false;
-    };
-
     quickshell = {
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
