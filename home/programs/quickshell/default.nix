@@ -76,6 +76,11 @@
     # with fully working WiFi + Bluetooth toggles that expand inline lists.
     cp ${./QuickToggles.qml} "$sectionsDir/QuickToggles.qml"
 
+    # ── Bar StatusIcons override ───────────────────────────────────────────────
+    # Replaces the upstream StatusIcons.qml to add battery percentage text next
+    # to the battery icon in the bar right section.
+    cp ${./StatusIcons.qml} "$out/features/bar/sections/StatusIcons.qml"
+
     # Register the two new components in the sections qmldir.
     echo "" >> "$sectionsDir/qmldir"
     echo "WiFiList 1.0 WiFiList.qml" >> "$sectionsDir/qmldir"
