@@ -25,6 +25,13 @@ RowLayout {
         return aw.id
     }
 
+    readonly property bool isFocusedMonitor: {
+        if (monitor === null || monitor === undefined) return false
+        const fm = Hyprland.focusedMonitor
+        if (fm === null || fm === undefined) return false
+        return fm.id === monitor.id
+    }
+
     spacing: Spacing.spacingSm
 
     Repeater {
@@ -35,15 +42,18 @@ RowLayout {
 
             readonly property int wsId: index + 1
 
-            isActive: root.activeWsIdForMonitor === wsId
+            isActive: root.isFocusedMonitor && root.activeWsIdForMonitor === wsId
 
             isOccupied: {
-                const ws = Hyprland.workspaces
-                if (ws === null || ws === undefined) {
-                    return false
-                }
-                for (let i = 0; i < ws.length; i++) {
-                    if (ws[i] !== null && ws[i] !== undefined && ws[i].id === wsId) {
+                const tls = Hyprland.toplevels
+                if (tls === null || tls === undefined) return false
+                const values = tls.values
+                if (values === null || values === undefined) return false
+                for (let i = 0; i < values.length; i++) {
+                    const tl = values[i]
+                    if (tl !== null && tl !== undefined &&
+                        tl.workspace !== null && tl.workspace !== undefined &&
+                        tl.workspace.id === wsId) {
                         return true
                     }
                 }

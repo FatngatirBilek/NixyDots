@@ -29,10 +29,10 @@ Item {
         }
     }
 
-    // Dot — three visual states:
-    //   active   → bigger, solid accent, glow above renders the shadow
-    //   occupied → medium, solid accent, no glow
-    //   empty    → smaller, hollow ring (transparent fill + border)
+    // Dot — fill based on occupied, glow based on active:
+    //   occupied → solid accent (has apps on this workspace)
+    //   empty    → hollow ring (no apps)
+    //   active   → glow shadow added (independent of fill)
     Rectangle {
         id: dot
         anchors.centerIn: parent
@@ -41,9 +41,9 @@ Item {
         height: width
         radius: width / 2
 
-        color: (root.isActive || root.isOccupied) ? Colors.accent : "transparent"
+        color: root.isOccupied ? Colors.accent : "transparent"
 
-        border.width: (!root.isOccupied && !root.isActive) ? 1.5 : 0
+        border.width: !root.isOccupied ? 1.5 : 0
         border.color: Colors.textDim
 
         Behavior on width {
