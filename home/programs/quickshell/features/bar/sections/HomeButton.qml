@@ -6,7 +6,7 @@ import qs.widgets.buttons
 IconButton {
     id: root
 
-    icon: "house"
+    icon: "nixos"
     size: Spacing.barHeight - 4
     iconSize: Spacing.iconMd
 
