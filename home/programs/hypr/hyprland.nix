@@ -71,8 +71,29 @@
       "$shiftMainMod" = "SUPER SHIFT";
 
       # ─── Monitor ─────────────────────────────────────────────────────────────
-      # CHANGEME: adjust to your display setup
-      monitor = ", preferred, auto, 1";
+      # Monitor rules are matched top-to-bottom; the catch-all at the end handles
+      # any unknown display (projector, random monitor, etc.) with its native
+      # preferred resolution automatically — no manual tweaking needed.
+      #
+      # To find your home HDMI description, plug it in and run:
+      #   hyprctl monitors
+      # then copy the full "description" field into the rule below.
+      #
+      # CHANGEME: replace the desc: value with your actual home HDMI description,
+      #           and adjust the resolution/refresh if needed.
+      monitor = [
+        # Built-in display — 1920x1080 @ 165 Hz, always on the left
+        "eDP-1, 1920x1080@165, 0x0, 1"
+
+        # Home HDMI monitor (HKC 24E4 on HDMI-A-1) — matched by unique hardware
+        # description so it only activates for THIS physical monitor, never a
+        # projector or random screen. Positioned to the right of eDP-1 @ 144 Hz.
+        "desc:HKC OVERSEAS LIMITED 24E4 0000000000001, 1920x1080@144, 1920x0, 1"
+
+        # Fallback: any other display (projector, guest monitor, …) gets its
+        # own preferred/native resolution placed automatically. Safe by default.
+        ", preferred, auto, 1"
+      ];
 
       # ─── Environment variables ────────────────────────────────────────────────
       env = [
@@ -211,7 +232,7 @@
       };
 
       cursor = {
-        hide_on_key_press = true;
+        hide_on_key_press = false;
       };
 
       # 3-finger horizontal swipe switches workspaces
@@ -332,7 +353,7 @@
         # Lid close/open — CHANGEME: replace eDP-1 with your built-in display name
         # (run `hyprctl monitors` to find the correct name)
         '', switch:on:Lid Switch,  exec, hyprctl keyword monitor "eDP-1, disable"''
-        '', switch:off:Lid Switch, exec, hyprctl keyword monitor "eDP-1, preferred, auto, 1"''
+        '', switch:off:Lid Switch, exec, hyprctl keyword monitor "eDP-1, 1920x1080@165, 0x0, 1"''
       ];
 
       # ─── Window rules ────────────────────────────────────────────────────────
