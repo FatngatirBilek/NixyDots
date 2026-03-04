@@ -6,6 +6,9 @@
   ...
 }: {
   imports = [
+    # Elephant launcher backend HM module (required by quickshell)
+    inputs.elephant.homeManagerModules.default
+
     ./variables.nix
 
     # Programs
@@ -27,6 +30,10 @@
     ../../home/programs/zed
     ../../home/programs/wezterm
     ../../home/programs/obs
+
+    # Hyprland window manager + quickshell shell
+    ../../home/programs/hypr
+    ../../home/programs/quickshell
 
     # Scripts
     ../../home/scripts # All scripts
@@ -123,7 +130,7 @@
     package = inputs.nix-index-database.packages.${pkgs.stdenv.hostPlatform.system}.nix-index-with-small-db;
   };
   theming.enable = true;
-  swaync.enable = true;
+  swaync.enable = false;
 
   nixpkgs.overlays = lib.mkForce null; # fix evaluation warning about nixpkgs.overlays
   programs.home-manager.enable = true;

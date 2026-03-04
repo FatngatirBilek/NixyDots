@@ -35,6 +35,7 @@ in {
     #  ../../nixos/wine.nix
     ../../nixos/fcitx.nix
     ../../nixos/overrides.nix
+    ../../nixos/hyprland.nix
     # ../../nixos/tabletdriver.nix
     # ../../nixos/greeter.nix
     ../../nixos/lanzaboote.nix # Secure boot
