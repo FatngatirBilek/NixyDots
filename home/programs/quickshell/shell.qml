@@ -17,6 +17,9 @@ import qs.features.osd
 import qs.features.toasts
 import qs.features.lockscreen
 import qs.features.screenshot
+import qs.features.widgets.photo
+import qs.features.widgets.calendar
+import qs.config
 
 ShellRoot {
     id: root
@@ -173,6 +176,325 @@ ShellRoot {
                 ScreenFrame {
                     anchors.fill: parent
                     screen: screenRoot.screen
+                }
+            }
+
+            PanelWindow {
+                id: photoWidgetWindow
+
+                screen: screenRoot.screen
+                color: "transparent"
+                exclusionMode: ExclusionMode.Ignore
+                WlrLayershell.layer: WlrLayer.Bottom
+                WlrLayershell.namespace: "quickshell-photo-widget"
+
+                visible: Config.showPhotoWidget
+
+                anchors {
+                    top: true
+                    left: true
+                    right: true
+                    bottom: true
+                }
+
+                mask: Region {
+                    item: photoWidgetMask
+                }
+
+                Item {
+                    id: photoWidgetMask
+                    visible: false
+
+                    x: photoDesktopWidget.x
+                    y: photoDesktopWidget.y
+                    width:  photoDesktopWidget.width
+                    height: photoDesktopWidget.height
+                }
+
+                PhotoWidget {
+                    id: photoDesktopWidget
+
+                    cardWidth:         Config.photoWidgetWidth
+                    cardHeight:        Config.photoWidgetHeight
+
+                    // Initial position: top-left corner, set once the
+                    // window has been fully sized (avoids binding fight with drag).
+                    Component.onCompleted: {
+                        Qt.callLater(function() {
+                            x = Config.widgetClusterMarginLeft
+                            y = Spacing.barHeight + Config.widgetClusterMarginTop
+                        })
+                    }
+
+                    // Drag bounds — keeps the widget inside the usable screen area.
+                    // These are plain property bindings (not changed-signal handlers),
+                    // so they can never cause a recursion loop.
+                    dragMinX: 0
+                    dragMinY: Spacing.barHeight
+                    dragMaxX: photoWidgetWindow.width  - Config.photoWidgetWidth
+                    dragMaxY: photoWidgetWindow.height - Config.photoWidgetHeight
+                }
+            }
+
+            PanelWindow {
+                id: calendarWidgetWindow
+
+                screen: screenRoot.screen
+                color: "transparent"
+                exclusionMode: ExclusionMode.Ignore
+                WlrLayershell.layer: WlrLayer.Bottom
+                WlrLayershell.namespace: "quickshell-calendar-widget"
+
+                visible: Config.showCalendarWidget
+
+                anchors {
+                    top: true
+                    left: true
+                    right: true
+                    bottom: true
+                }
+
+                mask: Region {
+                    item: calendarWidgetMask
+                }
+
+                Item {
+                    id: calendarWidgetMask
+                    visible: false
+                    x: calendarDesktopWidget.x
+                    y: calendarDesktopWidget.y
+                    width:  calendarDesktopWidget.width
+                    height: calendarDesktopWidget.height
+                }
+
+                CalendarWidget {
+                    id: calendarDesktopWidget
+
+                    cardWidth:  Config.calendarWidgetWidth
+                    cardHeight: Config.calendarWidgetHeight
+
+                    // Below the photo+reminders row
+                    Component.onCompleted: {
+                        Qt.callLater(function() {
+                            x = Config.widgetClusterMarginLeft
+                            y = Spacing.barHeight + Config.widgetClusterMarginTop + Config.photoWidgetHeight + Config.widgetGap
+                        })
+                    }
+
+                    dragMinX: 0
+                    dragMinY: Spacing.barHeight
+                    dragMaxX: calendarWidgetWindow.width  - Config.calendarWidgetWidth
+                    dragMaxY: calendarWidgetWindow.height - Config.calendarWidgetHeight
+                }
+            }
+
+            PanelWindow {
+                id: remindersWidgetWindow
+
+                screen: screenRoot.screen
+                color: "transparent"
+                exclusionMode: ExclusionMode.Ignore
+                WlrLayershell.layer: WlrLayer.Bottom
+                WlrLayershell.namespace: "quickshell-reminders-widget"
+
+                visible: Config.showRemindersWidget
+
+                anchors {
+                    top: true
+                    left: true
+                    right: true
+                    bottom: true
+                }
+
+                mask: Region {
+                    item: remindersWidgetMask
+                }
+
+                Item {
+                    id: remindersWidgetMask
+                    visible: false
+                    x: remindersDesktopWidget.x
+                    y: remindersDesktopWidget.y
+                    width:  remindersDesktopWidget.width
+                    height: remindersDesktopWidget.height
+                }
+
+                RemindersWidget {
+                    id: remindersDesktopWidget
+
+                    cardWidth:  Config.remindersWidgetWidth
+                    cardHeight: Config.remindersWidgetHeight
+
+                    // To the right of the photo widget, same top edge
+                    Component.onCompleted: {
+                        Qt.callLater(function() {
+                            x = Config.widgetClusterMarginLeft + Config.photoWidgetWidth + Config.widgetGap
+                            y = Spacing.barHeight + Config.widgetClusterMarginTop
+                        })
+                    }
+
+                    dragMinX: 0
+                    dragMinY: Spacing.barHeight
+                    dragMaxX: remindersWidgetWindow.width  - Config.remindersWidgetWidth
+                    dragMaxY: remindersWidgetWindow.height - Config.remindersWidgetHeight
+                }
+            }
+
+            // ── Add Event overlay ─────────────────────────────────────────────
+            PanelWindow {
+                id: addEventOverlay
+
+                screen:           screenRoot.screen
+                color:            "transparent"
+                exclusionMode:    ExclusionMode.Ignore
+                WlrLayershell.layer:         WlrLayer.Overlay
+                WlrLayershell.namespace:     "quickshell-add-event"
+                WlrLayershell.keyboardFocus: CalendarState.addEventOpen
+                                             ? WlrKeyboardFocus.Exclusive
+                                             : WlrKeyboardFocus.None
+
+                visible: CalendarState.addEventOpen
+
+                anchors {
+                    top:    true
+                    left:   true
+                    right:  true
+                    bottom: true
+                }
+
+                mask: Region {
+                    item: CalendarState.addEventOpen ? addEventFullMask : null
+                }
+
+                Item {
+                    id: addEventFullMask
+                    anchors.fill: parent
+                    visible: false
+                    Rectangle { anchors.fill: parent; color: "black" }
+                }
+
+                HyprlandFocusGrab {
+                    active:  CalendarState.addEventOpen
+                    windows: [addEventOverlay]
+                    onCleared: { CalendarState.addEventOpen = false }
+                }
+
+                // Dim scrim
+                Rectangle {
+                    anchors.fill: parent
+                    color:        Colors.withAlpha(Colors.crust, 0.55)
+                    opacity:      CalendarState.addEventOpen ? 1 : 0
+                    visible:      opacity > 0.01
+                    Behavior on opacity {
+                        NumberAnimation { duration: 180; easing.type: Easing.OutCubic }
+                    }
+                }
+
+                // Click outside to close
+                MouseArea {
+                    anchors.fill: parent
+                    visible:      CalendarState.addEventOpen
+                    onClicked:    CalendarState.addEventOpen = false
+                }
+
+                // Centered panel card
+                Item {
+                    anchors.centerIn: parent
+                    width:  addEventForm.width
+                    height: addEventForm.height
+                    z:      1
+
+                    // Absorb clicks so they don't reach the close MouseArea
+                    MouseArea { anchors.fill: parent }
+
+                    AddEventPanel {
+                        id: addEventForm
+                    }
+                }
+
+                Item {
+                    anchors.fill: parent
+                    focus: CalendarState.addEventOpen
+                    Keys.onEscapePressed: { CalendarState.addEventOpen = false }
+                }
+            }
+
+            // ── Add Reminder overlay ──────────────────────────────────────────
+            PanelWindow {
+                id: addReminderOverlay
+
+                screen:           screenRoot.screen
+                color:            "transparent"
+                exclusionMode:    ExclusionMode.Ignore
+                WlrLayershell.layer:         WlrLayer.Overlay
+                WlrLayershell.namespace:     "quickshell-add-reminder"
+                WlrLayershell.keyboardFocus: CalendarState.addReminderOpen
+                                             ? WlrKeyboardFocus.Exclusive
+                                             : WlrKeyboardFocus.None
+
+                visible: CalendarState.addReminderOpen
+
+                anchors {
+                    top:    true
+                    left:   true
+                    right:  true
+                    bottom: true
+                }
+
+                mask: Region {
+                    item: CalendarState.addReminderOpen ? addReminderFullMask : null
+                }
+
+                Item {
+                    id: addReminderFullMask
+                    anchors.fill: parent
+                    visible: false
+                    Rectangle { anchors.fill: parent; color: "black" }
+                }
+
+                HyprlandFocusGrab {
+                    active:  CalendarState.addReminderOpen
+                    windows: [addReminderOverlay]
+                    onCleared: { CalendarState.addReminderOpen = false }
+                }
+
+                // Dim scrim
+                Rectangle {
+                    anchors.fill: parent
+                    color:        Colors.withAlpha(Colors.crust, 0.55)
+                    opacity:      CalendarState.addReminderOpen ? 1 : 0
+                    visible:      opacity > 0.01
+                    Behavior on opacity {
+                        NumberAnimation { duration: 180; easing.type: Easing.OutCubic }
+                    }
+                }
+
+                // Click outside to close
+                MouseArea {
+                    anchors.fill: parent
+                    visible:      CalendarState.addReminderOpen
+                    onClicked:    CalendarState.addReminderOpen = false
+                }
+
+                // Centered panel card
+                Item {
+                    anchors.centerIn: parent
+                    width:  addReminderForm.width
+                    height: addReminderForm.height
+                    z:      1
+
+                    // Absorb clicks so they don't reach the close MouseArea
+                    MouseArea { anchors.fill: parent }
+
+                    AddReminderPanel {
+                        id: addReminderForm
+                    }
+                }
+
+                Item {
+                    anchors.fill: parent
+                    focus: CalendarState.addReminderOpen
+                    Keys.onEscapePressed: { CalendarState.addReminderOpen = false }
                 }
             }
 

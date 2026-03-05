@@ -22,4 +22,39 @@ Singleton {
 
     // ── Maximum number of workspaces shown in the bar ─────────────────────────
     readonly property int maxWorkspaces: 10
+
+    // ── Widget cluster layout ─────────────────────────────────────────────────
+    //
+    //   ┌──────────────┐  ┌───────────────────────────────┐
+    //   │  Photo       │  │  Reminders                    │
+    //   │  (square)    │  │  (same height as photo)       │
+    //   └──────────────┘  └───────────────────────────────┘
+    //   ┌──────────────────────────────────────────────────┐
+    //   │  Calendar  (width = photo + gap + reminders)     │
+    //   └──────────────────────────────────────────────────┘
+    //
+    // All three widgets share the same left margin and top margin.
+    // Adjust widgetClusterMarginLeft / widgetClusterMarginTop to move the cluster.
+    // widgetGap controls the space between cards both horizontally and vertically.
+
+    readonly property int widgetClusterMarginLeft: 24
+    readonly property int widgetClusterMarginTop:  28
+    readonly property int widgetGap:               16
+
+    // ── Photo Widget ──────────────────────────────────────────────────────────
+    readonly property bool showPhotoWidget:   true
+    readonly property int  photoWidgetWidth:  200
+    readonly property int  photoWidgetHeight: 200
+
+    // ── Reminders Widget ──────────────────────────────────────────────────────
+    // Height is intentionally the same as photoWidgetHeight so the top row aligns.
+    readonly property bool showRemindersWidget:   true
+    readonly property int  remindersWidgetWidth:  430
+    readonly property int  remindersWidgetHeight: photoWidgetHeight
+
+    // ── Calendar Widget ───────────────────────────────────────────────────────
+    // Width auto-spans photo + gap + reminders so all three cards are flush.
+    readonly property bool showCalendarWidget:   true
+    readonly property int  calendarWidgetWidth:  photoWidgetWidth + widgetGap + remindersWidgetWidth
+    readonly property int  calendarWidgetHeight: 278
 }

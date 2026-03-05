@@ -151,5 +151,8 @@ in {
     # Utilities used by the shell scripts embedded in the QML
     jq
     curl
+
+    # GTK file picker dialog — used by the photo widget "Change Photo" button
+    zenity
   ];
 }
