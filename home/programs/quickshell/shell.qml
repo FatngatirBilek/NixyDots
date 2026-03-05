@@ -419,6 +419,94 @@ ShellRoot {
                 }
             }
 
+            // ── Edit Event overlay ────────────────────────────────────────────
+            PanelWindow {
+                id: editEventOverlay
+
+                screen:           screenRoot.screen
+                color:            "transparent"
+                exclusionMode:    ExclusionMode.Ignore
+                WlrLayershell.layer:         WlrLayer.Overlay
+                WlrLayershell.namespace:     "quickshell-edit-event"
+                WlrLayershell.keyboardFocus: CalendarState.editEventOpen
+                                             ? WlrKeyboardFocus.Exclusive
+                                             : WlrKeyboardFocus.None
+
+                visible: CalendarState.editEventOpen
+
+                anchors {
+                    top:    true
+                    left:   true
+                    right:  true
+                    bottom: true
+                }
+
+                mask: Region {
+                    item: CalendarState.editEventOpen ? editEventFullMask : null
+                }
+
+                Item {
+                    id: editEventFullMask
+                    anchors.fill: parent
+                    visible: false
+                    Rectangle { anchors.fill: parent; color: "black" }
+                }
+
+                HyprlandFocusGrab {
+                    active:  CalendarState.editEventOpen
+                    windows: [editEventOverlay]
+                    onCleared: {
+                        CalendarState.editEventOpen  = false
+                        CalendarState.editEventIndex = -1
+                    }
+                }
+
+                // Dim scrim
+                Rectangle {
+                    anchors.fill: parent
+                    color:        Colors.withAlpha(Colors.crust, 0.55)
+                    opacity:      CalendarState.editEventOpen ? 1 : 0
+                    visible:      opacity > 0.01
+                    Behavior on opacity {
+                        NumberAnimation { duration: 180; easing.type: Easing.OutCubic }
+                    }
+                }
+
+                // Click outside to close
+                MouseArea {
+                    anchors.fill: parent
+                    visible:      CalendarState.editEventOpen
+                    onClicked: {
+                        CalendarState.editEventOpen  = false
+                        CalendarState.editEventIndex = -1
+                    }
+                }
+
+                // Centered panel card
+                Item {
+                    anchors.centerIn: parent
+                    width:  editEventForm.width
+                    height: editEventForm.height
+                    z:      1
+
+                    // Absorb clicks so they don't reach the close MouseArea
+                    MouseArea { anchors.fill: parent }
+
+                    EditEventPanel {
+                        id: editEventForm
+                    }
+                }
+
+                Item {
+                    anchors.fill: parent
+                    focus: CalendarState.editEventOpen
+                    Keys.onEscapePressed: {
+                        CalendarState.editEventOpen  = false
+                        CalendarState.editEventIndex = -1
+                    }
+                }
+            }
+
             // ── Add Reminder overlay ──────────────────────────────────────────
             PanelWindow {
                 id: addReminderOverlay

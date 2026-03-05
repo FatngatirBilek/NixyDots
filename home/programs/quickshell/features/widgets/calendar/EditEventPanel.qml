@@ -2,37 +2,13 @@ import QtQuick
 import QtQuick.Layouts
 import qs.theme
 
-// AddEventPanel — "New Event" overlay form, Google Calendar style.
+// EditEventPanel — "Edit Event" overlay form, Google Calendar style.
 //
 // Shown inside an Overlay PanelWindow (shell.qml).
-// Opens when CalendarState.addEventOpen becomes true.
-// Saves via CalendarState.addEvent() and closes by setting addEventOpen = false.
-//
-// Layout (top → bottom):
-//   Title input + color dot
-//   ─────
-//   ⏰ All day ──────────── [toggle]
-//   Start date   →   End date
-//   Start time       End time
-//   (inline DatePicker / TimePicker expands on tap)
-//   ─────
-//   ⊙  Location
-//   ─────
-//   🔔 10 mins before
-//   ─────
-//   ↻  Don't repeat
-//   ─────
-//   ≡  Notes
-//   ─────
-//   ▷  Video conference
-//   ─────
-//   ⌖  Attachment
-//   ─────
-//   ⊙  Invitees
-//   ─────
-//   ⊕  (GMT+7) Western Indonesia Time
-//   ═══════════════════════
-//   Cancel          Save
+// Opens when CalendarState.editEventOpen becomes true.
+// Pre-populates fields from CalendarState.events[CalendarState.editEventIndex].
+// Saves via CalendarState.updateEvent() and closes by setting editEventOpen = false.
+// Deletes via CalendarState.deleteEvent() then closes.
 
 Rectangle {
     id: root
@@ -62,8 +38,9 @@ Rectangle {
     property int endHour:     10
     property int endMinute:   0
 
-    property string locationText: ""
-    property string notesText:    ""
+    property string locationText:  ""
+    property string notesText:     ""
+    property string selectedColor: "#4ade80"
 
     // "none" | "daily" | "weekly" | "monthly"
     property string repeatMode: "none"
@@ -73,6 +50,16 @@ Rectangle {
 
     // "" | "startDate" | "startTime" | "endDate" | "endTime"
     property string activePicker: ""
+
+    // Confirm-delete state
+    property bool confirmDelete: false
+
+    // ── Color palette ─────────────────────────────────────────────────────────
+    readonly property var colorPalette: [
+        "#4ade80", "#60a5fa", "#f472b6", "#fb923c",
+        "#facc15", "#a78bfa", "#f87171", "#34d399"
+    ]
+    property bool colorPickerOpen: false
 
     // ── Formatting helpers ────────────────────────────────────────────────────
     readonly property var _dayNames:   ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
@@ -126,54 +113,93 @@ Rectangle {
         root.repeatMode = opts[(opts.indexOf(root.repeatMode) + 1) % opts.length]
     }
 
-    // ── Reset to a clean state ────────────────────────────────────────────────
-    function _reset() {
-        root.titleText    = ""
-        root.allDay       = false
-        root.locationText = ""
-        root.notesText        = ""
-        root.repeatMode       = "none"
-        root.notifyMins       = 10
+    // ── Populate from CalendarState.events[editEventIndex] ───────────────────
+    function _loadEvent() {
+        const idx = CalendarState.editEventIndex
+        if (idx < 0 || idx >= CalendarState.events.length) return
+
+        const ev = CalendarState.events[idx]
+        root.confirmDelete    = false
+        root.colorPickerOpen  = false
         root.activePicker     = ""
+
+        // Title
+        root.titleText     = ev.title   || ""
+        titleInput.text    = ev.title   || ""
+
+        // Color
+        root.selectedColor = ev.color   || "#4ade80"
+
+        // Location
+        root.locationText  = ev.location || ""
+        locationInput.text = ev.location || ""
+
+        // Notes
+        root.notesText     = ev.notes   || ""
+        notesInput.text    = ev.notes   || ""
+
+        // Repeat & notify
+        root.repeatMode       = ev.repeat     || "none"
+        root.notifyMins       = (ev.notifyMins !== undefined) ? ev.notifyMins : 10
         root.notifyPickerOpen = false
-        titleInput.text    = ""
-        locationInput.text = ""
-        notesInput.text    = ""
 
-        const now          = new Date()
-        root.startYear     = now.getFullYear()
-        root.startMonth    = now.getMonth()
-        root.startDay      = now.getDate()
-        root.startHour     = now.getHours()
-        root.startMinute   = 0
-        root.endYear       = now.getFullYear()
-        root.endMonth      = now.getMonth()
-        root.endDay        = now.getDate()
-        root.endHour       = (now.getHours() + 1) % 24
-        root.endMinute     = 0
-    }
+        // Start date/time
+        const dateStr = ev.date || ""
+        if (dateStr.length >= 10) {
+            const parts = dateStr.split("-")
+            root.startYear  = parseInt(parts[0]) || 1970
+            root.startMonth = (parseInt(parts[1]) || 1) - 1
+            root.startDay   = parseInt(parts[2])  || 1
+        }
 
-    function _applyDefaultDate() {
-        const s = CalendarState.addEventDefaultDate
-        if (!s || s.length < 10) return
-        const parts = s.split("-")
-        if (parts.length < 3) return
-        root.startYear  = parseInt(parts[0])
-        root.startMonth = parseInt(parts[1]) - 1
-        root.startDay   = parseInt(parts[2])
-        root.endYear    = root.startYear
-        root.endMonth   = root.startMonth
-        root.endDay     = root.startDay
+        const timeStr = ev.time || ""
+        if (timeStr.length >= 5) {
+            const tp = timeStr.split(":")
+            root.startHour   = parseInt(tp[0]) || 0
+            root.startMinute = parseInt(tp[1]) || 0
+            root.allDay      = false
+        } else {
+            root.startHour   = 9
+            root.startMinute = 0
+            root.allDay      = (ev.time === "" || ev.time === undefined)
+        }
+
+        // End date/time
+        const endDateStr = ev.endDate || ev.date || ""
+        if (endDateStr.length >= 10) {
+            const ep = endDateStr.split("-")
+            root.endYear  = parseInt(ep[0]) || root.startYear
+            root.endMonth = (parseInt(ep[1]) || 1) - 1
+            root.endDay   = parseInt(ep[2])  || root.startDay
+        } else {
+            root.endYear  = root.startYear
+            root.endMonth = root.startMonth
+            root.endDay   = root.startDay
+        }
+
+        const endTimeStr = ev.endTime || ""
+        if (endTimeStr.length >= 5) {
+            const etp = endTimeStr.split(":")
+            root.endHour   = parseInt(etp[0]) || (root.startHour + 1) % 24
+            root.endMinute = parseInt(etp[1]) || 0
+        } else {
+            root.endHour   = (root.startHour + 1) % 24
+            root.endMinute = root.startMinute
+        }
+
+        Qt.callLater(function() { titleInput.forceActiveFocus() })
     }
 
     // ── React when the panel is asked to open ─────────────────────────────────
     Connections {
         target: CalendarState
-        function onAddEventOpenChanged() {
-            if (!CalendarState.addEventOpen) return
-            root._reset()
-            root._applyDefaultDate()
-            Qt.callLater(function() { titleInput.forceActiveFocus() })
+        function onEditEventOpenChanged() {
+            if (!CalendarState.editEventOpen) return
+            root._loadEvent()
+        }
+        function onEditEventIndexChanged() {
+            if (!CalendarState.editEventOpen) return
+            root._loadEvent()
         }
     }
 
@@ -187,7 +213,7 @@ Rectangle {
         z:            30
     }
 
-    // ── Base click absorber (prevents clicks escaping through empty areas) ─────
+    // ── Base click absorber ───────────────────────────────────────────────────
     MouseArea { anchors.fill: parent }
 
     // ── Scrollable form body ──────────────────────────────────────────────────
@@ -251,19 +277,81 @@ Rectangle {
                     }
                 }
 
-                // Event colour dot (accent indicator)
+                // Color dot — click to open palette
                 Rectangle {
-                    width:   24
-                    height:  24
-                    radius:  12
-                    color:   Colors.accent
+                    id: colorDot
+                    width:   28
+                    height:  28
+                    radius:  14
+                    color:   root.selectedColor
                     Layout.alignment: Qt.AlignVCenter
+
+                    // ring when picker is open
+                    Rectangle {
+                        anchors.centerIn: parent
+                        width:   32; height: 32; radius: 16
+                        color:   "transparent"
+                        border.color: Colors.withAlpha(Colors.text, 0.30)
+                        border.width: 1.5
+                        visible: root.colorPickerOpen
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        cursorShape:  Qt.PointingHandCursor
+                        onClicked:    root.colorPickerOpen = !root.colorPickerOpen
+                    }
+                }
+            }
+
+            // ── Inline color picker ───────────────────────────────────────────
+            Item {
+                Layout.fillWidth: true
+                visible:          root.colorPickerOpen
+                implicitHeight:   visible ? 44 : 0
+                clip:             true
+
+                Row {
+                    anchors.verticalCenter: parent.verticalCenter
+                    spacing: 10
+
+                    Repeater {
+                        model: root.colorPalette
+
+                        delegate: Rectangle {
+                            required property string modelData
+                            width:  26; height: 26; radius: 13
+                            color:  modelData
+                            scale:  root.selectedColor === modelData ? 1.20 : 1.0
+
+                            Behavior on scale {
+                                NumberAnimation { duration: 100; easing.type: Easing.OutCubic }
+                            }
+
+                            Rectangle {
+                                anchors.centerIn: parent
+                                width:  32; height: 32; radius: 16
+                                color:  "transparent"
+                                border.color: Colors.withAlpha(Colors.text, 0.35)
+                                border.width: 1.5
+                                visible: root.selectedColor === modelData
+                            }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                cursorShape:  Qt.PointingHandCursor
+                                onClicked: {
+                                    root.selectedColor   = modelData
+                                    root.colorPickerOpen = false
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
             Item { height: 6 }
 
-            // divider
             Rectangle { Layout.fillWidth: true; height: 1; color: Colors.divider }
 
             Item { height: 14 }
@@ -274,7 +362,6 @@ Rectangle {
                 height: 36
                 spacing: 14
 
-                // Clock icon (drawn with rectangles)
                 Item {
                     width: 20; height: 20
                     Layout.alignment: Qt.AlignVCenter
@@ -286,18 +373,8 @@ Rectangle {
                         border.color: Colors.overlay1
                         border.width: 1.5
 
-                        // hour hand  (12 → 3)
-                        Rectangle {
-                            x: 6.5; y: 2.5
-                            width: 1.5; height: 5; radius: 1
-                            color: Colors.overlay1
-                        }
-                        // minute hand
-                        Rectangle {
-                            x: 6.5; y: 7
-                            width: 4; height: 1.5; radius: 1
-                            color: Colors.overlay1
-                        }
+                        Rectangle { x: 6.5; y: 2.5; width: 1.5; height: 5; radius: 1; color: Colors.overlay1 }
+                        Rectangle { x: 6.5; y: 7;   width: 4;   height: 1.5; radius: 1; color: Colors.overlay1 }
                     }
                 }
 
@@ -308,7 +385,6 @@ Rectangle {
                     Layout.fillWidth: true
                 }
 
-                // Toggle pill
                 Rectangle {
                     width: 46; height: 26; radius: 13
                     color: root.allDay ? Colors.accent : Colors.bgElevated
@@ -335,18 +411,15 @@ Rectangle {
 
             Item { height: 16 }
 
-            // ── Start / End date-time section ─────────────────────────────────
-            // Layout: [Start column] → [End column], each col has date on top, time below
+            // ── Start / End date-time row ─────────────────────────────────────
             RowLayout {
                 Layout.fillWidth: true
                 spacing: 0
 
-                // ── Start column ──────────────────────────────────────────────
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: 6
 
-                    // Start date (tappable)
                     Text {
                         Layout.alignment:   Qt.AlignHCenter
                         text:  root._fmtDate(root.startYear, root.startMonth, root.startDay)
@@ -360,7 +433,6 @@ Rectangle {
                         }
                     }
 
-                    // Start time (tappable, hidden when all-day)
                     Text {
                         visible:           !root.allDay
                         Layout.alignment:  Qt.AlignHCenter
@@ -376,7 +448,6 @@ Rectangle {
                     }
                 }
 
-                // Arrow between start and end
                 Text {
                     text:             "→"
                     color:            Colors.overlay1
@@ -386,12 +457,10 @@ Rectangle {
                     rightPadding:     8
                 }
 
-                // ── End column ────────────────────────────────────────────────
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: 6
 
-                    // End date (tappable)
                     Text {
                         Layout.alignment:  Qt.AlignHCenter
                         text:  root._fmtDate(root.endYear, root.endMonth, root.endDay)
@@ -405,7 +474,6 @@ Rectangle {
                         }
                     }
 
-                    // End time (tappable, hidden when all-day)
                     Text {
                         visible:          !root.allDay
                         Layout.alignment: Qt.AlignHCenter
@@ -495,7 +563,6 @@ Rectangle {
                 height:  36
                 spacing: 14
 
-                // Location pin (drawn)
                 Item {
                     width: 20; height: 20
                     Layout.alignment: Qt.AlignVCenter
@@ -610,7 +677,7 @@ Rectangle {
             Item {
                 Layout.fillWidth: true
                 visible:          root.notifyPickerOpen
-                implicitHeight:   visible ? notifyOptCol.implicitHeight + 8 : 0
+                implicitHeight:   visible ? editNotifyOptCol.implicitHeight + 8 : 0
                 clip:             true
 
                 Rectangle {
@@ -620,7 +687,7 @@ Rectangle {
                 }
 
                 Column {
-                    id: notifyOptCol
+                    id: editNotifyOptCol
                     anchors { top: parent.top; left: parent.left; right: parent.right
                               topMargin: 8; leftMargin: 12; rightMargin: 12 }
 
@@ -641,7 +708,7 @@ Rectangle {
                                 radius: 8
                                 color:  _selected
                                         ? Colors.withAlpha(Colors.accent, 0.18)
-                                        : (notifyOptMA.containsMouse
+                                        : (editNotifyOptMA.containsMouse
                                            ? Colors.withAlpha(Colors.surface0, 0.60)
                                            : "transparent")
                                 Behavior on color { ColorAnimation { duration: 80 } }
@@ -685,7 +752,7 @@ Rectangle {
                             }
 
                             MouseArea {
-                                id: notifyOptMA
+                                id: editNotifyOptMA
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 cursorShape:  Qt.PointingHandCursor
@@ -702,7 +769,7 @@ Rectangle {
             Rectangle { Layout.fillWidth: true; height: 1; color: Colors.divider }
             Item { height: 12 }
 
-            // ── Don't repeat ──────────────────────────────────────────────────
+            // ── Repeat ────────────────────────────────────────────────────────
             Item {
                 Layout.fillWidth: true
                 implicitHeight: 36
@@ -711,7 +778,6 @@ Rectangle {
                     anchors.fill: parent
                     spacing: 14
 
-                    // Repeat arrows icon (drawn)
                     Item {
                         width: 20; height: 20
                         Layout.alignment: Qt.AlignVCenter
@@ -748,7 +814,6 @@ Rectangle {
                 Layout.fillWidth: true
                 spacing: 14
 
-                // Notes icon (three lines)
                 Item {
                     width: 20; height: 20
                     Layout.alignment: Qt.AlignTop
@@ -795,62 +860,165 @@ Rectangle {
                 }
             }
 
-            Rectangle { Layout.fillWidth: true; height: 1; color: Colors.divider }
-            Item { height: 12 }
-
-            // ── Timezone ──────────────────────────────────────────────────────
-            RowLayout {
-                Layout.fillWidth: true
-                height:  36
-                spacing: 14
-
-                // Globe icon (circle + lines)
-                Item {
-                    width: 20; height: 20
-                    Layout.alignment: Qt.AlignVCenter
-
-                    Rectangle {
-                        anchors.centerIn: parent
-                        width: 16; height: 16; radius: 8
-                        color:        "transparent"
-                        border.color: Colors.overlay1
-                        border.width: 1.5
-                    }
-                    // horizontal equator
-                    Rectangle { x: 2; y: 9; width: 16; height: 1.5; color: Colors.overlay1 }
-                    // vertical prime meridian
-                    Rectangle { anchors.horizontalCenter: parent.horizontalCenter; y: 2; width: 1.5; height: 16; color: Colors.overlay1 }
-                }
-
-                Text {
-                    text:             "(GMT+7) Western Indonesia Time"
-                    color:            Colors.textPrimary
-                    font { family: Typography.bodyFamily; pixelSize: 15 }
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignVCenter
-                }
-            }
-
             Item { height: 16 }
         }
     }
 
-    // ── Footer: Cancel / Save ─────────────────────────────────────────────────
+    // ── Footer: Delete | Cancel | Save ────────────────────────────────────────
     Rectangle {
         id: footerRow
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
         height: 52
         color:  "transparent"
 
-        // top divider
         Rectangle {
             anchors { top: parent.top; left: parent.left; right: parent.right }
             height: 1; color: Colors.divider
         }
 
+        // ── Confirm-delete banner (replaces normal footer) ────────────────────
+        Item {
+            anchors.fill: parent
+            visible: root.confirmDelete
+
+            Rectangle {
+                anchors.fill: parent
+                color:        Colors.withAlpha(Colors.red, 0.12)
+                radius:       root.radius
+
+                // clip top corners only — bottom follows card shape
+                Rectangle {
+                    anchors { top: parent.top; left: parent.left; right: parent.right }
+                    height: parent.radius
+                    color:  parent.color
+                }
+            }
+
+            RowLayout {
+                anchors.fill:        parent
+                anchors.leftMargin:  16
+                anchors.rightMargin: 16
+                spacing:             12
+
+                Text {
+                    text:             "Delete this event?"
+                    color:            Colors.red
+                    font { family: Typography.bodyFamily; pixelSize: 14 }
+                    Layout.fillWidth: true
+                }
+
+                // Confirm delete
+                Item {
+                    width: 72; height: 52
+
+                    Rectangle {
+                        anchors.fill: parent
+                        color:        confirmDelMA.containsMouse
+                                      ? Colors.withAlpha(Colors.red, 0.22) : "transparent"
+                        Behavior on color { ColorAnimation { duration: 100 } }
+                    }
+
+                    Text {
+                        anchors.centerIn: parent
+                        text:  "Delete"
+                        color: Colors.red
+                        font { family: Typography.bodyFamily; pixelSize: 14; weight: Font.Bold }
+                    }
+
+                    MouseArea {
+                        id: confirmDelMA
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape:  Qt.PointingHandCursor
+                        onClicked: {
+                            CalendarState.deleteEvent(CalendarState.editEventIndex)
+                            CalendarState.editEventIndex = -1
+                            CalendarState.editEventOpen  = false
+                        }
+                    }
+                }
+
+                Rectangle {
+                    width: 1; height: 28; color: Colors.divider
+                    Layout.alignment: Qt.AlignVCenter
+                }
+
+                // Cancel delete
+                Item {
+                    width: 64; height: 52
+
+                    Rectangle {
+                        anchors.fill: parent
+                        color:        cancelDelMA.containsMouse
+                                      ? Colors.withAlpha(Colors.surface0, 0.45) : "transparent"
+                        Behavior on color { ColorAnimation { duration: 100 } }
+                    }
+
+                    Text {
+                        anchors.centerIn: parent
+                        text:  "Cancel"
+                        color: Colors.textPrimary
+                        font { family: Typography.bodyFamily; pixelSize: 14 }
+                    }
+
+                    MouseArea {
+                        id: cancelDelMA
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape:  Qt.PointingHandCursor
+                        onClicked:    root.confirmDelete = false
+                    }
+                }
+            }
+        }
+
+        // ── Normal footer: Delete icon | Cancel | Save ────────────────────────
         RowLayout {
             anchors.fill: parent
             spacing:      0
+            visible:      !root.confirmDelete
+
+            // Trash / Delete button
+            Item {
+                Layout.preferredWidth: 52
+                height: 52
+
+                Rectangle {
+                    anchors.fill: parent
+                    color:        trashMA.containsMouse
+                                  ? Colors.withAlpha(Colors.red, 0.15) : "transparent"
+                    Behavior on color { ColorAnimation { duration: 100 } }
+                }
+
+                // Trash-can icon (drawn)
+                Item {
+                    anchors.centerIn: parent
+                    width: 20; height: 20
+
+                    // lid
+                    Rectangle { x: 2; y: 2; width: 16; height: 2; radius: 1; color: trashMA.containsMouse ? Colors.red : Colors.overlay2 }
+                    // handle arc on lid
+                    Rectangle { x: 7; y: 0; width: 6; height: 3; radius: 1; color: "transparent"; border.color: trashMA.containsMouse ? Colors.red : Colors.overlay2; border.width: 1.5 }
+                    // body
+                    Rectangle { x: 3; y: 5; width: 14; height: 13; radius: 2; color: "transparent"; border.color: trashMA.containsMouse ? Colors.red : Colors.overlay2; border.width: 1.5 }
+                    // lines inside
+                    Rectangle { x: 7; y: 8; width: 1.5; height: 7; radius: 1; color: trashMA.containsMouse ? Colors.red : Colors.overlay2 }
+                    Rectangle { x: 11.5; y: 8; width: 1.5; height: 7; radius: 1; color: trashMA.containsMouse ? Colors.red : Colors.overlay2 }
+                }
+
+                MouseArea {
+                    id: trashMA
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape:  Qt.PointingHandCursor
+                    onClicked:    root.confirmDelete = true
+                }
+            }
+
+            Rectangle {
+                width: 1; height: 28; color: Colors.divider
+                Layout.alignment: Qt.AlignVCenter
+            }
 
             // Cancel
             Item {
@@ -876,7 +1044,10 @@ Rectangle {
                     anchors.fill:  parent
                     hoverEnabled:  true
                     cursorShape:   Qt.PointingHandCursor
-                    onClicked:     CalendarState.addEventOpen = false
+                    onClicked: {
+                        CalendarState.editEventOpen  = false
+                        CalendarState.editEventIndex = -1
+                    }
                 }
             }
 
@@ -914,14 +1085,35 @@ Rectangle {
                     enabled:      parent._canSave
 
                     onClicked: {
-                        const dateStr = String(root.startYear) + "-"
-                                      + String(root.startMonth + 1).padStart(2, "0") + "-"
-                                      + String(root.startDay).padStart(2, "0")
+                        const dateStr = String(root.startYear)
+                                      + "-" + String(root.startMonth + 1).padStart(2, "0")
+                                      + "-" + String(root.startDay).padStart(2, "0")
                         const timeStr = root.allDay
                                       ? ""
                                       : root._fmtTime(root.startHour, root.startMinute)
-                        CalendarState.addEvent(dateStr, timeStr, root.titleText.trim(), "#4ade80", root.notifyMins)
-                        CalendarState.addEventOpen = false
+                        const endDateStr = String(root.endYear)
+                                      + "-" + String(root.endMonth + 1).padStart(2, "0")
+                                      + "-" + String(root.endDay).padStart(2, "0")
+                        const endTimeStr = root.allDay
+                                      ? ""
+                                      : root._fmtTime(root.endHour, root.endMinute)
+
+                        CalendarState.updateEvent(
+                            CalendarState.editEventIndex,
+                            dateStr,
+                            timeStr,
+                            root.titleText.trim(),
+                            root.selectedColor,
+                            endDateStr,
+                            endTimeStr,
+                            root.locationText.trim(),
+                            root.notesText.trim(),
+                            root.repeatMode,
+                            root.notifyMins
+                        )
+
+                        CalendarState.editEventOpen  = false
+                        CalendarState.editEventIndex = -1
                     }
                 }
             }

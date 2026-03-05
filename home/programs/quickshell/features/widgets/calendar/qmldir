@@ -7,3 +7,4 @@ DatePicker 1.0 DatePicker.qml
 TimePicker 1.0 TimePicker.qml
 AddEventPanel 1.0 AddEventPanel.qml
 AddReminderPanel 1.0 AddReminderPanel.qml
+EditEventPanel 1.0 EditEventPanel.qml

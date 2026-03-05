@@ -4,6 +4,7 @@ import qs.theme
 import qs.features.widgets.calendar
 
 // CalendarWidget — macOS-style desktop calendar card
+
 //
 // Left side: mini month grid (Monday-based, today highlighted, Sundays red)
 // Right side: "MON DD" header + today's event list
@@ -238,53 +239,137 @@ Item {
                 ColumnLayout {
                     Layout.fillWidth:  true
                     Layout.fillHeight: true
-                    spacing: 8
+                    spacing: 4
 
                     Repeater {
                         model: root._todayEvents
 
-                        delegate: RowLayout {
+                        delegate: Item {
                             required property var  modelData
                             required property int  index
                             Layout.fillWidth: true
-                            spacing: 8
+                            implicitHeight:   eventRow.implicitHeight + 4
 
-                            // Colour indicator bar
+                            // Hover background
                             Rectangle {
-                                width:  4
-                                height: 34
-                                radius: 2
-                                color:  modelData.color || Colors.green
+                                anchors {
+                                    fill:         parent
+                                    leftMargin:   -4
+                                    rightMargin:  -4
+                                    topMargin:    2
+                                    bottomMargin: 2
+                                }
+                                radius: 6
+                                color:  eventHoverMA.containsMouse
+                                        ? Colors.withAlpha(Colors.surface0, 0.55) : "transparent"
+                                Behavior on color { ColorAnimation { duration: 100 } }
                             }
 
-                            // Time + title
-                            ColumnLayout {
-                                Layout.fillWidth: true
-                                spacing: 1
+                            RowLayout {
+                                id: eventRow
+                                anchors {
+                                    left:  parent.left
+                                    right: parent.right
+                                    verticalCenter: parent.verticalCenter
+                                }
+                                spacing: 8
 
-                                RowLayout {
+                                // Colour indicator bar
+                                Rectangle {
+                                    width:  4
+                                    height: 34
+                                    radius: 2
+                                    color:  modelData.color || Colors.green
+                                }
+
+                                // Time + title
+                                ColumnLayout {
                                     Layout.fillWidth: true
-                                    spacing: 8
+                                    spacing: 1
 
-                                    Text {
-                                        text:  modelData.time || ""
-                                        color: Colors.textPrimary
-                                        font {
-                                            family:    Typography.bodyFamily
-                                            pixelSize: 14
-                                            weight:    Font.DemiBold
+                                    RowLayout {
+                                        Layout.fillWidth: true
+                                        spacing: 8
+
+                                        Text {
+                                            text:  modelData.time || ""
+                                            color: Colors.textPrimary
+                                            font {
+                                                family:    Typography.bodyFamily
+                                                pixelSize: 14
+                                                weight:    Font.DemiBold
+                                            }
+                                        }
+
+                                        Text {
+                                            text:  modelData.title || ""
+                                            color: Colors.textSecondary
+                                            font {
+                                                family:    Typography.bodyFamily
+                                                pixelSize: 13
+                                            }
+                                            Layout.fillWidth: true
+                                            elide: Text.ElideRight
                                         }
                                     }
+                                }
 
-                                    Text {
-                                        text:  modelData.title || ""
-                                        color: Colors.textSecondary
-                                        font {
-                                            family:    Typography.bodyFamily
-                                            pixelSize: 13
+                                // Edit pencil icon (visible on hover)
+                                Item {
+                                    width:  20
+                                    height: 20
+                                    opacity: eventHoverMA.containsMouse ? 1.0 : 0.0
+                                    Layout.alignment: Qt.AlignVCenter
+
+                                    Behavior on opacity {
+                                        NumberAnimation { duration: 120 }
+                                    }
+
+                                    // pencil body
+                                    Rectangle {
+                                        x: 7; y: 2
+                                        width: 6; height: 12; radius: 1
+                                        rotation: -45
+                                        transformOrigin: Item.Center
+                                        color: "transparent"
+                                        border.color: Colors.overlay2
+                                        border.width: 1.5
+                                    }
+                                    // pencil tip
+                                    Rectangle {
+                                        x: 3; y: 14
+                                        width: 4; height: 4; radius: 1
+                                        rotation: -45
+                                        transformOrigin: Item.Center
+                                        color: Colors.overlay2
+                                    }
+                                }
+                            }
+
+                            // Click handler — find real index in CalendarState.events
+                            MouseArea {
+                                id: eventHoverMA
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape:  Qt.PointingHandCursor
+
+                                onClicked: {
+                                    // Find the index in the full events array
+                                    // (not the filtered todayEvents array)
+                                    const ev   = modelData
+                                    const all  = CalendarState.events
+                                    let realIdx = -1
+                                    for (let i = 0; i < all.length; i++) {
+                                        if (all[i].date  === ev.date &&
+                                            all[i].time  === ev.time &&
+                                            all[i].title === ev.title) {
+                                            realIdx = i
+                                            break
                                         }
-                                        Layout.fillWidth: true
-                                        elide: Text.ElideRight
+                                    }
+                                    if (realIdx >= 0) {
+                                        CalendarState.editEventIndex = realIdx
+                                        CalendarState.editEventOpen  = true
                                     }
                                 }
                             }

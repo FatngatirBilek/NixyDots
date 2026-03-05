@@ -6,8 +6,7 @@ import qs.theme
 //
 // Shown inside an Overlay PanelWindow (shell.qml).
 // Opens when CalendarState.addReminderOpen becomes true.
-// Saves via CalendarState.addReminder(text, time, place) and closes by
-// setting addReminderOpen = false.
+// Saves via CalendarState.addReminder(text, time, place, notifyMins).
 //
 // Layout (top → bottom):
 //   "New reminder"          ☆
@@ -18,9 +17,9 @@ import qs.theme
 //   📅  Time
 //      (inline DatePicker → TimePicker on date pick)
 //   ──────────────────────────
-//   ⊙  Place
+//   🔔  Notification  (inline dropdown)
 //   ──────────────────────────
-//   🔔  My reminders
+//   ⊙  Place
 //   ──────────────────────────
 //   (spacer)
 //   ══════════════════════════
@@ -30,34 +29,62 @@ Rectangle {
     id: root
 
     // ── Geometry ──────────────────────────────────────────────────────────────
-    width:          360
-    // Height: header + title area + rows + footer; capped at maxHeight
-    height:         Math.min(
-                        headerSection.height
-                        + titleSection.height
-                        + rowsSection.implicitHeight
-                        + footerRow.height,
-                        maxHeight)
-    property int maxHeight: 520
+    width:    360
+    height:   Math.min(
+                  headerSection.height
+                  + titleSection.height
+                  + rowsSection.implicitHeight
+                  + footerRow.height,
+                  maxHeight)
+    property int maxHeight: 580
 
     radius: 20
     color:  Colors.withAlpha(Colors.base, 0.97)
     clip:   true
 
     // ── Form state ────────────────────────────────────────────────────────────
-    property string titleText:  ""
-    property string placeText:  ""
+    property string titleText: ""
+    property string placeText: ""
 
     // Time selection
-    property bool   timeSet:    false
-    property int    selYear:    1970
-    property int    selMonth:   0
-    property int    selDay:     1
-    property int    selHour:    9
-    property int    selMinute:  0
+    property bool timeSet:    false
+    property int  selYear:    1970
+    property int  selMonth:   0
+    property int  selDay:     1
+    property int  selHour:    9
+    property int  selMinute:  0
+
+    // -1 = no notification, 0 = at due time, N = N mins before
+    property int  notifyMins: 10
 
     // "" | "date" | "time"
     property string activePicker: ""
+
+    // whether the notification dropdown is open
+    property bool notifyPickerOpen: false
+
+    // ── Notification options ──────────────────────────────────────────────────
+    readonly property var _notifyOptions: [
+        { label: "No notification", mins: -1   },
+        { label: "At due time",     mins: 0    },
+        { label: "5 mins before",   mins: 5    },
+        { label: "10 mins before",  mins: 10   },
+        { label: "15 mins before",  mins: 15   },
+        { label: "30 mins before",  mins: 30   },
+        { label: "1 hour before",   mins: 60   },
+        { label: "2 hours before",  mins: 120  },
+        { label: "1 day before",    mins: 1440 }
+    ]
+
+    function _notifyLabel() {
+        for (var i = 0; i < root._notifyOptions.length; i++) {
+            if (root._notifyOptions[i].mins === root.notifyMins)
+                return root._notifyOptions[i].label
+        }
+        if (root.notifyMins < 0)   return "No notification"
+        if (root.notifyMins < 60)  return root.notifyMins + " mins before"
+        return (root.notifyMins / 60) + " hours before"
+    }
 
     // ── Formatting helpers ────────────────────────────────────────────────────
     readonly property var _dayNames:   ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
@@ -78,17 +105,19 @@ Rectangle {
 
     // ── Reset ─────────────────────────────────────────────────────────────────
     function _reset() {
-        root.titleText    = ""
-        root.placeText    = ""
-        root.timeSet      = false
-        root.activePicker = ""
-        titleInput.text   = ""
-        placeInput.text   = ""
-        const now      = new Date()
-        root.selYear   = now.getFullYear()
-        root.selMonth  = now.getMonth()
-        root.selDay    = now.getDate()
-        root.selHour   = (now.getHours() + 1) % 24
+        root.titleText       = ""
+        root.placeText       = ""
+        root.timeSet         = false
+        root.activePicker    = ""
+        root.notifyMins      = 10
+        root.notifyPickerOpen = false
+        titleInput.text      = ""
+        placeInput.text      = ""
+        const now     = new Date()
+        root.selYear  = now.getFullYear()
+        root.selMonth = now.getMonth()
+        root.selDay   = now.getDate()
+        root.selHour  = (now.getHours() + 1) % 24
         root.selMinute = 0
     }
 
@@ -112,7 +141,7 @@ Rectangle {
         z:             30
     }
 
-    // ── Base click absorber (prevents clicks escaping through empty gaps) ──────
+    // ── Base click absorber ───────────────────────────────────────────────────
     MouseArea { anchors.fill: parent }
 
     // ═══════════════════════════════════════════════════════════════════════════
@@ -125,10 +154,10 @@ Rectangle {
 
         RowLayout {
             anchors {
-                fill:        parent
-                leftMargin:  20
-                rightMargin: 20
-                topMargin:   20
+                fill:         parent
+                leftMargin:   20
+                rightMargin:  20
+                topMargin:    20
             }
             spacing: 10
 
@@ -140,16 +169,15 @@ Rectangle {
                     pixelSize: 20
                     weight:    Font.Bold
                 }
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignVCenter
+                Layout.fillWidth:  true
+                Layout.alignment:  Qt.AlignVCenter
             }
 
-            // Star icon
             Text {
-                text:              "☆"
-                color:             Colors.textMuted
-                font.pixelSize:    22
-                Layout.alignment:  Qt.AlignVCenter
+                text:             "☆"
+                color:            Colors.textMuted
+                font.pixelSize:   22
+                Layout.alignment: Qt.AlignVCenter
             }
         }
     }
@@ -162,14 +190,11 @@ Rectangle {
         anchors { top: headerSection.bottom; left: parent.left; right: parent.right }
         height: 80
 
-        // Left accent bar (cursor-like) when focused
+        // Left accent cursor bar
         Rectangle {
-            x:       20
-            y:       0
-            width:   2
-            height:  44
-            radius:  1
-            color:   titleInput.activeFocus ? Colors.accent : "transparent"
+            x:      20; y: 0
+            width:  2; height: 44; radius: 1
+            color:  titleInput.activeFocus ? Colors.accent : "transparent"
             Behavior on color { ColorAnimation { duration: 120 } }
         }
 
@@ -182,13 +207,10 @@ Rectangle {
                 leftMargin:  28
                 rightMargin: 20
             }
-            height: 44
+            height:            44
             verticalAlignment: TextInput.AlignVCenter
             color:             Colors.textPrimary
-            font {
-                family:    Typography.bodyFamily
-                pixelSize: 18
-            }
+            font { family: Typography.bodyFamily; pixelSize: 18 }
             selectByMouse:     true
             selectionColor:    Colors.withAlpha(Colors.accent, 0.35)
             selectedTextColor: Colors.textPrimary
@@ -197,12 +219,7 @@ Rectangle {
         }
 
         Text {
-            anchors {
-                top:        titleInput.top
-                left:       titleInput.left
-                right:      titleInput.right
-                bottom:     titleInput.bottom
-            }
+            anchors { fill: titleInput }
             verticalAlignment: Text.AlignVCenter
             visible:  titleInput.text === "" && !titleInput.activeFocus
             text:     "Title"
@@ -210,17 +227,16 @@ Rectangle {
             font:     titleInput.font
         }
 
-        // Check + Camera icons (bottom-right of the title area)
+        // Check + Camera icons
         RowLayout {
             anchors {
-                bottom:      parent.bottom
-                right:       parent.right
-                rightMargin: 20
+                bottom:       parent.bottom
+                right:        parent.right
+                rightMargin:  20
                 bottomMargin: 8
             }
             spacing: 10
 
-            // Checkmark circle
             Rectangle {
                 width: 28; height: 28; radius: 14
                 color:        "transparent"
@@ -229,18 +245,17 @@ Rectangle {
 
                 Text {
                     anchors.centerIn: parent
-                    text:          "✓"
-                    color:         Colors.overlay1
+                    text:           "✓"
+                    color:          Colors.overlay1
                     font.pixelSize: 13
                 }
             }
 
-            // Camera (rounded rect + inner circle)
             Item {
                 width: 28; height: 28
 
                 Rectangle {
-                    anchors.fill: parent
+                    anchors.fill:  parent
                     radius:        6
                     color:         "transparent"
                     border.color:  Colors.overlay1
@@ -253,7 +268,6 @@ Rectangle {
                     border.color:  Colors.overlay1
                     border.width:  1.5
                 }
-                // viewfinder dot
                 Rectangle {
                     anchors { top: parent.top; right: parent.right; topMargin: 4; rightMargin: 5 }
                     width: 3; height: 3; radius: 1.5
@@ -264,7 +278,7 @@ Rectangle {
     }
 
     // ═══════════════════════════════════════════════════════════════════════════
-    // FORM ROWS  (scrollable if needed)
+    // FORM ROWS  (scrollable)
     // ═══════════════════════════════════════════════════════════════════════════
     Item {
         id: rowsSection
@@ -300,9 +314,9 @@ Rectangle {
                         anchors.fill: parent
                         spacing:      14
 
-                        Item { width: 20 }   // left indent
+                        Item { width: 20 }
 
-                        // Calendar icon (drawn)
+                        // Calendar icon
                         Item {
                             width: 20; height: 20
                             Layout.alignment: Qt.AlignVCenter
@@ -313,21 +327,18 @@ Rectangle {
                                 border.color: Colors.overlay1
                                 border.width: 1.5
 
-                                // horizontal line below header
                                 Rectangle {
                                     x: 0; y: 6
                                     width: parent.width; height: 1.5
                                     color: Colors.overlay1
                                 }
                             }
-                            // left ring binder
                             Rectangle {
                                 anchors.horizontalCenter: parent.left
                                 anchors.horizontalCenterOffset: 6
                                 y: 0; width: 3; height: 6; radius: 1.5
                                 color: Colors.overlay1
                             }
-                            // right ring binder
                             Rectangle {
                                 anchors.horizontalCenter: parent.right
                                 anchors.horizontalCenterOffset: -6
@@ -344,12 +355,12 @@ Rectangle {
                             Layout.alignment: Qt.AlignVCenter
                         }
 
-                        // Clear-time button (shown only when time is set)
+                        // Clear-time button
                         Rectangle {
                             visible:  root.timeSet
                             width: 20; height: 20; radius: 10
-                            color:    clearTimeMA.containsMouse
-                                      ? Colors.withAlpha(Colors.red, 0.20) : "transparent"
+                            color:  clearTimeMA.containsMouse
+                                    ? Colors.withAlpha(Colors.red, 0.20) : "transparent"
                             Behavior on color { ColorAnimation { duration: 100 } }
 
                             Text {
@@ -365,20 +376,21 @@ Rectangle {
                                 hoverEnabled: true
                                 cursorShape:  Qt.PointingHandCursor
                                 onClicked: {
-                                    root.timeSet      = false
-                                    root.activePicker = ""
+                                    root.timeSet         = false
+                                    root.activePicker    = ""
+                                    root.notifyPickerOpen = false
                                 }
                             }
                         }
 
-                        Item { width: 20 }   // right indent
+                        Item { width: 20 }
                     }
 
-                    // Full-row tap area — anchored to parent Item (valid, not inside layout)
                     MouseArea {
-                        anchors.fill:  parent
-                        cursorShape:   Qt.PointingHandCursor
+                        anchors.fill: parent
+                        cursorShape:  Qt.PointingHandCursor
                         onClicked: {
+                            root.notifyPickerOpen = false
                             root.activePicker =
                                 (root.activePicker === "date" || root.activePicker === "time")
                                 ? "" : "date"
@@ -396,12 +408,12 @@ Rectangle {
                     DatePicker {
                         id: remDatePick
                         anchors {
-                            top:              parent.top
-                            topMargin:        8
-                            left:             parent.left
-                            leftMargin:       20
-                            right:            parent.right
-                            rightMargin:      20
+                            top:         parent.top
+                            topMargin:   8
+                            left:        parent.left
+                            leftMargin:  20
+                            right:       parent.right
+                            rightMargin: 20
                         }
 
                         onVisibleChanged: {
@@ -427,7 +439,7 @@ Rectangle {
                 Item {
                     Layout.fillWidth: true
                     visible:          root.activePicker === "time"
-                    implicitHeight:   visible ? remTimePick.implicitHeight + 16 : 0
+                    implicitHeight:   visible ? remTimePick.implicitHeight + 52 : 0
                     clip:             true
 
                     TimePicker {
@@ -450,7 +462,6 @@ Rectangle {
                         }
                     }
 
-                    // "Done" button to close the time picker
                     Rectangle {
                         anchors {
                             bottom:       parent.bottom
@@ -484,15 +495,204 @@ Rectangle {
                 // ── Divider ───────────────────────────────────────────────────
                 Rectangle { Layout.fillWidth: true; height: 1; color: Colors.divider }
 
+                // ── Notification row ──────────────────────────────────────────
+                Item {
+                    Layout.fillWidth: true
+                    implicitHeight:   44
+
+                    // Disabled look when no time is set
+                    opacity: root.timeSet ? 1.0 : 0.38
+                    Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                    RowLayout {
+                        anchors.fill: parent
+                        spacing:      14
+
+                        Item { width: 20 }
+
+                        // Bell icon
+                        Item {
+                            width: 20; height: 20
+                            Layout.alignment: Qt.AlignVCenter
+
+                            Rectangle {
+                                x: 4; y: 3; width: 12; height: 10; radius: 6
+                                color:        "transparent"
+                                border.color: root.notifyMins >= 0 ? Colors.accent : Colors.overlay1
+                                border.width: 1.5
+
+                                Rectangle {
+                                    anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
+                                    height: 3
+                                    color:  Colors.base
+                                }
+                            }
+                            Rectangle {
+                                x: 3; y: 12; width: 14; height: 2; radius: 1
+                                color: root.notifyMins >= 0 ? Colors.accent : Colors.overlay1
+                            }
+                            Rectangle {
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                y: 1; width: 4; height: 3; radius: 2
+                                color: root.notifyMins >= 0 ? Colors.accent : Colors.overlay1
+                            }
+                        }
+
+                        Text {
+                            text:  root._notifyLabel()
+                            color: root.notifyMins >= 0 ? Colors.textPrimary : Colors.textDim
+                            font { family: Typography.bodyFamily; pixelSize: 15 }
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+
+                        // Chevron
+                        Text {
+                            text:             root.notifyPickerOpen ? "▴" : "▾"
+                            color:            Colors.overlay1
+                            font.pixelSize:   10
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+
+                        Item { width: 20 }
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        cursorShape:  root.timeSet ? Qt.PointingHandCursor : Qt.ArrowCursor
+                        enabled:      root.timeSet
+                        onClicked: {
+                            root.activePicker     = ""
+                            root.notifyPickerOpen = !root.notifyPickerOpen
+                        }
+                    }
+                }
+
+                // ── Inline notification option list ───────────────────────────
+                Item {
+                    Layout.fillWidth: true
+                    visible:          root.notifyPickerOpen && root.timeSet
+                    implicitHeight:   visible ? notifyOptCol.implicitHeight + 8 : 0
+                    clip:             true
+
+                    Rectangle {
+                        anchors {
+                            fill:        parent
+                            leftMargin:  12
+                            rightMargin: 12
+                            topMargin:   4
+                            bottomMargin: 4
+                        }
+                        color:  Colors.withAlpha(Colors.surface0, 0.50)
+                        radius: 10
+                    }
+
+                    Column {
+                        id: notifyOptCol
+                        anchors {
+                            top:         parent.top
+                            left:        parent.left
+                            right:       parent.right
+                            topMargin:   8
+                            leftMargin:  12
+                            rightMargin: 12
+                        }
+
+                        Repeater {
+                            model: root._notifyOptions
+
+                            delegate: Item {
+                                required property var  modelData
+                                required property int  index
+
+                                width:  parent.width
+                                height: 40
+
+                                readonly property bool _selected: root.notifyMins === modelData.mins
+
+                                // Hover / selected highlight
+                                Rectangle {
+                                    anchors { fill: parent; leftMargin: 4; rightMargin: 4 }
+                                    radius: 8
+                                    color:  _selected
+                                            ? Colors.withAlpha(Colors.accent, 0.18)
+                                            : (optMA.containsMouse
+                                               ? Colors.withAlpha(Colors.surface0, 0.60)
+                                               : "transparent")
+                                    Behavior on color { ColorAnimation { duration: 80 } }
+                                }
+
+                                RowLayout {
+                                    anchors {
+                                        fill:        parent
+                                        leftMargin:  12
+                                        rightMargin: 12
+                                    }
+                                    spacing: 10
+
+                                    // Checkmark (only for selected)
+                                    Text {
+                                        text:           "✓"
+                                        color:          Colors.accent
+                                        font.pixelSize: 13
+                                        visible:        _selected
+                                        Layout.preferredWidth: 16
+                                    }
+
+                                    // Spacer when not selected
+                                    Item {
+                                        visible:             !_selected
+                                        Layout.preferredWidth: 16
+                                        height: 1
+                                    }
+
+                                    Text {
+                                        text:             modelData.label
+                                        color:            _selected ? Colors.accent : Colors.textPrimary
+                                        font {
+                                            family:    Typography.bodyFamily
+                                            pixelSize: 14
+                                            weight:    _selected ? Font.Medium : Font.Normal
+                                        }
+                                        Layout.fillWidth: true
+                                    }
+                                }
+
+                                // Bottom separator (not on last item)
+                                Rectangle {
+                                    anchors { bottom: parent.bottom; left: parent.left; right: parent.right; leftMargin: 16; rightMargin: 16 }
+                                    height:  1
+                                    color:   Colors.withAlpha(Colors.divider, 0.5)
+                                    visible: index < root._notifyOptions.length - 1
+                                }
+
+                                MouseArea {
+                                    id: optMA
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape:  Qt.PointingHandCursor
+                                    onClicked: {
+                                        root.notifyMins       = modelData.mins
+                                        root.notifyPickerOpen = false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // ── Divider ───────────────────────────────────────────────────
+                Rectangle { Layout.fillWidth: true; height: 1; color: Colors.divider }
+
                 // ── Place row ─────────────────────────────────────────────────
                 RowLayout {
                     Layout.fillWidth: true
                     height:           44
                     spacing:          14
 
-                    Item { width: 20 }   // left indent
+                    Item { width: 20 }
 
-                    // Location pin (drawn)
+                    // Location pin
                     Item {
                         width: 20; height: 20
                         Layout.alignment: Qt.AlignVCenter
@@ -538,75 +738,14 @@ Rectangle {
                         }
                     }
 
-                    Item { width: 20 }   // right indent
+                    Item { width: 20 }
                 }
 
                 // ── Divider ───────────────────────────────────────────────────
                 Rectangle { Layout.fillWidth: true; height: 1; color: Colors.divider }
 
-                // ── "My reminders" list row ───────────────────────────────────
-                RowLayout {
-                    Layout.fillWidth: true
-                    height:           44
-                    spacing:          14
-
-                    Item { width: 20 }   // left indent
-
-                    // Purple bell circle
-                    Rectangle {
-                        width:   28
-                        height:  28
-                        radius:  14
-                        color:   Colors.withAlpha("#818cf8", 0.18)
-                        Layout.alignment: Qt.AlignVCenter
-
-                        // Bell icon (drawn in purple tones)
-                        Item {
-                            anchors.centerIn: parent
-                            width: 16; height: 16
-
-                            // dome
-                            Rectangle {
-                                x: 2; y: 2; width: 12; height: 9; radius: 6
-                                color:        "transparent"
-                                border.color: "#818cf8"
-                                border.width: 1.5
-                                // cover the bottom gap of the arc
-                                Rectangle {
-                                    anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
-                                    height: 3; color: Colors.withAlpha("#818cf8", 0.18)
-                                }
-                            }
-                            // clapper bar
-                            Rectangle { x: 1; y: 10; width: 14; height: 2; radius: 1; color: "#818cf8" }
-                            // handle stub
-                            Rectangle {
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                y: 0; width: 4; height: 3; radius: 2; color: "#818cf8"
-                            }
-                        }
-                    }
-
-                    Text {
-                        text:             "My reminders"
-                        color:            Colors.textPrimary
-                        font {
-                            family:    Typography.bodyFamily
-                            pixelSize: 15
-                            weight:    Font.Medium
-                        }
-                        Layout.fillWidth: true
-                        Layout.alignment: Qt.AlignVCenter
-                    }
-
-                    Item { width: 20 }   // right indent
-                }
-
-                // ── Divider ───────────────────────────────────────────────────
-                Rectangle { Layout.fillWidth: true; height: 1; color: Colors.divider }
-
-                // Fill remaining space
-                Item { Layout.fillWidth: true; implicitHeight: 40 }
+                // Fill
+                Item { Layout.fillWidth: true; implicitHeight: 24 }
             }
         }
     }
@@ -620,7 +759,6 @@ Rectangle {
         height: 52
         color:  "transparent"
 
-        // top divider
         Rectangle {
             anchors { top: parent.top; left: parent.left; right: parent.right }
             height: 1; color: Colors.divider
@@ -658,7 +796,6 @@ Rectangle {
                 }
             }
 
-            // Vertical separator
             Rectangle {
                 width: 1; height: 28; color: Colors.divider
                 Layout.alignment: Qt.AlignVCenter
@@ -702,7 +839,8 @@ Rectangle {
                         CalendarState.addReminder(
                             root.titleText.trim(),
                             timeStr,
-                            root.placeText.trim()
+                            root.placeText.trim(),
+                            root.notifyMins
                         )
                         CalendarState.addReminderOpen = false
                     }
