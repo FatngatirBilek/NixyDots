@@ -11,6 +11,17 @@ Item {
 
     required property var context
 
+    // Re-grab keyboard focus whenever this surface becomes visible.
+    // On a normal lock this fires once; after wake-from-sleep the
+    // WlSessionLockSurface is shown again and focus must be re-requested
+    // explicitly — 'focus: true' on TextInput only works at construction time.
+    function refocus() {
+        passwordInput.forceActiveFocus()
+    }
+
+    Component.onCompleted: refocus()
+    onVisibleChanged: if (visible) refocus()
+
     readonly property string currentTime: Time.format("HH:mm")
     readonly property string currentDate: Time.format("dddd, MMMM d")
 
@@ -105,6 +116,14 @@ Item {
                 opacity: 0
                 echoMode: TextInput.Normal
                 focus: true
+
+                // Extra safety net: if something else steals focus while the
+                // lock screen is up, grab it back after a short delay.
+                onActiveFocusChanged: {
+                    if (!activeFocus) {
+                        Qt.callLater(function() { passwordInput.forceActiveFocus() })
+                    }
+                }
 
                 text: root.context !== null ? root.context.password : ""
                 onTextChanged: {
