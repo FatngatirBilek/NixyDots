@@ -119,7 +119,10 @@ in
         # ── RUNTIME_PM (generic runtime power management for PCI devices) ──
         # This covers the NVIDIA dGPU PCI slot — enables D3 runtime suspend
         # when NVIDIA's own fine-grained PM is active.
-        RUNTIME_PM_ON_AC = "on";
+        # Must be "auto" on both AC and BAT for PRIME offload + finegrained PM,
+        # otherwise TLP forces power/control=on and the dGPU can never enter D3
+        # (especially after a sleep/wake cycle).
+        RUNTIME_PM_ON_AC = "auto";
         RUNTIME_PM_ON_BAT = "auto";
 
         # ── Battery care (Acer uses ACPI BAT0) ──
