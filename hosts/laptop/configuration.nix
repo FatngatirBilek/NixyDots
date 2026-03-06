@@ -204,6 +204,13 @@ in {
 
   services.displayManager.cosmic-greeter.enable = true;
   environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
+  # Force EGL to only load the Mesa ICD in the COSMIC session.
+  # Without this, GLVND enumerates libEGL_nvidia.so on cosmic-comp startup,
+  # which opens /dev/nvidiactl and holds a runtime PM reference — preventing
+  # the dGPU from entering RTD3 (D3cold power-off) even when completely idle.
+  # The nvidia-offload wrapper unsets this var so GLVND finds both ICDs
+  # normally when you explicitly launch an app on the NVIDIA GPU.
+  environment.sessionVariables.__EGL_VENDOR_LIBRARY_FILENAMES = "/run/opengl-driver/share/glvnd/egl_vendor.d/50_mesa.json";
   services.desktopManager.cosmic.enable = true;
   services.system76-scheduler.enable = true;
   home-manager.users."${config.var.username}" = import ./home.nix;

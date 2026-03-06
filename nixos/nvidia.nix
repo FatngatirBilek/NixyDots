@@ -9,10 +9,7 @@
       lib.mkIf (config.var.hostname == "NixDesktop")
       ["nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm"];
     kernelParams =
-      [
-        "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
-        # "kvm.enable_virt_at_load=0"
-      ]
+      []
       ++ lib.optionals (config.var.hostname == "NixDesktop") [
         "nvidia-drm.fbdev=1" # NVIDIA framebuffer for TTY — desktop only
       ]

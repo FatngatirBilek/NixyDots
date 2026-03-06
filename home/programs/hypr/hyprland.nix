@@ -104,10 +104,7 @@
         "WLR_XCURSOR_THEME,Bibata-Modern-Ice"
         "HYPRCURSOR_THEME,Bibata-Modern-Ice"
         "WLR_XCURSOR_SIZE,24"
-        # Only point Hyprland at the Intel iGPU (card1 = 0000:00:02.0).
-        # Including card0 (NVIDIA) here causes Hyprland to open /dev/nvidia0
-        # and hold a runtime PM reference, preventing RTD3 (dGPU power-off).
-        "AQ_DRM_DEVICES,/dev/dri/card1"
+        "AQ_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0"
         # Force EGL to only load the Mesa ICD — prevents libEGL_nvidia.so from
         # being enumerated by GLVND on startup, which would open /dev/nvidiactl
         # and hold a runtime PM reference that blocks NVIDIA RTD3 (dGPU power-off).
