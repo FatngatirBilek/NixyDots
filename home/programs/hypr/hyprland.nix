@@ -104,7 +104,16 @@
         "WLR_XCURSOR_THEME,Bibata-Modern-Ice"
         "HYPRCURSOR_THEME,Bibata-Modern-Ice"
         "WLR_XCURSOR_SIZE,24"
-        "AQ_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0"
+        # Only point Hyprland at the Intel iGPU (card1 = 0000:00:02.0).
+        # Including card0 (NVIDIA) here causes Hyprland to open /dev/nvidia0
+        # and hold a runtime PM reference, preventing RTD3 (dGPU power-off).
+        "AQ_DRM_DEVICES,/dev/dri/card1"
+        # Force EGL to only load the Mesa ICD — prevents libEGL_nvidia.so from
+        # being enumerated by GLVND on startup, which would open /dev/nvidiactl
+        # and hold a runtime PM reference that blocks NVIDIA RTD3 (dGPU power-off).
+        # When you actually need NVIDIA (via nvidia-offload), this env var is
+        # NOT set in that wrapper's environment, so GLVND will find both ICDs normally.
+        "__EGL_VENDOR_LIBRARY_FILENAMES,/run/opengl-driver/share/glvnd/egl_vendor.d/50_mesa.json"
         # Wayland / Qt
         "QT_QPA_PLATFORM,wayland"
         "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"

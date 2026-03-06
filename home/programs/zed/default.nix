@@ -5,6 +5,23 @@
   ...
 }: let
   zedEditorFlakes = inputs.zed-editor-flake.packages.${pkgs.stdenv.hostPlatform.system}.zed-editor-preview-bin;
+  # Wrap Zed to force Intel Vulkan ICD and Mesa EGL only.
+  # Without this, Zed's GPU renderer enumerates all Vulkan/EGL ICDs and picks
+  # the NVIDIA one, opening /dev/nvidia0 and blocking RTD3 (dGPU power-off).
+  #
+  # zed-editor ships the real binary as "zeditor"; programs.zed-editor creates
+  # the "zed" wrapper itself, so we only need to wrap "zeditor" here.
+  zedIntel = pkgs.symlinkJoin {
+    name = "zed-intel";
+    paths = [pkgs.zed-editor];
+    nativeBuildInputs = [pkgs.makeWrapper];
+    postBuild = ''
+      wrapProgram $out/bin/zeditor \
+        --set VK_ICD_FILENAMES /run/opengl-driver/share/vulkan/icd.d/intel_icd.x86_64.json \
+        --set __EGL_VENDOR_LIBRARY_FILENAMES /run/opengl-driver/share/glvnd/egl_vendor.d/50_mesa.json \
+        --set __GLX_VENDOR_LIBRARY_NAME mesa
+    '';
+  };
 in {
   home.packages = with pkgs; [
     vtsls
@@ -18,7 +35,7 @@ in {
 
   programs.zed-editor = {
     enable = true;
-    package = pkgs.zed-editor;
+    package = zedIntel;
     installRemoteServer = true;
 
     extensions = [

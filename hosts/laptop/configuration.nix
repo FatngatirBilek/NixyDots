@@ -16,6 +16,7 @@ in {
     ../../nixos/nvidia.nix # CHANGEME: Remove this line if you don't have an Nvidia GPU
     ../../nixos/intel.nix # CHANGEME: Remove this line if you don't have an Intel GPU
     ../../nixos/prime.nix # Prime
+    ../../nixos/battery.nix # Laptop power management (TLP, auto-cpufreq, NVIDIA RTD3)
 
     ../../nixos/audio.nix
     ../../nixos/bluetooth.nix
@@ -138,6 +139,7 @@ in {
   # locks and turns that wait into a permanent deadlock.
   #
   # Skip cgroup user-session freeze (times out after 60 s); SIGSTOP handles it.
+  # This applies to both COSMIC and Hyprland sessions.
   systemd.services =
     builtins.listToAttrs (map (service: {
         name = service;

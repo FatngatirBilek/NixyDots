@@ -101,6 +101,10 @@ in {
         "QT_QPA_PLATFORMTHEME=gtk3"
         # Belt-and-suspenders: also tell Qt the theme name directly.
         "QT_ICON_THEME=WhiteSur-dark"
+        # Force EGL to only load the Mesa ICD — prevents libEGL_nvidia.so from
+        # being enumerated by GLVND on startup, which opens /dev/nvidiactl and
+        # holds a runtime PM reference that blocks NVIDIA RTD3 (dGPU power-off).
+        "__EGL_VENDOR_LIBRARY_FILENAMES=/run/opengl-driver/share/glvnd/egl_vendor.d/50_mesa.json"
       ];
     };
 
