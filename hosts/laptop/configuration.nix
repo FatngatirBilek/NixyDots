@@ -211,6 +211,9 @@ in {
   # The nvidia-offload wrapper unsets this var so GLVND finds both ICDs
   # normally when you explicitly launch an app on the NVIDIA GPU.
   environment.sessionVariables.__EGL_VENDOR_LIBRARY_FILENAMES = "/run/opengl-driver/share/glvnd/egl_vendor.d/50_mesa.json";
+  # Same for Vulkan: Qt/GTK apps enumerate all Vulkan ICDs on startup.
+  # nvidia_icd loads libGLX_nvidia.so → wakes dGPU → leaks runtime-PM ref.
+  environment.sessionVariables.VK_DRIVER_FILES = "/run/opengl-driver/share/vulkan/icd.d/intel_icd.x86_64.json";
   services.desktopManager.cosmic.enable = true;
   services.system76-scheduler.enable = true;
   home-manager.users."${config.var.username}" = import ./home.nix;

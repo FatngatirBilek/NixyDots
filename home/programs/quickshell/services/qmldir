@@ -15,7 +15,6 @@ singleton Notifs Notifs.qml
 singleton Players Players.qml
 singleton Power Power.qml
 singleton Requests Requests.qml
-singleton SystemUsage SystemUsage.qml
 singleton Time Time.qml
 singleton Tray Tray.qml
 singleton Weather Weather.qml

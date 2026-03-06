@@ -45,6 +45,7 @@
       export __GLX_VENDOR_LIBRARY_NAME=nvidia
       export __VK_LAYER_NV_optimus=NVIDIA_only
       unset __EGL_VENDOR_LIBRARY_FILENAMES
+      unset VK_DRIVER_FILES
       exec "$@"
     '')
   ];

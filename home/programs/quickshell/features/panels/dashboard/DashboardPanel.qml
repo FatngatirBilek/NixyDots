@@ -55,8 +55,5 @@ Panel {
             Layout.fillWidth: true
         }
 
-        SystemInfo {
-            Layout.fillWidth: true
-        }
     }
 }

@@ -373,14 +373,28 @@
     XCURSOR_THEME = "Bibata-Modern-Ice";
     WLR_XCURSOR_THEME = "Bibata-Modern-Ice";
     WLR_XCURSOR_SIZE = "24";
-    # Hyprland / Aquamarine backend
-    AQ_DRM_DEVICES = "/dev/dri/card1:/dev/dri/card0";
+    # Hyprland / Aquamarine backend — only list the Intel iGPU so Aquamarine
+    # never opens the NVIDIA DRM device. Holding an fd on card0 (NVIDIA)
+    # prevents RTD3 (runtime D3cold power-off).
+    #
+    # IMPORTANT: cannot use by-path symlinks here (e.g. pci-0000:00:02.0-card)
+    # because Aquamarine (and environment.d) splits on ':' — the colons in
+    # the PCI address break the path into multiple invalid tokens.
+    # /dev/dri/card1 is the Intel iGPU (stable across reboots on this machine
+    # since the kernel always enumerates the NVIDIA dGPU as card0 first).
+    AQ_DRM_DEVICES = "/dev/dri/card1";
     # Force EGL to only load the Mesa ICD — prevents libEGL_nvidia.so from
     # being enumerated by GLVND on startup, which would open /dev/nvidiactl
     # and hold a runtime PM reference that blocks NVIDIA RTD3 (dGPU power-off).
     # When you actually need NVIDIA (via nvidia-offload), this env var is
     # NOT set in that wrapper's environment, so GLVND will find both ICDs normally.
     __EGL_VENDOR_LIBRARY_FILENAMES = "/run/opengl-driver/share/glvnd/egl_vendor.d/50_mesa.json";
+    # Same idea for Vulkan: restrict the ICD loader to the Intel driver only.
+    # Qt Quick (used by quickshell) loads libvulkan.so and enumerates all ICDs.
+    # nvidia_icd loads libGLX_nvidia.so → opens /dev/nvidiactl → takes a
+    # runtime-PM reference that the driver never releases, blocking RTD3.
+    # The nvidia-offload wrapper unsets this var so Vulkan finds all ICDs.
+    VK_DRIVER_FILES = "/run/opengl-driver/share/vulkan/icd.d/intel_icd.x86_64.json";
     # Wayland / Qt / GTK
     QT_QPA_PLATFORM = "wayland";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
