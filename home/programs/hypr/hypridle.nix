@@ -37,7 +37,7 @@ in {
         # 2m 30s — dim screen as a heads-up (only on battery)
         {
           timeout = 150;
-          on-timeout = "${onBattery} && brightnessctl -s set 20%";
+          on-timeout = "${onBattery} && brightnessctl -s set 5%";
           on-resume = "brightnessctl -r";
         }
 
