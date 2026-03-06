@@ -84,6 +84,7 @@ in {
   };
   # users.extraGroups.vboxusers.members = ["${config.var.username}"];
   users.groups.libvirtd.members = ["${config.var.username}"];
+
   virtualisation = {
     waydroid.enable = true;
     # virtualbox = {
@@ -179,6 +180,22 @@ in {
             # Resume every user-owned cosmic-* process that was stopped.
             ${pkgs.procps}/bin/pkill -CONT -u "${config.var.username}" -f "cosmic" || true
           '';
+        };
+      };
+      # Fix: libvirt's virt-secret-init-encryption.service hardcodes /usr/bin/sh
+      # which doesn't exist on NixOS. Use list syntax to first clear ExecStart
+      # (empty string) then set the new value — required for drop-in overrides.
+      "virt-secret-init-encryption" = {
+        serviceConfig = {
+          ExecStart = [
+            "" # clear the upstream ExecStart from the libvirt package
+            (pkgs.writeShellScript "virt-secret-init-encryption" ''
+              umask 0077
+              dd if=/dev/random status=none bs=32 count=1 | \
+                systemd-creds encrypt --name=secrets-encryption-key - \
+                /var/lib/libvirt/secrets/secrets-encryption-key
+            '')
+          ];
         };
       };
     };
