@@ -20,24 +20,6 @@
         # modprobe option in quotes, which breaks kernel param parsing.
         "nvidia.NVreg_DynamicPowerManagement=0x02"
       ])
-      # Override NixOS-generated nvidia-drm.fbdev=1 and
-      # PreserveVideoMemoryAllocations=1 on the laptop.  mkAfter ensures
-      # these appear AFTER the NixOS nvidia module's params on the cmdline,
-      # so the last-value-wins rule makes our overrides take effect.
-      #
-      # fbdev=1: registers a kernel framebuffer console on the dGPU, holding
-      #   an internal DRM reference that prevents RTD3.  Laptop doesn't need
-      #   it because Intel iGPU provides fb0 (i915drmfb).
-      #
-      # PreserveVideoMemoryAllocations=0: the =1 setting keeps VRAM pinned
-      #   as "Active" which can block the driver from releasing its
-      #   runtime-PM reference.  On a PRIME-offload laptop the dGPU doesn't
-      #   drive any display, so there is no VRAM to preserve.
-      #   nvidia-suspend.service (from powerManagement.enable) still runs.
-      (lib.mkIf (config.var.hostname == "nixos") (lib.mkAfter [
-        "nvidia-drm.fbdev=0"
-        "nvidia.NVreg_PreserveVideoMemoryAllocations=0"
-      ]))
     ];
   };
   environment.variables = lib.mkMerge [
