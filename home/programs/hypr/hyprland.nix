@@ -1,12 +1,15 @@
 # Hyprland home-manager configuration
 # Adapted from https://github.com/karol-broda/nixos-config
 # Keeps user's Bibata-Modern-Ice cursor, uses ghostty terminal, nautilus file manager
-{...}: {
+{pkgs, ...}: {
   wayland.windowManager.hyprland = {
     enable = true;
-    # Use the system-installed hyprland (from programs.hyprland.enable = true in nixos)
-    package = null;
+    # Use the system-installed hyprland package so the binary is in the user
+    # profile PATH — required by UWSM's env-preloader to find "hyprland".
+    package = pkgs.hyprland;
     portalPackage = null;
+    # UWSM handles all systemd session integration; disable HM's own systemd unit.
+    systemd.enable = false;
 
     settings = {
       # ─── Catppuccin Frappé accent palette (dark-mode friendly) ───────────────
@@ -96,36 +99,10 @@
       ];
 
       # ─── Environment variables ────────────────────────────────────────────────
-      env = [
-        # Cursor (matching your theming/default.nix)
-        "HYPRCURSOR_SIZE,24"
-        "XCURSOR_SIZE,24"
-        "XCURSOR_THEME,Bibata-Modern-Ice"
-        "WLR_XCURSOR_THEME,Bibata-Modern-Ice"
-        "HYPRCURSOR_THEME,Bibata-Modern-Ice"
-        "WLR_XCURSOR_SIZE,24"
-        "AQ_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0"
-        # Force EGL to only load the Mesa ICD — prevents libEGL_nvidia.so from
-        # being enumerated by GLVND on startup, which would open /dev/nvidiactl
-        # and hold a runtime PM reference that blocks NVIDIA RTD3 (dGPU power-off).
-        # When you actually need NVIDIA (via nvidia-offload), this env var is
-        # NOT set in that wrapper's environment, so GLVND will find both ICDs normally.
-        "__EGL_VENDOR_LIBRARY_FILENAMES,/run/opengl-driver/share/glvnd/egl_vendor.d/50_mesa.json"
-        # Wayland / Qt
-        "QT_QPA_PLATFORM,wayland"
-        "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
-        "GDK_BACKEND,wayland,x11"
-        "SDL_VIDEODRIVER,wayland"
-        "CLUTTER_BACKEND,wayland"
-        "MOZ_ENABLE_WAYLAND,1"
-        # GTK theme + dark mode (matching your theming/default.nix)
-        # GTK_APPLICATION_PREFER_DARK_THEME must be in the Hyprland env block
-        # (not just sessionVariables) so every app launched by Hyprland inherits it.
-        # Firefox/Zen on Wayland reads color-scheme via the XDG portal / dconf,
-        # but this covers GTK3/4 apps that check the env var directly.
-        "GTK_THEME,Orchis-Dark"
-        "GTK_APPLICATION_PREFER_DARK_THEME,1"
-      ];
+      # With UWSM, all env vars are set via systemd.user.sessionVariables below
+      # (written to ~/.config/environment.d/) so that every app launched through
+      # `uwsm app` (transient systemd units) inherits them. Hyprland's `env`
+      # block is NOT inherited by UWSM-managed processes, so nothing belongs here.
 
       # ─── Permissions ─────────────────────────────────────────────────────────
       "ecosystem:enforce_permissions" = true;
@@ -135,13 +112,13 @@
       ];
 
       # ─── Autostart ───────────────────────────────────────────────────────────
+      # Long-running daemons must be wrapped with `uwsm app --` so UWSM tracks
+      # them in proper systemd scope/transient units. Without this they become
+      # unmanaged children of the compositor and won't be cleaned up on logout.
       exec-once = [
-        # Import environment into systemd so services see Wayland/Hyprland vars
-        "systemctl --user import-environment WAYLAND_DISPLAY XDG_RUNTIME_DIR HYPRLAND_INSTANCE_SIGNATURE XDG_CURRENT_DESKTOP"
-
         # Clipboard history (cliphist for quickshell/elephant clipboard provider)
-        "wl-paste --type text --watch cliphist store"
-        "wl-paste --type image --watch cliphist store"
+        "uwsm app -- wl-paste --type text --watch cliphist store"
+        "uwsm app -- wl-paste --type image --watch cliphist store"
       ];
 
       # ─── General ─────────────────────────────────────────────────────────────
@@ -247,15 +224,18 @@
       ];
 
       # ─── Keybinds ────────────────────────────────────────────────────────────
+      # GUI apps use `uwsm app --` so UWSM launches them as transient systemd
+      # units with proper cgroup tracking, env inheritance, and clean shutdown.
+      # One-shot / instant commands (killactive, wpctl, etc.) do NOT need it.
       bind = [
         # Core
-        "$mainMod, T, exec, $terminal"
+        "$mainMod, T, exec, uwsm app -- $terminal"
         "$mainMod, Q, killactive,"
-        "$mainMod, E, exec, $fileManager"
+        "$mainMod, E, exec, uwsm app -- $fileManager"
         "$mainMod, V, togglefloating,"
         "$mainMod, F, fullscreenstate, 1 1"
         "$shiftMainMod, F, fullscreenstate, 2"
-        "$mainMod, R, exec, $menu"
+        "$mainMod, R, exec, uwsm app -- $menu"
         "$mainMod, T, layoutmsg, togglesplit"
 
         # Quickshell panels (global shortcuts registered by the shell)
@@ -376,4 +356,39 @@
 
   # Polkit agent for hyprland (needed for privilege escalation prompts)
   services.hyprpolkitagent.enable = true;
+
+  # ─── Session-wide environment (environment.d) ────────────────────────────
+  # UWSM launches apps as transient systemd user units, so they do NOT inherit
+  # Hyprland's `env` block. These vars are written to ~/.config/environment.d/
+  # which systemd reads at user-session start — every unit (and `uwsm app`)
+  # inherits them automatically.
+  #
+  # Cursor, toolkit backends, and GTK theming vars that used to live in the
+  # Hyprland env block are placed here instead.
+  systemd.user.sessionVariables = {
+    # Cursor
+    HYPRCURSOR_SIZE = "24";
+    HYPRCURSOR_THEME = "Bibata-Modern-Ice";
+    XCURSOR_SIZE = "24";
+    XCURSOR_THEME = "Bibata-Modern-Ice";
+    WLR_XCURSOR_THEME = "Bibata-Modern-Ice";
+    WLR_XCURSOR_SIZE = "24";
+    # Hyprland / Aquamarine backend
+    AQ_DRM_DEVICES = "/dev/dri/card1:/dev/dri/card0";
+    # Force EGL to only load the Mesa ICD — prevents libEGL_nvidia.so from
+    # being enumerated by GLVND on startup, which would open /dev/nvidiactl
+    # and hold a runtime PM reference that blocks NVIDIA RTD3 (dGPU power-off).
+    # When you actually need NVIDIA (via nvidia-offload), this env var is
+    # NOT set in that wrapper's environment, so GLVND will find both ICDs normally.
+    __EGL_VENDOR_LIBRARY_FILENAMES = "/run/opengl-driver/share/glvnd/egl_vendor.d/50_mesa.json";
+    # Wayland / Qt / GTK
+    QT_QPA_PLATFORM = "wayland";
+    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+    GDK_BACKEND = "wayland,x11";
+    SDL_VIDEODRIVER = "wayland";
+    CLUTTER_BACKEND = "wayland";
+    MOZ_ENABLE_WAYLAND = "1";
+    GTK_THEME = "Orchis-Dark";
+    GTK_APPLICATION_PREFER_DARK_THEME = "1";
+  };
 }

@@ -65,13 +65,16 @@ in {
   '';
 
   # ── Quickshell systemd user service ──────────────────────────────────────────
-  # Starts quickshell after the hyprland session is up.
+  # Starts quickshell after the graphical session is up (UWSM activates
+  # graphical-session.target when Hyprland starts).
   systemd.user.services.quickshell = {
     Unit = {
       Description = "Quickshell compositor shell";
       Documentation = "https://quickshell.outfoxxed.me";
-      After = ["hyprland-session.target"];
-      PartOf = ["hyprland-session.target"];
+      # UWSM activates graphical-session.target (the standard systemd target)
+      # instead of the old HM-generated hyprland-session.target.
+      After = ["graphical-session.target"];
+      PartOf = ["graphical-session.target"];
       # Only start when both a Wayland compositor is running AND it is
       # specifically Hyprland (which always exports HYPRLAND_INSTANCE_SIGNATURE).
       # This prevents quickshell from auto-starting under COSMIC, GNOME Wayland,
@@ -89,26 +92,23 @@ in {
       Restart = "on-failure";
       RestartSec = 3;
 
+      # Most env vars (QT_QPA_PLATFORM, __EGL_VENDOR_LIBRARY_FILENAMES, cursor,
+      # GTK theme, etc.) are now set session-wide via systemd.user.sessionVariables
+      # (environment.d) and inherited automatically by every systemd unit.
+      # Only vars that need to OVERRIDE or SUPPLEMENT the session defaults go here.
       Environment = [
-        # Required Qt platform plugin
-        "QT_QPA_PLATFORM=wayland"
         # Load the GTK3 platform theme so Qt reads icon/style settings from
         # ~/.config/gtk-3.0/settings.ini (where home-manager writes WhiteSur-dark).
         # libqgtk3.so ships inside qtbase and is on QT_PLUGIN_PATH via the wrapper,
         # so no extra package is needed — this is the key variable that makes tray
-        # icons resolve correctly from systemd (terminal already has it via
-        # home.sessionVariables, systemd services don't inherit shell session vars).
+        # icons resolve correctly from systemd.
         "QT_QPA_PLATFORMTHEME=gtk3"
         # Belt-and-suspenders: also tell Qt the theme name directly.
         "QT_ICON_THEME=WhiteSur-dark"
-        # Force EGL to only load the Mesa ICD — prevents libEGL_nvidia.so from
-        # being enumerated by GLVND on startup, which opens /dev/nvidiactl and
-        # holds a runtime PM reference that blocks NVIDIA RTD3 (dGPU power-off).
-        "__EGL_VENDOR_LIBRARY_FILENAMES=/run/opengl-driver/share/glvnd/egl_vendor.d/50_mesa.json"
       ];
     };
 
-    Install.WantedBy = ["hyprland-session.target"];
+    Install.WantedBy = ["graphical-session.target"];
   };
 
   # ── Required packages ─────────────────────────────────────────────────────────
