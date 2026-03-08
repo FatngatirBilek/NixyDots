@@ -204,16 +204,11 @@ in {
 
   services.displayManager.cosmic-greeter.enable = true;
   environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
-  # Force EGL to only load the Mesa ICD in the COSMIC session.
-  # Without this, GLVND enumerates libEGL_nvidia.so on cosmic-comp startup,
-  # which opens /dev/nvidiactl and holds a runtime PM reference — preventing
-  # the dGPU from entering RTD3 (D3cold power-off) even when completely idle.
-  # The nvidia-offload wrapper unsets this var so GLVND finds both ICDs
-  # normally when you explicitly launch an app on the NVIDIA GPU.
-  environment.sessionVariables.__EGL_VENDOR_LIBRARY_FILENAMES = "/run/opengl-driver/share/glvnd/egl_vendor.d/50_mesa.json";
-  # Same for Vulkan: Qt/GTK apps enumerate all Vulkan ICDs on startup.
-  # nvidia_icd loads libGLX_nvidia.so → wakes dGPU → leaks runtime-PM ref.
-  environment.sessionVariables.VK_DRIVER_FILES = "/run/opengl-driver/share/vulkan/icd.d/intel_icd.x86_64.json";
+  # NOTE: __EGL_VENDOR_LIBRARY_FILENAMES, VK_DRIVER_FILES, and AQ_DRM_DEVICES
+  # are intentionally NOT set here. They are managed exclusively by the
+  # gpu-mode toggle script via ~/.config/environment.d/00-gpu-override.conf:
+  #   rtd3 mode → Intel only (card1), Mesa EGL, Intel Vulkan → NVIDIA enters D3cold
+  #   hdmi mode → Intel+NVIDIA (card1:card0), both EGL/Vulkan ICDs → HDMI works
   services.desktopManager.cosmic.enable = true;
   services.system76-scheduler.enable = true;
   home-manager.users."${config.var.username}" = import ./home.nix;
@@ -234,6 +229,13 @@ in {
     "video"
     "v4l2loopback"
   ];
+
+  # Blacklist spd5118 (DDR5 RAM SPD temperature sensor hub driver).
+  # On this Acer laptop it fails to resume from suspend with error -6 (ENXIO),
+  # causing the entire suspend/resume cycle to fail or hang.
+  # The driver provides no useful functionality (just RAM temp readings)
+  # and is safe to disable entirely.
+  boot.blacklistedKernelModules = ["spd5118"];
 
   # Don't touch this
   system.stateVersion = "24.05";

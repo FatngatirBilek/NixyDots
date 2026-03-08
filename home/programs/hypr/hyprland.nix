@@ -336,9 +336,9 @@
         ", XF86AudioPause, exec, playerctl play-pause"
         ", XF86AudioPlay,  exec, playerctl play-pause"
         ", XF86AudioPrev,  exec, playerctl previous"
-        # Lid close/open — CHANGEME: replace eDP-1 with your built-in display name
-        # (run `hyprctl monitors` to find the correct name)
-        '', switch:on:Lid Switch,  exec, hyprctl keyword monitor "eDP-1, disable"''
+        # Lid close → suspend system + disable built-in display
+        # Lid open  → re-enable built-in display
+        '', switch:on:Lid Switch,  exec, systemctl suspend && hyprctl keyword monitor "eDP-1, disable"''
         '', switch:off:Lid Switch, exec, hyprctl keyword monitor "eDP-1, 1920x1080@165, 0x0, 1"''
       ];
 
@@ -373,7 +373,7 @@
     XCURSOR_THEME = "Bibata-Modern-Ice";
     WLR_XCURSOR_THEME = "Bibata-Modern-Ice";
     WLR_XCURSOR_SIZE = "24";
-    AQ_DRM_DEVICES = "/dev/dri/card1";
+
     QT_QPA_PLATFORM = "wayland";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     GDK_BACKEND = "wayland,x11";
