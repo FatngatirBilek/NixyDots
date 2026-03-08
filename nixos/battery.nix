@@ -109,7 +109,7 @@ in
         # ── USB autosuspend ──
         # Suspend USB devices after 2 s of inactivity on battery.
         # Blacklist any devices that break under autosuspend (mice, etc.).
-        USB_AUTOSUSPEND = 1;
+        USB_AUTOSUSPEND = 0; #disable by default, as it can cause issues with some devices
         USB_AUTOSUSPEND_DISABLE_ON_SHUTDOWN = 1;
 
         # ── WiFi ──
