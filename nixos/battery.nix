@@ -110,6 +110,8 @@ in
         WIFI_PWR_ON_AC = "off";
         WIFI_PWR_ON_BAT = "on";
 
+        USB_AUTOSUSPEND = 0;
+
         # ── RUNTIME_PM (generic runtime power management for PCI devices) ──
         # This covers the NVIDIA dGPU PCI slot — enables D3 runtime suspend
         # when NVIDIA's own fine-grained PM is active.

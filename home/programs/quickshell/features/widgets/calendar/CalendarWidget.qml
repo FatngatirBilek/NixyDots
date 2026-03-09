@@ -384,7 +384,7 @@ Item {
 
                         Text {
                             anchors.centerIn: parent
-                            text:  "No events today"
+                            text:  "No events today. Enjoy Your Day :)"
                             color: Colors.textDim
                             font {
                                 family:    Typography.placeholderFamily
