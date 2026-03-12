@@ -30,7 +30,7 @@ in {
     ../../nixos/users.nix
     ../../nixos/utils.nix
     ../../nixos/variables-config.nix
-    ../../nixos/docker.nix
+    ../../nixos/podman.nix
     ../../nixos/warp.nix
     ../../nixos/tjkt.nix
     #  ../../nixos/wine.nix
