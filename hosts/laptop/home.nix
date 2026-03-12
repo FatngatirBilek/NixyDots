@@ -30,6 +30,7 @@
     ../../home/programs/zed
     ../../home/programs/wezterm
     ../../home/programs/obs
+    ../../home/programs/winapps
 
     # Hyprland window manager + quickshell shell
     ../../home/programs/hypr
