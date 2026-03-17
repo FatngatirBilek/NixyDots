@@ -156,28 +156,22 @@
         };
       };
 
-      # ─── Animations ──────────────────────────────────────────────────────────
+      # ─── Animations ─────────────────────────────────────────────────────────
       animations = {
-        enabled = 1;
+        enabled = true;
+
         bezier = [
-          "easeOutQuint,0.23,1,0.32,1"
-          "easeInOutCubic,0.65,0.05,0.36,1"
-          "almostLinear,0.5,0.5,0.75,1.0"
-          "quick,0.15,0,0.1,1"
+          "myBezier, 0.05, 0.9, 0.1, 1.05"
         ];
+
         animation = [
-          "global,     1, 7,  easeInOutCubic"
-          "border,     1, 6,  easeOutQuint"
-          "windows,    1, 6,  easeOutQuint"
-          "windowsIn,  1, 5,  easeOutQuint, popin 85%"
-          "windowsOut, 1, 4,  almostLinear, popin 85%"
-          "fade,       1, 6,  quick"
-          "fadeIn,     1, 5,  almostLinear"
-          "fadeOut,    1, 4,  almostLinear"
-          "layers,     1, 6,  easeOutQuint"
-          "layersIn,   1, 5,  easeOutQuint, fade"
-          "layersOut,  1, 4,  almostLinear, fade"
-          "workspaces, 1, 3,  almostLinear, fade"
+          "windows, 1, 7, myBezier"
+          "windowsIn, 1, 7, myBezier, slide"
+          "windowsOut, 1, 7, myBezier, slide"
+          "border, 1, 10, default"
+          "borderangle, 1, 8, default"
+          "fade, 1, 7, default"
+          "workspaces, 1, 6, myBezier, slide"
         ];
       };
 
