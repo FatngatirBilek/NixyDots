@@ -19,6 +19,7 @@ import qs.features.lockscreen
 import qs.features.screenshot
 import qs.features.widgets.photo
 import qs.features.widgets.calendar
+import qs.features.widgets
 import qs.config
 
 ShellRoot {
@@ -214,15 +215,25 @@ ShellRoot {
                 PhotoWidget {
                     id: photoDesktopWidget
 
+                    instanceId: "photo-top"
                     cardWidth:         Config.photoWidgetWidth
                     cardHeight:        Config.photoWidgetHeight
 
-                    // Initial position: top-left corner, set once the
-                    // window has been fully sized (avoids binding fight with drag).
+                    // Initial position: prefer WidgetsState saved position, else default
                     Component.onCompleted: {
                         Qt.callLater(function() {
-                            x = Config.widgetClusterMarginLeft
-                            y = Spacing.barHeight + Config.widgetClusterMarginTop
+                            try {
+                                var saved = (typeof WidgetsState !== "undefined" && WidgetsState.getPosition) ? WidgetsState.getPosition("photo-top") : (typeof WidgetsState !== "undefined" ? WidgetsState.positions["photo-top"] : null)
+                                if (saved && saved.x !== undefined && saved.y !== undefined) {
+                                    x = saved.x; y = saved.y
+                                } else {
+                                    x = Config.widgetClusterMarginLeft
+                                    y = Spacing.barHeight + Config.widgetClusterMarginTop
+                                }
+                            } catch(e) {
+                                x = Config.widgetClusterMarginLeft
+                                y = Spacing.barHeight + Config.widgetClusterMarginTop
+                            }
                         })
                     }
 
@@ -270,14 +281,25 @@ ShellRoot {
                 CalendarWidget {
                     id: calendarDesktopWidget
 
+                    instanceId: "calendar"
                     cardWidth:  Config.calendarWidgetWidth
                     cardHeight: Config.calendarWidgetHeight
 
-                    // Below the photo+reminders row
+                    // Below the photo+reminders row — prefer saved position if present
                     Component.onCompleted: {
                         Qt.callLater(function() {
-                            x = Config.widgetClusterMarginLeft
-                            y = Spacing.barHeight + Config.widgetClusterMarginTop + Config.photoWidgetHeight + Config.widgetGap
+                            try {
+                                var saved = (typeof WidgetsState !== "undefined" && WidgetsState.getPosition) ? WidgetsState.getPosition("calendar") : (typeof WidgetsState !== "undefined" ? WidgetsState.positions["calendar"] : null)
+                                if (saved && saved.x !== undefined && saved.y !== undefined) {
+                                    x = saved.x; y = saved.y
+                                } else {
+                                    x = Config.widgetClusterMarginLeft
+                                    y = Spacing.barHeight + Config.widgetClusterMarginTop + Config.photoWidgetHeight + Config.widgetGap
+                                }
+                            } catch(e) {
+                                x = Config.widgetClusterMarginLeft
+                                y = Spacing.barHeight + Config.widgetClusterMarginTop + Config.photoWidgetHeight + Config.widgetGap
+                            }
                         })
                     }
 
@@ -285,6 +307,71 @@ ShellRoot {
                     dragMinY: Spacing.barHeight
                     dragMaxX: calendarWidgetWindow.width  - Config.calendarWidgetWidth
                     dragMaxY: calendarWidgetWindow.height - Config.calendarWidgetHeight
+                }
+            }
+
+            // New: bottom photo widget (below calendar)
+            PanelWindow {
+                id: photoBottomWidgetWindow
+
+                screen: screenRoot.screen
+                color: "transparent"
+                exclusionMode: ExclusionMode.Ignore
+                WlrLayershell.layer: WlrLayer.Bottom
+                WlrLayershell.namespace: "quickshell-photo-bottom-widget"
+
+                visible: Config.showPhotoWidgetBottom
+
+                anchors {
+                    top: true
+                    left: true
+                    right: true
+                    bottom: true
+                }
+
+                mask: Region {
+                    item: photoBottomWidgetMask
+                }
+
+                Item {
+                    id: photoBottomWidgetMask
+                    visible: false
+
+                    x: photoBottomDesktopWidget.x
+                    y: photoBottomDesktopWidget.y
+                    width:  photoBottomDesktopWidget.width
+                    height: photoBottomDesktopWidget.height
+                }
+
+                PhotoWidget {
+                    id: photoBottomDesktopWidget
+
+                    instanceId: "photo-bottom"
+                    cardWidth:  Config.photoWidgetBottomWidth || Config.photoWidgetWidth
+                    cardHeight: Config.photoWidgetBottomHeight || Config.photoWidgetHeight
+
+                    // Place below the calendar, prefer saved WidgetsState position
+                    Component.onCompleted: {
+                        Qt.callLater(function() {
+                            try {
+                                var saved = (typeof WidgetsState !== "undefined" && WidgetsState.getPosition) ? WidgetsState.getPosition("photo-bottom") : (typeof WidgetsState !== "undefined" ? WidgetsState.positions["photo-bottom"] : null)
+                                if (saved && saved.x !== undefined && saved.y !== undefined) {
+                                    x = saved.x; y = saved.y
+                                } else {
+                                    x = Config.widgetClusterMarginLeft
+                                    y = Spacing.barHeight + Config.widgetClusterMarginTop + Config.photoWidgetHeight + Config.widgetGap + Config.calendarWidgetHeight + Config.widgetGap
+                                }
+                            } catch(e) {
+                                x = Config.widgetClusterMarginLeft
+                                y = Spacing.barHeight + Config.widgetClusterMarginTop + Config.photoWidgetHeight + Config.widgetGap + Config.calendarWidgetHeight + Config.widgetGap
+                            }
+                        })
+                    }
+
+                    dragMinX: 0
+                    dragMinY: Spacing.barHeight
+                    dragMaxX: photoBottomWidgetWindow.width  - (Config.photoWidgetBottomWidth || Config.photoWidgetWidth)
+                    dragMaxY: photoBottomWidgetWindow.height - (Config.photoWidgetBottomHeight || Config.photoWidgetHeight)
                 }
             }
 
@@ -322,14 +409,25 @@ ShellRoot {
                 RemindersWidget {
                     id: remindersDesktopWidget
 
+                    instanceId: "reminders"
                     cardWidth:  Config.remindersWidgetWidth
                     cardHeight: Config.remindersWidgetHeight
 
-                    // To the right of the photo widget, same top edge
+                    // To the right of the photo widget, same top edge — prefer saved pos
                     Component.onCompleted: {
                         Qt.callLater(function() {
-                            x = Config.widgetClusterMarginLeft + Config.photoWidgetWidth + Config.widgetGap
-                            y = Spacing.barHeight + Config.widgetClusterMarginTop
+                            try {
+                                var saved = (typeof WidgetsState !== "undefined" && WidgetsState.getPosition) ? WidgetsState.getPosition("reminders") : (typeof WidgetsState !== "undefined" ? WidgetsState.positions["reminders"] : null)
+                                if (saved && saved.x !== undefined && saved.y !== undefined) {
+                                    x = saved.x; y = saved.y
+                                } else {
+                                    x = Config.widgetClusterMarginLeft + Config.photoWidgetWidth + Config.widgetGap
+                                    y = Spacing.barHeight + Config.widgetClusterMarginTop
+                                }
+                            } catch(e) {
+                                x = Config.widgetClusterMarginLeft + Config.photoWidgetWidth + Config.widgetGap
+                                y = Spacing.barHeight + Config.widgetClusterMarginTop
+                            }
                         })
                     }
 

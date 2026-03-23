@@ -23,6 +23,10 @@ Item {
     property int  cardHeight:   278
     property real cornerRadius: 20
 
+    // Unique instance id used by WidgetsState for persisting position/photo
+    // Default is "calendar" but shell.qml can override when instantiating.
+    property string instanceId: "calendar"
+
     property int dragMinX: 0
     property int dragMinY: 0
     property int dragMaxX: 9999
@@ -30,6 +34,24 @@ Item {
 
     implicitWidth:  cardWidth
     implicitHeight: cardHeight
+
+    // If a WidgetsState singleton exists and contains a saved position for
+    // this instanceId, restore it on completion.
+    Component.onCompleted: {
+        Qt.callLater(function() {
+            try {
+                if (typeof WidgetsState !== "undefined" && root.instanceId) {
+                    var pos = WidgetsState.positions[root.instanceId]
+                    if (pos && pos.x !== undefined && pos.y !== undefined) {
+                        root.x = pos.x
+                        root.y = pos.y
+                    }
+                }
+            } catch(e) {
+                // ignore if WidgetsState not available yet
+            }
+        })
+    }
 
     // ── Today's date ──────────────────────────────────────────────────────────
     readonly property var  _today:        new Date()
@@ -90,6 +112,25 @@ Item {
             drag.maximumX: root.dragMaxX
             drag.maximumY: root.dragMaxY
             acceptedButtons: Qt.LeftButton
+
+            // Persist final position when drag ends (if WidgetsState is available)
+            onReleased: {
+                try {
+                    console.log("CalendarWidget: persisting position for", root.instanceId, root.x, root.y)
+                    if (typeof WidgetsState !== "undefined" && root.instanceId) {
+                        if (typeof WidgetsState.setPosition === "function") {
+                            WidgetsState.setPosition(root.instanceId, root.x, root.y)
+                        } else if (WidgetsState.setPosition) {
+                            WidgetsState.setPosition(root.instanceId, root.x, root.y)
+                        } else if (typeof WidgetsState.setPositionProp === "function") {
+                            WidgetsState.setPositionProp(root.instanceId, root.x, root.y)
+                        }
+                    }
+                    console.log("CalendarWidget: requested position persist for", root.instanceId)
+                } catch(e) {
+                    console.warn("CalendarWidget: failed to persist position to WidgetsState", e)
+                }
+            }
         }
 
         // ── Two-column layout ─────────────────────────────────────────────────

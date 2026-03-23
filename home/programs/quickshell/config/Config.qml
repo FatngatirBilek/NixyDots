@@ -46,6 +46,12 @@ Singleton {
     readonly property int  photoWidgetWidth:  200
     readonly property int  photoWidgetHeight: 200
 
+    // ── Bottom Photo Widget (additional photo card) ───────────────────────────
+    // Created so you can show a second photo below the calendar. Disabled by default.
+    readonly property bool showPhotoWidgetBottom: false
+    readonly property int  photoWidgetBottomWidth: photoWidgetWidth
+    readonly property int  photoWidgetBottomHeight: photoWidgetHeight
+
     // ── Reminders Widget ──────────────────────────────────────────────────────
     // Height is intentionally the same as photoWidgetHeight so the top row aligns.
     readonly property bool showRemindersWidget:   true
