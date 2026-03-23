@@ -1,4 +1,7 @@
-{
+{pkgs, ...}: {
+  environment.systemPackages = with pkgs; [
+    easyeffects
+  ];
   security.rtkit.enable = true;
   services.pulseaudio.enable = false;
 

@@ -230,7 +230,7 @@
         "$mainMod, F, fullscreenstate, 1 1"
         "$shiftMainMod, F, fullscreenstate, 2"
         "$mainMod, R, exec, uwsm app -- $menu"
-        "$mainMod, T, layoutmsg, togglesplit"
+        "$mainMod, space, layoutmsg, togglesplit"
 
         # Quickshell panels (global shortcuts registered by the shell)
         "$mainMod, D, global, quickshell:launcher"
