@@ -325,6 +325,13 @@ Item {
                 if (mouse.button === Qt.LeftButton && root._menuOpen) {
                     root._menuOpen = false
                 }
+                // Bring widget to front for dragging so other widgets don't intercept
+                if (mouse.button === Qt.LeftButton) {
+                    try {
+                        root._prevZ = (typeof root.z !== 'undefined') ? root.z : 0
+                        root.z = 10000
+                    } catch(e) { /* ignore */ }
+                }
             }
 
             // when user releases left-button after dragging, persist final position
@@ -337,6 +344,17 @@ Item {
                         console.warn("PhotoWidget: failed to persist position", e)
                     }
                 }
+                // restore z-order when drag finishes
+                try {
+                    root.z = root._prevZ
+                } catch(e) { /* ignore */ }
+            }
+
+            // restore z-order if drag/click canceled (e.g., pointer moved off or drag cancelled)
+            onCanceled: function() {
+                try {
+                    root.z = root._prevZ
+                } catch(e) { /* ignore */ }
             }
         }
 

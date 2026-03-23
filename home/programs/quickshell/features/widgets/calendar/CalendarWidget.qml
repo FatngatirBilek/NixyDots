@@ -31,26 +31,57 @@ Item {
     property int dragMinY: 0
     property int dragMaxX: 9999
     property int dragMaxY: 9999
+    // Remember previous z so we can restore after dragging
+    property real _prevZ: 0
 
     implicitWidth:  cardWidth
     implicitHeight: cardHeight
 
     // If a WidgetsState singleton exists and contains a saved position for
     // this instanceId, restore it on completion.
-    Component.onCompleted: {
-        Qt.callLater(function() {
-            try {
-                if (typeof WidgetsState !== "undefined" && root.instanceId) {
-                    var pos = WidgetsState.positions[root.instanceId]
-                    if (pos && pos.x !== undefined && pos.y !== undefined) {
-                        root.x = pos.x
-                        root.y = pos.y
-                    }
-                }
-            } catch(e) {
-                // ignore if WidgetsState not available yet
+    // Apply stored position only after WidgetsState has finished loading.
+    // This avoids reading a default/empty state when WidgetsState is still
+    // initializing (which caused positions to be overwritten).
+    function _applyStoredState() {
+        if (!root.instanceId) return
+        try {
+            var pos = null
+            if (typeof WidgetsState !== "undefined") {
+                if (typeof WidgetsState.getPosition === "function") pos = WidgetsState.getPosition(root.instanceId)
+                else if (WidgetsState.getPosition) pos = WidgetsState.getPosition(root.instanceId)
+                else if (WidgetsState.positions) pos = WidgetsState.positions[root.instanceId]
             }
-        })
+            if (pos && pos.x !== undefined && pos.y !== undefined) {
+                root.x = pos.x
+                root.y = pos.y
+                console.log("CalendarWidget: applying stored position", root.instanceId, root.x, root.y)
+            }
+        } catch(e) {
+            console.warn("CalendarWidget: error applying stored position", e)
+        }
+    }
+
+    Component.onCompleted: {
+        // If WidgetsState already loaded, apply immediately; otherwise wait for the
+        // loaded signal via Connections below.
+        if (typeof WidgetsState !== "undefined" && WidgetsState.loaded === true) {
+            Qt.callLater(_applyStoredState)
+        } else if (typeof WidgetsState !== "undefined" && WidgetsState.loaded === false) {
+            // wait for loaded -> true via Connections (below)
+        } else {
+            // If WidgetsState not present yet, still try once later (defensive)
+            Qt.callLater(_applyStoredState)
+        }
+    }
+
+    Connections {
+        // Defensive target so we don't error when WidgetsState is undefined
+        target: typeof WidgetsState !== 'undefined' ? WidgetsState : null
+        onLoadedChanged: {
+            if (typeof WidgetsState === 'undefined') return
+            if (!WidgetsState.loaded) return
+            Qt.callLater(_applyStoredState)
+        }
     }
 
     // ── Today's date ──────────────────────────────────────────────────────────
@@ -113,8 +144,19 @@ Item {
             drag.maximumY: root.dragMaxY
             acceptedButtons: Qt.LeftButton
 
+            // Bring widget to front when pressing to avoid other widgets stealing pointer
+            onPressed: function(mouse) {
+                try {
+                    root._prevZ = (typeof root.z !== 'undefined') ? root.z : 0
+                    root.z = 10000
+                } catch(e) { /* ignore */ }
+            }
+
             // Persist final position when drag ends (if WidgetsState is available)
             onReleased: {
+                // restore z-order
+                try { root.z = root._prevZ } catch(e) { /* ignore */ }
+
                 try {
                     console.log("CalendarWidget: persisting position for", root.instanceId, root.x, root.y)
                     if (typeof WidgetsState !== "undefined" && root.instanceId) {
@@ -130,6 +172,11 @@ Item {
                 } catch(e) {
                     console.warn("CalendarWidget: failed to persist position to WidgetsState", e)
                 }
+            }
+
+            // restore z-order if drag/click canceled (e.g., compositor or input grab)
+            onCanceled: function() {
+                try { root.z = root._prevZ } catch(e) { /* ignore */ }
             }
         }
 

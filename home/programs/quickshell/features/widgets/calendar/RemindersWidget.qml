@@ -30,20 +30,51 @@ Item {
     property int dragMaxX: 9999
     property int dragMaxY: 9999
 
+    // Remember previous z so we can raise on drag and restore after
+    property real _prevZ: 0
+
     implicitWidth:  cardWidth
     implicitHeight: cardHeight
 
-    Component.onCompleted: {
-        // If WidgetsState has a saved position for this instance, restore it.
-        Qt.callLater(function() {
-            if (typeof WidgetsState !== "undefined" && root.instanceId) {
-                var pos = WidgetsState.positions[root.instanceId]
-                if (pos && pos.x !== undefined && pos.y !== undefined) {
-                    root.x = pos.x
-                    root.y = pos.y
-                }
+    // Apply stored position safely (waits for WidgetsState to be loaded)
+    function _applyStoredState() {
+        if (!root.instanceId) return
+        try {
+            var pos = null
+            if (typeof WidgetsState !== "undefined") {
+                if (typeof WidgetsState.getPosition === "function") pos = WidgetsState.getPosition(root.instanceId)
+                else if (WidgetsState.getPosition) pos = WidgetsState.getPosition(root.instanceId)
+                else if (WidgetsState.positions) pos = WidgetsState.positions[root.instanceId]
             }
-        })
+            if (pos && pos.x !== undefined && pos.y !== undefined) {
+                root.x = pos.x
+                root.y = pos.y
+                console.log("RemindersWidget: applying stored position", root.instanceId, root.x, root.y)
+            }
+        } catch(e) {
+            console.warn("RemindersWidget: error applying stored position", e)
+        }
+    }
+
+    Component.onCompleted: {
+        if (typeof WidgetsState !== "undefined" && WidgetsState.loaded === true) {
+            Qt.callLater(_applyStoredState)
+        } else if (typeof WidgetsState !== "undefined" && WidgetsState.loaded === false) {
+            // wait for loaded -> true via Connections (below)
+        } else {
+            // If WidgetsState not present yet, still try once later (defensive)
+            Qt.callLater(_applyStoredState)
+        }
+    }
+
+    Connections {
+        // Defensive target so we don't error when WidgetsState is undefined
+        target: typeof WidgetsState !== 'undefined' ? WidgetsState : null
+        onLoadedChanged: {
+            if (typeof WidgetsState === 'undefined') return
+            if (!WidgetsState.loaded) return
+            Qt.callLater(_applyStoredState)
+        }
     }
 
     // ── Mirror CalendarState data into this widget ────────────────────────────
@@ -89,8 +120,20 @@ Item {
             propagateComposedEvents: true
             onClicked: (mouse) => { mouse.accepted = false }
 
+            // Bring widget to front when pressing so other widgets don't steal pointer
+            onPressed: function(mouse) {
+                try {
+                    root._prevZ = (typeof root.z !== 'undefined') ? root.z : 0
+                    // enable raising by default unless explicitly disabled via Config.raiseOnDrag = false
+                    if (typeof Config === 'undefined' || Config.raiseOnDrag !== false) root.z = 10000
+                } catch(e) { /* ignore */ }
+            }
+
             // When drag ends (mouse released), persist final position to WidgetsState
             onReleased: {
+                // restore stacking order after drag
+                try { root.z = root._prevZ } catch(e) { /* ignore */ }
+
                 if (root.instanceId) {
                     try {
                         console.log("RemindersWidget: persisting position for", root.instanceId, root.x, root.y)
@@ -108,6 +151,11 @@ Item {
                         console.warn("RemindersWidget: failed to persist position to WidgetsState", e)
                     }
                 }
+            }
+
+            // restore z-order if drag/click canceled (e.g., compositor or input grab)
+            onCanceled: function() {
+                try { root.z = root._prevZ } catch(e) { /* ignore */ }
             }
         }
 
