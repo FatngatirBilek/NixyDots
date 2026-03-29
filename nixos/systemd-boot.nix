@@ -11,7 +11,7 @@
 
     tmp.cleanOnBoot = true;
     kernelPackages =
-      pkgs.linuxPackages_latest; # _zen, _hardened, _rt, _rt_latest, etc.
+      pkgs.linuxPackages_zen; # _zen, _hardened, _rt, _rt_latest, etc.
     # Silent boot
     kernelParams = [
       "quiet"
@@ -24,9 +24,5 @@
     ];
     consoleLogLevel = 0;
     initrd.verbose = false;
-  };
-  services.scx = {
-    enable = true; # by default uses scx_rustland scheduler
-    # package = pkgs.scx_git.full;
   };
 }
