@@ -6,7 +6,6 @@ in {
     enable = true;
     settings = {
       add_newline = true;
-
       "$schema" = "https://starship.rs/config-schema.json";
       palette = "catppuccin_mocha";
       format = lib.concatStrings [
@@ -37,6 +36,7 @@ in {
       right_format = lib.concatStrings [
         "$cmd_duration"
         "$line_break"
+        "$custom"
         "[](fg:lavender)"
         "$time"
         "[](fg:lavender)"
@@ -160,6 +160,15 @@ in {
         symbol = "";
         style = "bg:sapphire";
         format = "[[ $symbol( $context) ](fg:crust bg:sapphire)]($style)";
+      };
+      custom = {
+        nix_shell = {
+          when = "test -n \"$IN_NIX_SHELL\"";
+          command = "echo  nix";
+          style = "bg:sapphire fg:crust";
+          format = "[](fg:sapphire)[$output]($style)[](fg:sapphire) ";
+          disabled = false;
+        };
       };
 
       conda = {
