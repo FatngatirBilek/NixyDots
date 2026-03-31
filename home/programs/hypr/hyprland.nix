@@ -368,7 +368,7 @@
     WLR_XCURSOR_THEME = "Bibata-Modern-Ice";
     WLR_XCURSOR_SIZE = "24";
 
-    QT_QPA_PLATFORM = "wayland";
+    QT_QPA_PLATFORM = "wayland;xcb";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     GDK_BACKEND = "wayland,x11";
     SDL_VIDEODRIVER = "wayland";
