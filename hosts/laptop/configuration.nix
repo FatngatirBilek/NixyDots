@@ -210,7 +210,6 @@ in {
   #   rtd3 mode → Intel only (card1), Mesa EGL, Intel Vulkan → NVIDIA enters D3cold
   #   hdmi mode → Intel+NVIDIA (card1:card0), both EGL/Vulkan ICDs → HDMI works
   services.desktopManager.cosmic.enable = true;
-  services.system76-scheduler.enable = true;
   home-manager.users."${config.var.username}" = import ./home.nix;
   services.flatpak.enable = true;
 

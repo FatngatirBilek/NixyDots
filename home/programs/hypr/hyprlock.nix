@@ -21,7 +21,7 @@
       "$yellow" = "rgb(e5c890)";
       "$subtext0" = "rgb(a5adce)";
 
-      # ─── Fonts ───────────────────────────────────────────────────────────────
+      # ─── Fonts ──────────────────────────────────────────────────────────────
       # EB Garamond is declared in nixos/nixos/hyprland.nix fonts.packages
       "$font" = "EB Garamond";
 

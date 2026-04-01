@@ -36,27 +36,6 @@ in
       "vm.laptop_mode" = 5;
     };
 
-    # ─── auto-cpufreq ─────────────────────────────────────────────────────────
-    # Dynamically scales CPU frequency and governor (powersave on battery,
-    # performance on AC) without manual intervention.
-    # Disable power-profiles-daemon conflict: auto-cpufreq takes over that role.
-    services.auto-cpufreq = {
-      enable = true;
-      settings = {
-        battery = {
-          governor = "powersave";
-          turbo = "auto"; # allow turbo only when needed, not always-on
-          energy_performance_preference = "power";
-          scaling_min_freq = 400000; # 400 MHz minimum
-        };
-        charger = {
-          governor = "performance";
-          turbo = "auto";
-          energy_performance_preference = "performance";
-        };
-      };
-    };
-
     # Disable power-profiles-daemon — conflicts with auto-cpufreq
     # (both try to own the cpufreq governor)
     services.power-profiles-daemon.enable = lib.mkForce false;
@@ -72,7 +51,7 @@ in
         CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
 
         CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+        CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
 
         # Intel HWP — let the CPU boost when needed on battery,
         # but don't lock it to max

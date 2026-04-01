@@ -25,4 +25,8 @@
     consoleLogLevel = 0;
     initrd.verbose = false;
   };
+  services.scx = {
+    enable = true;
+    scheduler = "scx_lavd";
+  };
 }
