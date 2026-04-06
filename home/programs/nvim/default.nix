@@ -15,6 +15,24 @@
         viAlias = false;
         vimAlias = false;
 
+        extraPlugins = {
+          codesnap = {
+            package = pkgs.vimPlugins.codesnap-nvim;
+
+            setup = ''
+              require("codesnap").setup({
+                watermark = "",
+                mac_window_bar = false,
+                bg_theme = "default",
+                save_path = vim.fn.expand("~/.local/share/codesnap"),
+              })
+
+              vim.keymap.set("v", "<Leader>cs", ":CodeSnap<CR>", { silent = true, desc = "CodeSnap selection" })
+              vim.keymap.set("v", "<Leader>cS", ":CodeSnapSave<CR>", { silent = true, desc = "CodeSnap save selection" })
+            '';
+          };
+        };
+
         maps = {
           normal = {
             "<Space>ee" = {
@@ -273,7 +291,13 @@
         };
 
         presence = {
-          neocord.enable = true;
+          neocord = {
+            enable = true;
+            setupOpts = {
+              logo = "https://cdn.dribbble.com/userupload/19822122/file/original-3ada64eb8b66542028842030018a22ef.png?resize=752x&vertical=center";
+              logo_tooltip = "Nvim niehh bOszzz senggol dong";
+            };
+          };
         };
       };
     };

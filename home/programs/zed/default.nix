@@ -25,7 +25,7 @@
 in {
   home.packages = with pkgs; [
     vtsls
-    nodePackages.prettier
+    prettier
     rust-analyzer
     cargo
     rustc
@@ -74,7 +74,7 @@ in {
         dock = "right";
         default_model = {
           provider = "copilot_chat";
-          model = "claude-sonnet-4.6";
+          model = "gpt-5.1";
         };
       };
       collaboration_panel = {

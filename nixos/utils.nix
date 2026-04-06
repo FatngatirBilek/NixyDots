@@ -116,6 +116,7 @@ in {
       direnv
       appimage-run
       ntfs3g
+      xclip
     ]
     ++ lib.optionals isLaptop [
       xdg-desktop-portal-cosmic

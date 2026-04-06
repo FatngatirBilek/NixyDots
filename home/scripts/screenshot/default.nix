@@ -28,7 +28,7 @@ in {
     pkgs.grim
     pkgs.slurp
     pkgs.wayfreeze
-    pkgs.wl-clipboard
     pkgs.libnotify
+    pkgs.wl-clip-persist
   ];
 }
