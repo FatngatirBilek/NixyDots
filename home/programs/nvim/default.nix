@@ -229,8 +229,7 @@
         };
         clipboard = {
           enable = true;
-          providers.wl-copy.enable = true;
-          registers = "unnamedplus";
+          providers.xclip.enable = true;
         };
         notes = {
           obsidian.enable = false; # FIXME: neovim fails to build if obsidian is enabled
