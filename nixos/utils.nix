@@ -117,6 +117,8 @@ in {
       appimage-run
       ntfs3g
       xclip
+      android-tools
+      scrcpy
     ]
     ++ lib.optionals isLaptop [
       xdg-desktop-portal-cosmic

@@ -16,9 +16,7 @@ in {
 
     enabledExtensions = with spicePkgs.extensions; [
       playlistIcons
-      lastfm
       historyShortcut
-      hidePodcasts
       adblock
       fullAppDisplay
       shuffle

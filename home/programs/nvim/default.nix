@@ -227,9 +227,11 @@
             img-clip.enable = true;
           };
         };
-        clipboard.enable = true;
-        clipboard.registers = "unnamedplus";
-        clipboard.providers.wl-copy.enable = true;
+        clipboard = {
+          enable = true;
+          providers.wl-copy.enable = true;
+          registers = "unnamedplus";
+        };
         notes = {
           obsidian.enable = false; # FIXME: neovim fails to build if obsidian is enabled
           neorg.enable = false;

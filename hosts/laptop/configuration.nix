@@ -43,7 +43,7 @@ in {
     ../../nixos/games.nix
     ../../nixos/printing.nix
     ../../nixos/onlyoffice.nix
-    # ../../nixos/packettracer.nix
+    ../../nixos/packettracer.nix
     ../../nixos/ollama.nix
     ./hardware-configuration.nix
     ./variables.nix

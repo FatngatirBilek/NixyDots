@@ -2,19 +2,17 @@
   config,
   inputs,
   ...
-}:
-let
+}: let
   autoGarbageCollector = config.var.autoGarbageCollector or false;
-in
-{
+in {
   nixpkgs.config.permittedInsecurePackages = [
     "electron-36.9.5"
     "libxml2-2.13.8"
-    "ciscoPacketTracer8-8.2.2"
+    "cisco-packet-tracer-8.2.2"
   ];
 
   nix = {
-    nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+    nixPath = ["nixpkgs=${inputs.nixpkgs}"];
     channel.enable = false;
     extraOptions = ''
       warn-dirty = false
