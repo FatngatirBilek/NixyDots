@@ -95,7 +95,7 @@
 
         # Fallback: any other display (projector, guest monitor, …) gets its
         # own preferred/native resolution placed automatically. Safe by default.
-        ", preferred, auto, 1"
+        ", preferred, auto, 1, mirror, eDP-1"
       ];
 
       # ─── Environment variables ────────────────────────────────────────────────
