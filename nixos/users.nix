@@ -4,6 +4,7 @@
   ...
 }: let
   username = config.var.username;
+  uservmtest = config.var.uservmtest;
 in {
   programs.zsh.enable = true;
   security.tpm2.enable = true;
@@ -28,5 +29,11 @@ in {
         "storage"
       ];
     };
+    users.${uservmtest} = {
+      isNormalUser = true;
+      initialPassword = "test";
+      group = "${uservmtest}";
+    };
+    groups.${uservmtest} = {};
   };
 }

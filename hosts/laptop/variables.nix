@@ -4,6 +4,7 @@
   var = {
     hostname = "nixos";
     username = "fathirbimashabri";
+    uservmtest = "uservmtest";
     configDirectory = "/home/" + config.var.username + "/.config/nixos";
     homeDir = "/home/" + config.var.username;
     keyboardLayout = "us";
