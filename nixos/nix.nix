@@ -12,6 +12,10 @@ in {
   ];
 
   nix = {
+    # Lower CPU and I/O priority for the Nix daemon to prevent system freezing
+    daemonCPUSchedPolicy = "idle";
+    daemonIOSchedClass = "idle";
+
     nixPath = ["nixpkgs=${inputs.nixpkgs}"];
     channel.enable = false;
     extraOptions = ''
@@ -23,6 +27,10 @@ in {
         "nix-command"
         "flakes"
       ];
+      # Use a balanced setup to take advantage of the 16-thread CPU
+      # but still prevent RAM starvation (16 GB limit).
+      cores = 4;
+      max-jobs = 4;
     };
     gc = {
       automatic = autoGarbageCollector;
