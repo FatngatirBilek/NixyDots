@@ -17,13 +17,27 @@
 
         extraPlugins = {
           codesnap = {
+            # codesnap-nvim 2.0.1 upstream bugs fixed via postPatch:
+            #
+            # 1. CodeSnapSave broken: save_path variable scoping and wrong API calls
+            #    in the upstream save() function — patched to use the correct
+            #    generator.save(path, config) signature.
+            #
+            # 2. CodeSnap (copy to clipboard) broken: generator.copy() uses the
+            #    `arboard` Rust library which spawns a background thread to serve
+            #    Wayland clipboard requests. That thread is killed when the Lua call
+            #    returns, so the clipboard is never actually populated.
+            #    Fix: save to a temp PNG then pipe it to wl-copy, which is a proper
+            #    long-running clipboard server that keeps serving until ownership
+            #    is transferred.
             package = pkgs.vimPlugins.codesnap-nvim.overrideAttrs (old: {
               postPatch = ''
                 ${old.postPatch or ""}
                 substituteInPlace lua/codesnap/init.lua \
                   --replace-fail 'string.match(static.config.save_path,' 'string.match(save_path,' \
                   --replace-fail 'require("generator").save_snapshot(config)' 'generator.save(save_path, config_module.get_config())' \
-                  --replace-fail 'vim.notify("Save snapshot in " .. config.save_path .. " successfully")' 'vim.cmd("delmarks <>"); vim.notify("Save snapshot in " .. save_path .. " successfully")'
+                  --replace-fail 'vim.notify("Save snapshot in " .. config.save_path .. " successfully")' 'vim.cmd("delmarks <>"); vim.notify("Save snapshot in " .. save_path .. " successfully")' \
+                  --replace-fail 'generator.copy(config_module.get_config())' 'local _tmp = os.tmpname() .. ".png"; generator.save(_tmp, config_module.get_config()); os.execute("${pkgs.wl-clipboard}/bin/wl-copy -t image/png < " .. _tmp); os.remove(_tmp)'
               '';
             });
             setup = "require('codesnap').setup({ save_path = '~/Pictures/codesnap.png' })";
