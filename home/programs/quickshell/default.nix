@@ -137,10 +137,6 @@ in {
     # Calculator backend for elephant calc provider
     libqalculate
 
-    # Clipboard history backend for elephant clipboard provider
-    # Runs alongside clipman — cliphist stores history, elephant reads it
-    cliphist
-
     # Network info (used by quickshell network service)
     networkmanager
 

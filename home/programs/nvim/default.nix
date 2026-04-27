@@ -27,8 +27,18 @@
                 save_path = vim.fn.expand("~/.local/share/codesnap"),
               })
 
-              vim.keymap.set("v", "<Leader>cs", ":CodeSnap<CR>", { silent = true, desc = "CodeSnap selection" })
-              vim.keymap.set("v", "<Leader>cS", ":CodeSnapSave<CR>", { silent = true, desc = "CodeSnap save selection" })
+              vim.keymap.set("v", "<Leader>cs", function()
+                require("codesnap").copy_into_clipboard()
+              end, { silent = true, desc = "CodeSnap selection" })
+
+              vim.keymap.set("v", "<Leader>cS", function()
+                local save_dir = vim.fn.expand("~/.local/share/codesnap")
+                vim.fn.mkdir(save_dir, "p")
+                local save_path = save_dir .. "/" .. os.date("%Y-%m-%d_%H-%M-%S") .. ".png"
+                local escaped = vim.fn.fnameescape(save_path)
+                vim.cmd("CodeSnapSave " .. escaped)
+                vim.notify("CodeSnap saved: " .. save_path, vim.log.levels.INFO)
+              end, { silent = true, desc = "CodeSnap save selection" })
             '';
           };
         };
@@ -229,7 +239,8 @@
         };
         clipboard = {
           enable = true;
-          providers.xclip.enable = true;
+          providers.wl-copy.enable = true;
+          registers = "unnamedplus";
         };
         notes = {
           obsidian.enable = false; # FIXME: neovim fails to build if obsidian is enabled

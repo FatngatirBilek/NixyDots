@@ -116,9 +116,8 @@
       # them in proper systemd scope/transient units. Without this they become
       # unmanaged children of the compositor and won't be cleaned up on logout.
       exec-once = [
-        # Clipboard history (cliphist for quickshell/elephant clipboard provider)
-        "uwsm app -- wl-paste --type text --watch cliphist store"
-        "uwsm app -- wl-paste --type image --watch cliphist store"
+        # Persist clipboard data after source apps close
+        "uwsm app -- wl-clip-persist --clipboard regular"
       ];
 
       # ─── General ─────────────────────────────────────────────────────────────

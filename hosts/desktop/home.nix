@@ -119,10 +119,6 @@
     stateVersion = "24.05";
   };
 
-  services.cliphist = {
-    enable = true;
-    allowImages = true;
-  };
   programs.nix-index = {
     enable = true;
     enableZshIntegration = true;
