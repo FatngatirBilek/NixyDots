@@ -85,13 +85,49 @@
           trouble.enable = true;
           otter-nvim.enable = true;
           nvim-docs-view.enable = true;
+
+          servers = {
+            nixd = {
+              enable = true;
+              settings = {
+                diagnostic = {
+                  suppress = ["sema-extra-with"];
+                };
+              };
+            };
+
+            rust_analyzer = {
+              enable = true;
+              settings = {
+                rust-analyzer = {
+                  inlayHints = {
+                    closureReturnTypeHints = {
+                      enable = "always";
+                    };
+                    lifetimeElisionHints = {
+                      enable = "skip_trivial";
+                      useParameterNames = true;
+                    };
+                  };
+                };
+              };
+            };
+          };
         };
         languages = {
           enableFormat = true;
           enableTreesitter = true;
           enableExtraDiagnostics = true;
 
-          nix.enable = true;
+          nix = {
+            enable = true;
+            lsp.servers = ["nixd"];
+            format = {
+              enable = true;
+              type = "alejandra";
+            };
+          };
+
           markdown.enable = true;
 
           # Languages that are enabled in the maximal configuration.
@@ -102,7 +138,13 @@
           sql.enable = true;
           java.enable = true;
           kotlin.enable = true;
-          ts.enable = true;
+          typescript = {
+            enable = true;
+            format = {
+              enable = true;
+              type = ["prettier"];
+            };
+          };
           go.enable = true;
           lua.enable = true;
           zig.enable = true;
@@ -110,6 +152,26 @@
           typst.enable = true;
           rust = {
             enable = true;
+            lsp = {
+              enable = true;
+              opts = ''
+                ["rust-analyzer"] = {
+                  checkOnSave = true,
+                  check = {
+                    command = "clippy",
+                  },
+                  inlayHints = {
+                    closureReturnTypeHints = {
+                      enable = "always",
+                    },
+                    lifetimeElisionHints = {
+                      enable = "skip_trivial",
+                      useParameterNames = true,
+                    },
+                  },
+                },
+              '';
+            };
             extensions.crates-nvim.enable = true;
           };
 
@@ -131,7 +193,6 @@
           fsharp.enable = false;
 
           tailwind.enable = true;
-          svelte.enable = true;
         };
         visuals = {
           nvim-scrollbar.enable = true;
@@ -150,7 +211,6 @@
         statusline = {
           lualine = {
             enable = true;
-            theme = "catppuccin";
           };
         };
         theme = {
@@ -166,8 +226,8 @@
         # enable blink-cmp in maximal because it needs to build its rust fuzzy
         # matcher library.
         autocomplete = {
-          nvim-cmp.enable = true;
-          blink-cmp.enable = false;
+          nvim-cmp.enable = false;
+          blink-cmp.enable = true;
         };
         snippets.luasnip.enable = true;
 
@@ -257,6 +317,70 @@
           };
         };
 
+        options = {
+          tabstop = 2;
+          shiftwidth = 2;
+          softtabstop = 2;
+          expandtab = true;
+          autoindent = true;
+          smartindent = false;
+        };
+
+        autocmds = [
+          {
+            event = ["FileType"];
+            pattern = ["*"];
+            desc = "Disable aggressive indentexpr globally";
+            command = "setlocal indentexpr=";
+          }
+        ];
+
+        luaConfigRC = {
+          copilot-inline = ''
+            local ok, copilot = pcall(require, "copilot")
+            if ok then
+              copilot.setup({
+                suggestion = {
+                  enabled = true,
+                  auto_trigger = true,
+                  hide_during_completion = false,
+                  debounce = 40,
+                },
+                panel = {
+                  enabled = false,
+                },
+              })
+
+              local sug_ok, suggestion = pcall(require, "copilot.suggestion")
+              if sug_ok then
+                vim.keymap.set("i", "<C-y>", function()
+                  suggestion.accept()
+                end, {silent = true, desc = "Copilot Accept"})
+                vim.keymap.set("i", "<C-n>", function()
+                  suggestion.next()
+                end, {silent = true, desc = "Copilot Next"})
+                vim.keymap.set("i", "<C-p>", function()
+                  suggestion.prev()
+                end, {silent = true, desc = "Copilot Prev"})
+                vim.keymap.set("i", "<C-e>", function()
+                  suggestion.dismiss()
+                end, {silent = true, desc = "Copilot Dismiss"})
+              end
+
+              vim.api.nvim_set_hl(0, "CopilotSuggestion", {fg = "#7f849c", italic = true})
+              vim.api.nvim_set_hl(0, "CopilotAnnotation", {fg = "#6c7086", italic = true})
+
+              vim.api.nvim_create_autocmd({"InsertEnter", "TextChangedI"}, {
+                callback = function()
+                  pcall(function()
+                    suggestion.next()
+                  end)
+                end,
+              })
+            end
+          '';
+        };
+
         ui = {
           borders.enable = true;
           noice.enable = true;
@@ -283,7 +407,7 @@
         assistant = {
           chatgpt.enable = false;
           copilot = {
-            enable = false;
+            enable = true;
             cmp.enable = false;
           };
           codecompanion-nvim.enable = true;
