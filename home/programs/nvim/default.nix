@@ -17,29 +17,16 @@
 
         extraPlugins = {
           codesnap = {
-            package = pkgs.vimPlugins.codesnap-nvim;
-
-            setup = ''
-              require("codesnap").setup({
-                watermark = "",
-                mac_window_bar = false,
-                bg_theme = "default",
-                save_path = vim.fn.expand("~/.local/share/codesnap"),
-              })
-
-              vim.keymap.set("v", "<Leader>cs", function()
-                require("codesnap").copy_into_clipboard()
-              end, { silent = true, desc = "CodeSnap selection" })
-
-              vim.keymap.set("v", "<Leader>cS", function()
-                local save_dir = vim.fn.expand("~/.local/share/codesnap")
-                vim.fn.mkdir(save_dir, "p")
-                local save_path = save_dir .. "/" .. os.date("%Y-%m-%d_%H-%M-%S") .. ".png"
-                local escaped = vim.fn.fnameescape(save_path)
-                vim.cmd("CodeSnapSave " .. escaped)
-                vim.notify("CodeSnap saved: " .. save_path, vim.log.levels.INFO)
-              end, { silent = true, desc = "CodeSnap save selection" })
-            '';
+            package = pkgs.vimPlugins.codesnap-nvim.overrideAttrs (old: {
+              postPatch = ''
+                ${old.postPatch or ""}
+                substituteInPlace lua/codesnap/init.lua \
+                  --replace-fail 'string.match(static.config.save_path,' 'string.match(save_path,' \
+                  --replace-fail 'require("generator").save_snapshot(config)' 'generator.save(save_path, config_module.get_config())' \
+                  --replace-fail 'vim.notify("Save snapshot in " .. config.save_path .. " successfully")' 'vim.cmd("delmarks <>"); vim.notify("Save snapshot in " .. save_path .. " successfully")'
+              '';
+            });
+            setup = "require('codesnap').setup({ save_path = '~/Pictures/codesnap.png' })";
           };
         };
 
@@ -78,6 +65,7 @@
 
         lsp = {
           enable = true;
+          presets.tailwindcss-language-server.enable = true;
           formatOnSave = true;
           lspkind.enable = false;
           lightbulb.enable = true;
@@ -124,7 +112,7 @@
             lsp.servers = ["nixd"];
             format = {
               enable = true;
-              type = "alejandra";
+              type = ["alejandra"];
             };
           };
 
@@ -191,8 +179,6 @@
           haskell.enable = false;
           ruby.enable = false;
           fsharp.enable = false;
-
-          tailwind.enable = true;
         };
         visuals = {
           nvim-scrollbar.enable = true;
