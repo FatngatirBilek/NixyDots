@@ -30,14 +30,116 @@
             #    Fix: save to a temp PNG then pipe it to wl-copy, which is a proper
             #    long-running clipboard server that keeps serving until ownership
             #    is transferred.
-            package = pkgs.vimPlugins.codesnap-nvim.overrideAttrs (old: {
+            package = let
+              # The patched init.lua — rewrite copy_highlight and save_highlight in full.
+              # Upstream bugs:
+              # 1. copy_highlight calls get_config() a second time inside the modal callback,
+              #    but by then visual marks '</'> are gone → "No code is selected" error.
+              # 2. save_highlight is a no-op stub.
+              # 3. generator.copy() uses arboard which dies on Wayland; use wl-copy instead.
+              patchedInitLua = pkgs.writeText "codesnap-init.lua" ''
+                local static = require("codesnap.static")
+                local table_utils = require("codesnap.utils.table")
+                local module = require("codesnap.module")
+                local config_module = require("codesnap.config")
+                local modal = require("codesnap.modal")
+                local path = require("codesnap.path")
+
+                local generator = module.load_generator()
+
+                local main = {
+                  cwd = static.cwd,
+                  highlight_mode_config = nil,
+                }
+
+                function main.setup(config)
+                  static.config = table_utils.merge_config(static.config, config == nil and {} or config)
+                  if static.config.snapshot_config then
+                    path.expand_paths_in_config(static.config.snapshot_config)
+                  end
+                end
+
+                function main.save(save_path)
+                  if save_path == nil then
+                    error("Save path is not specified", 0)
+                  end
+                  local matched_extension = string.match(save_path, "%.(.+)$")
+                  if matched_extension ~= "png" and matched_extension ~= nil then
+                    error("The extension of save_path should be .png", 0)
+                  end
+                  generator.save(save_path, config_module.get_config())
+                  vim.cmd("delmarks <>")
+                  vim.notify("Save snapshot in " .. save_path .. " successfully")
+                end
+
+                function main.copy()
+                  local cfg = config_module.get_config()
+                  local _tmp = os.tmpname() .. ".png"
+                  generator.save(_tmp, cfg)
+                  os.execute("${pkgs.wl-clipboard}/bin/wl-copy -t image/png < " .. _tmp)
+                  os.remove(_tmp)
+                  vim.cmd("delmarks <>")
+                  vim.notify("The snapshot is copied into clipboard successfully!")
+                end
+
+                function main.copy_ascii()
+                  generator.copy_ascii(config_module.get_config())
+                  vim.cmd("delmarks <>")
+                  vim.notify("The ASCII code snapshot is copied into clipboard successfully!")
+                end
+
+                local function highlight_copy_or_save(cb)
+                  local original_config = config_module.get_config()
+                  if not original_config or not original_config.content or not original_config.content.content then
+                    vim.notify("No code is selected", vim.log.levels.ERROR)
+                    return
+                  end
+                  local selected_text = original_config.content.content
+                  local filetype = vim.bo.filetype
+                  modal.pop_modal(selected_text, filetype, function(selection)
+                    if not selection then
+                      vim.notify("Selection cancelled", vim.log.levels.INFO)
+                      return
+                    end
+                    local lines = vim.split(selected_text, "\n", { plain = true })
+                    local start_line, end_line = selection[1], selection[2]
+                    if start_line < 1 or end_line > #lines or start_line > end_line then
+                      vim.notify("Invalid selection range", vim.log.levels.ERROR)
+                      return
+                    end
+                    original_config.content.highlight_lines = {
+                      { start_line, end_line, static.config.highlight_color },
+                    }
+                    cb(original_config)
+                  end)
+                end
+
+                function main.copy_highlight()
+                  highlight_copy_or_save(function(cfg)
+                    local _tmp = os.tmpname() .. ".png"
+                    generator.save(_tmp, cfg)
+                    os.execute("${pkgs.wl-clipboard}/bin/wl-copy -t image/png < " .. _tmp)
+                    os.remove(_tmp)
+                    vim.cmd("delmarks <>")
+                    vim.notify("The snapshot is copied into clipboard successfully!")
+                  end)
+                end
+
+                function main.save_highlight(save_path)
+                  highlight_copy_or_save(function(cfg)
+                    local sp = save_path or static.config.save_path
+                    generator.save(sp, cfg)
+                    vim.cmd("delmarks <>")
+                    vim.notify("Save snapshot in " .. sp .. " successfully")
+                  end)
+                end
+
+                return main
+              '';
+            in pkgs.vimPlugins.codesnap-nvim.overrideAttrs (old: {
               postPatch = ''
                 ${old.postPatch or ""}
-                substituteInPlace lua/codesnap/init.lua \
-                  --replace-fail 'string.match(static.config.save_path,' 'string.match(save_path,' \
-                  --replace-fail 'require("generator").save_snapshot(config)' 'generator.save(save_path, config_module.get_config())' \
-                  --replace-fail 'vim.notify("Save snapshot in " .. config.save_path .. " successfully")' 'vim.cmd("delmarks <>"); vim.notify("Save snapshot in " .. save_path .. " successfully")' \
-                  --replace-fail 'generator.copy(config_module.get_config())' 'local _tmp = os.tmpname() .. ".png"; generator.save(_tmp, config_module.get_config()); os.execute("${pkgs.wl-clipboard}/bin/wl-copy -t image/png < " .. _tmp); os.remove(_tmp)'
+                cp ${patchedInitLua} lua/codesnap/init.lua
               '';
             });
             setup = "require('codesnap').setup({ save_path = '~/Pictures/codesnap.png' })";
