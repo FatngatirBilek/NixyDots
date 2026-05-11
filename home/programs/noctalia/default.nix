@@ -20,27 +20,6 @@ in {
     package = noctaliaPkg;
   };
 
-  # ── Elephant launcher backend ─────────────────────────────────────────────────
-  programs.elephant = {
-    enable = true;
-    installService = true;
-    debug = false;
-
-    providers = [
-      "desktopapplications"
-      "files"
-      "clipboard"
-      "runner"
-      "calc"
-      "websearch"
-      "windows"
-    ];
-  };
-
-  xdg.configFile."elephant/wallpaper.toml".text = ''
-    set_command = "hyprctl hyprpaper wallpaper ',%FILE%'"
-  '';
-
   # Keep previous utility dependencies
   home.packages = with pkgs; [
     brightnessctl

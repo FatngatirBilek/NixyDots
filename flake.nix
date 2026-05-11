@@ -56,8 +56,6 @@
     zed-editor-flake.url = "github:FatngatirBilek/zed-editor-flake";
 
     # Hyprland quickshell setup
-    elephant.url = "github:abenz1267/elephant";
-
     noctalia-qs = {
       url = "github:noctalia-dev/noctalia-qs";
       inputs.nixpkgs.follows = "nixpkgs";

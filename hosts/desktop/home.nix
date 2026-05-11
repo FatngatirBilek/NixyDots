@@ -6,9 +6,6 @@
   ...
 }: {
   imports = [
-    # Elephant launcher backend HM module (required by quickshell)
-    inputs.elephant.homeManagerModules.default
-
     ./variables.nix
 
     # Programs
