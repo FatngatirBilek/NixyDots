@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  quickshellPkg = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  quickshellPkg = inputs.noctalia-qs.packages.${pkgs.stdenv.hostPlatform.system}.default;
   noctaliaPkg = pkgs.callPackage ./nix/package.nix {
     version = "local";
     quickshell = quickshellPkg;
