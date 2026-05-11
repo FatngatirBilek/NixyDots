@@ -4,6 +4,7 @@
   var = {
     hostname = "NixDesktop";
     username = "fathirbimashabri";
+    uservmtest = "uservmtest";
     configDirectory = "/home/" + config.var.username + "/.config/nixos";
     keyboardLayout = "us";
     timeZone = "Asia/Jakarta";
