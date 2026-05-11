@@ -58,11 +58,6 @@
     # Hyprland quickshell setup
     elephant.url = "github:abenz1267/elephant";
 
-    noctalia-shell = {
-      url = "git+file:///home/fathirbimashabri/Projects/noctalia-shell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     quickshell = {
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
