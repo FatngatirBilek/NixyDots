@@ -231,15 +231,15 @@
         "$mainMod, R, exec, uwsm app -- $menu"
         "$mainMod, space, layoutmsg, togglesplit"
 
-        # Quickshell panels (global shortcuts registered by the shell)
-        "$mainMod, D, global, quickshell:launcher"
-        "$mainMod, L, global, quickshell:lock"
+        # Noctalia panels (via IPC)
+        "$mainMod, D, exec, noctalia-shell ipc call launcher toggle"
+        "$mainMod, L, exec, noctalia-shell ipc call lockScreen lock"
 
-        # Screenshots via quickshell
-        ", Print, global, quickshell:screenshot"
-        "SHIFT, Print, global, quickshell:screenshotFreeze"
-        "SUPER, Print, global, quickshell:screenshot"
-        "SUPER SHIFT, Print, global, quickshell:screenshotFreeze"
+        # Screenshots (You might need a dedicated screenshot script now like grimblast or grim+slurp)
+        # ", Print, exec, grimblast copy area"
+        # "SHIFT, Print, exec, grimblast copy screen"
+        # "SUPER, Print, exec, grimblast save area"
+        # "SUPER SHIFT, Print, exec, grimblast save screen"
 
         # Focus movement (arrow keys + HJKL)
         "$mainMod, left,  movefocus, l"
