@@ -1,3 +1,0 @@
-module qs.features.widgets
-
-singleton WidgetsState WidgetsState.qml

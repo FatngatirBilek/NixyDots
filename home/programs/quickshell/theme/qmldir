@@ -1,6 +1,0 @@
-module qs.theme
-
-singleton Colors Colors.qml
-singleton Typography Typography.qml
-singleton Spacing Spacing.qml
-singleton Motion Motion.qml

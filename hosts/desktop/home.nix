@@ -34,7 +34,7 @@
 
     # Hyprland window manager + quickshell shell
     ../../home/programs/hypr
-    ../../home/programs/quickshell
+    ../../home/programs/noctalia
 
     # Scripts
     ../../home/scripts # All scripts

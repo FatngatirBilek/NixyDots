@@ -1,4 +1,0 @@
-module qs.features.panels.dashboard
-
-DashboardPanel 1.0 DashboardPanel.qml
-DashState 1.0 DashState.qml

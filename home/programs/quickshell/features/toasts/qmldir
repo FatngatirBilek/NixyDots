@@ -1,4 +1,0 @@
-module qs.features.toasts
-
-ToastContainer ToastContainer.qml
-Toast Toast.qml
