@@ -68,6 +68,14 @@
   };
 
   users.groups.libvirtd.members = ["${config.var.username}"];
+  users.groups.i2c.members = ["${config.var.username}"];
+
+  # Udev rules to allow i2c group access to DDC/CI devices
+  services.udev.extraRules = ''
+    # Allow access to /dev/i2c-* for users in i2c group (DDC/CI)
+    SUBSYSTEM=="i2c-dev", GROUP="i2c", MODE="0660"
+    SUBSYSTEM=="i2c", GROUP="i2c", MODE="0660"
+  '';
   virtualisation = {
     virtualbox = {
       host.enable = true;
@@ -110,6 +118,7 @@
   boot.kernelModules = [
     "video"
     "v4l2loopback"
+    "i2c-dev" # Enable DDC-CI for external monitor brightness control
   ];
   # Don't touch this
   system.stateVersion = "24.05";

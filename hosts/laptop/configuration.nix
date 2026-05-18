@@ -85,6 +85,14 @@ in {
   };
   # users.extraGroups.vboxusers.members = ["${config.var.username}"];
   users.groups.libvirtd.members = ["${config.var.username}"];
+  users.groups.i2c.members = ["${config.var.username}"];
+
+  # Udev rules to allow i2c group access to DDC/CI devices
+  services.udev.extraRules = ''
+    # Allow access to /dev/i2c-* for users in i2c group (DDC/CI)
+    SUBSYSTEM=="i2c-dev", GROUP="i2c", MODE="0660"
+    SUBSYSTEM=="i2c", GROUP="i2c", MODE="0660"
+  '';
 
   virtualisation = {
     waydroid.enable = true;
@@ -227,6 +235,7 @@ in {
     "sparse-keymap"
     "video"
     "v4l2loopback"
+    "i2c-dev" # Enable DDC-CI for external monitor brightness control
   ];
 
   # Blacklist spd5118 (DDR5 RAM SPD temperature sensor hub driver).
