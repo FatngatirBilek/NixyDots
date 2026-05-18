@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     protonplus
+    lunar-client
   ];
   programs.steam = {
     enable = true;
