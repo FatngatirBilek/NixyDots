@@ -238,6 +238,7 @@
         ", Print, exec, screenshot"
 
         # DMS keybindings
+        "$mainMod, D, exec, dms ipc call launcher toggle"
         "$mainMod, space, layoutmsg, togglesplit"
         "$mainMod, V, exec, dms ipc call clipboard toggle"
         "$mainMod, M, exec, dms ipc call processlist focusOrToggle"
@@ -245,6 +246,7 @@
         "$mainMod, N, exec, dms ipc call notifications toggle"
         "$mainMod, Y, exec, dms ipc call dankdash wallpaper"
         "$mainMod, TAB, exec, dms ipc call hypr toggleOverview"
+        "$mainMod, P, exec, dms ipc call powermenu open"
         "$mainMod ALT, L, exec, dms ipc call lock lock"
 
         # Focus movement (arrow keys + HJKL)
@@ -328,8 +330,8 @@
       # Media keys (passthrough even when screen is locked)
       bindl = [
         ", XF86AudioMute, exec, dms ipc call audio mute"
-        ", XF86MonBrightnessUp, exec, dms ipc call brightness increment 5"
-        ", XF86MonBrightnessDown, exec, dms ipc call brightness decrement 5"
+        ", XF86MonBrightnessUp, exec, brightness-up"
+        ", XF86MonBrightnessDown, exec, brightness-down"
         # Lid close → suspend system + disable built-in display
         # Lid open  → re-enable built-in display
         '', switch:on:Lid Switch,  exec, systemctl suspend && hyprctl keyword monitor "eDP-1, disable"''

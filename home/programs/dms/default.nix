@@ -14,6 +14,9 @@
     enable = true;
     systemd.enable = true;
     enableSystemMonitoring = true;
+    session = {
+      wallpaperPath = "${inputs.thirr-wallpapers}/wallpapers/wallpaper.jpg";
+    };
     plugins = {
       dankBatteryAlerts.enable = true;
       dockerManager.enable = true;
