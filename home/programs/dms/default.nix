@@ -20,6 +20,9 @@
     plugins = {
       dankBatteryAlerts.enable = true;
       dockerManager.enable = true;
+      mediaFrame.enable = true;
+      emojiLauncher.enable = true;
+      taskwarrior.enable = true;
     };
   };
   programs.dsearch.enable = true;
