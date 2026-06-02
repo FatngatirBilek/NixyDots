@@ -29,10 +29,10 @@
     ../../home/programs/obs
     ../../home/programs/winapps
     ../../home/programs/antigravity
+    ../../home/programs/dms
 
     # Hyprland window manager + quickshell shell
     ../../home/programs/hypr
-    ../../home/programs/noctalia
 
     # Scripts
     ../../home/scripts # All scripts
@@ -116,7 +116,7 @@
       vscode
       gnome-tweaks
     ];
-    file.".face.icon" = {source = ./profile_picture.png;};
+    file.".face.png" = {source = ./profile_picture.png;};
     stateVersion = "24.05";
   };
 

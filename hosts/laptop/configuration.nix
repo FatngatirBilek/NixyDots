@@ -218,7 +218,7 @@ in {
   #   rtd3 mode → Intel only (card1), Mesa EGL, Intel Vulkan → NVIDIA enters D3cold
   #   hdmi mode → Intel+NVIDIA (card1:card0), both EGL/Vulkan ICDs → HDMI works
   services.desktopManager.cosmic.enable = true;
-  home-manager.users."${config.var.username}" = import ./home.nix;
+  home-manager.users."${config.var.username}" = import ./home.nix {inherit pkgs config lib inputs;};
   services.flatpak.enable = true;
 
   # Game
@@ -229,6 +229,7 @@ in {
     acermodule
     config.boot.kernelPackages.v4l2loopback
   ];
+
   boot.kernelModules = [
     "facer"
     "wmi"

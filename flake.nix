@@ -56,8 +56,16 @@
     zed-editor-flake.url = "github:FatngatirBilek/zed-editor-flake";
 
     # Hyprland quickshell setup
-    noctalia-qs = {
-      url = "github:noctalia-dev/noctalia-qs";
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    danksearch = {
+      url = "github:AvengeMedia/danksearch";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    dms-plugin-registry = {
+      url = "github:AvengeMedia/dms-plugin-registry";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

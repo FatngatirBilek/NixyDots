@@ -124,11 +124,11 @@
 
       # ─── General ─────────────────────────────────────────────────────────────
       general = {
-        gaps_in = 6;
-        gaps_out = 18;
-        border_size = 3;
-        "col.active_border" = "$lavender $mauve 45deg";
-        "col.inactive_border" = "rgba(737994aa)";
+        gaps_in = 5;
+        gaps_out = 5;
+        border_size = 0;
+        "col.active_border" = "rgba(707070ff)";
+        "col.inactive_border" = "rgba(d0d0d0ff)";
         layout = "dwindle";
         resize_on_border = false;
         allow_tearing = false;
@@ -139,13 +139,14 @@
         rounding = 12;
         rounding_power = 2;
         active_opacity = 1.0;
-        inactive_opacity = 1.0;
+        inactive_opacity = 0.9;
 
         shadow = {
           enabled = true;
-          range = 20;
-          render_power = 3;
-          color = "rgba(00000055)";
+          range = 30;
+          render_power = 5;
+          offset = "0 5";
+          color = "rgba(00000070)";
         };
 
         blur = {
@@ -227,18 +228,24 @@
         "$mainMod, T, exec, uwsm app -- $terminal"
         "$mainMod, Q, killactive,"
         "$mainMod, E, exec, uwsm app -- $fileManager"
-        "$mainMod, V, togglefloating,"
+        "$shiftMainMod, V, togglefloating,"
         "$mainMod, F, fullscreenstate, 1 1"
         "$shiftMainMod, F, fullscreenstate, 2"
         "$mainMod, R, exec, uwsm app -- $menu"
         "$mainMod, space, layoutmsg, togglesplit"
 
-        # Noctalia panels (via IPC)
-        "$mainMod, D, exec, noctalia-shell ipc call launcher toggle"
-        "$mainMod, L, exec, noctalia-shell ipc call lockScreen lock"
-
         # Screenshots using custom screenshot script
         ", Print, exec, screenshot"
+
+        # DMS keybindings
+        "$mainMod, space, layoutmsg, togglesplit"
+        "$mainMod, V, exec, dms ipc call clipboard toggle"
+        "$mainMod, M, exec, dms ipc call processlist focusOrToggle"
+        "$mainMod, comma, exec, dms ipc call settings focusOrToggle"
+        "$mainMod, N, exec, dms ipc call notifications toggle"
+        "$mainMod, Y, exec, dms ipc call dankdash wallpaper"
+        "$mainMod, TAB, exec, dms ipc call hypr toggleOverview"
+        "$mainMod ALT, L, exec, dms ipc call lock lock"
 
         # Focus movement (arrow keys + HJKL)
         "$mainMod, left,  movefocus, l"
@@ -314,20 +321,15 @@
 
       # Volume / brightness (with repeat)
       bindel = [
-        ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
-        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-        ", XF86AudioMute,        exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-        ", XF86AudioMicMute,     exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-        ", XF86MonBrightnessUp,   exec, brightness-up"
-        ", XF86MonBrightnessDown, exec, brightness-down"
+        ", XF86AudioRaiseVolume, exec, dms ipc call audio increment 3"
+        ", XF86AudioLowerVolume, exec, dms ipc call audio decrement 3"
       ];
 
       # Media keys (passthrough even when screen is locked)
       bindl = [
-        ", XF86AudioNext,  exec, playerctl next"
-        ", XF86AudioPause, exec, playerctl play-pause"
-        ", XF86AudioPlay,  exec, playerctl play-pause"
-        ", XF86AudioPrev,  exec, playerctl previous"
+        ", XF86AudioMute, exec, dms ipc call audio mute"
+        ", XF86MonBrightnessUp, exec, dms ipc call brightness increment 5"
+        ", XF86MonBrightnessDown, exec, dms ipc call brightness decrement 5"
         # Lid close → suspend system + disable built-in display
         # Lid open  → re-enable built-in display
         '', switch:on:Lid Switch,  exec, systemctl suspend && hyprctl keyword monitor "eDP-1, disable"''
@@ -338,6 +340,17 @@
       windowrule = [
         "match:class .*, suppress_event maximize"
         "match:class ^$, match:title ^$, match:xwayland true, match:float true, match:fullscreen false, no_initial_focus on"
+        "opacity 0.9 0.9, match:float 0, match:focus 0"
+        "rounding 12, border_size 0, match:class ^(org\\.gnome\\.)"
+        "border_size 0, match:class ^(org\\.wezfurlong\\.wezterm)$"
+        "border_size 0, match:class ^(Alacritty)$"
+        "border_size 0, match:class ^(zen)$"
+        "border_size 0, match:class ^(com\\.mitchellh\\.ghostty)$"
+        "border_size 0, match:class ^(kitty)$"
+        "float on, match:class ^(gnome-calculator)$"
+        "float on, match:class ^(blueman-manager)$"
+        "float on, match:class ^(org\\.gnome\\.Nautilus)$"
+        "float on, match:class ^(org.quickshell)$"
         "match:class ^(pavucontrol)$, float on"
         "match:title ^(Picture-in-Picture)$, float on"
         "match:class ^(nwg-look)$, float on"
