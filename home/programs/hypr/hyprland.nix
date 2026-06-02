@@ -109,6 +109,8 @@
       permission = [
         ".*quickshell.*, screencopy, allow"
         ".*grim.*, screencopy, allow"
+        ".*slurp.*, screencopy, allow"
+        ".*wayfreeze.*, screencopy, allow"
       ];
 
       # ─── Autostart ───────────────────────────────────────────────────────────
@@ -235,11 +237,8 @@
         "$mainMod, D, exec, noctalia-shell ipc call launcher toggle"
         "$mainMod, L, exec, noctalia-shell ipc call lockScreen lock"
 
-        # Screenshots (You might need a dedicated screenshot script now like grimblast or grim+slurp)
-        # ", Print, exec, grimblast copy area"
-        # "SHIFT, Print, exec, grimblast copy screen"
-        # "SUPER, Print, exec, grimblast save area"
-        # "SUPER SHIFT, Print, exec, grimblast save screen"
+        # Screenshots using custom screenshot script
+        ", Print, exec, screenshot"
 
         # Focus movement (arrow keys + HJKL)
         "$mainMod, left,  movefocus, l"

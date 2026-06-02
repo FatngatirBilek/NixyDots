@@ -5,7 +5,7 @@
     filename="$(date +%Y-%m-%d_%H:%M:%S).png"
     filepath="$folder/$filename"
 
-    ${pkgs.wayfreeze}/bin/wayfreeze &
+    ${pkgs.wayfreeze}/bin/wayfreeze >/dev/null 2>&1 &
     PID=$!
     sleep 0.1
 
