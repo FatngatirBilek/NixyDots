@@ -22,7 +22,8 @@
       dockerManager.enable = true;
       mediaFrame.enable = true;
       emojiLauncher.enable = true;
-      taskwarrior.enable = true;
+      dankTodo.enable = true;
+      ambientSound.enable = true;
     };
   };
   programs.dsearch.enable = true;
