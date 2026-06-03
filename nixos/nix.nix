@@ -8,6 +8,7 @@ in {
   nixpkgs.config.permittedInsecurePackages = [
     "electron-36.9.5"
     "libxml2-2.13.8"
+    "electron-39.8.10"
     "cisco-packet-tracer-8.2.2"
   ];
 

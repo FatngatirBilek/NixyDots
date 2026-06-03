@@ -179,7 +179,6 @@
 
       # ─── Layouts ─────────────────────────────────────────────────────────────
       dwindle = {
-        pseudotile = true;
         preserve_split = true;
         smart_split = true;
         force_split = 2;
@@ -193,7 +192,6 @@
       # ─── Misc ────────────────────────────────────────────────────────────────
       misc = {
         disable_hyprland_logo = true;
-        vfr = true;
         focus_on_activate = true;
       };
 
