@@ -23,7 +23,6 @@
       mediaFrame.enable = true;
       emojiLauncher.enable = true;
       dankTodo.enable = true;
-      ambientSound.enable = true;
     };
   };
   programs.dsearch.enable = true;

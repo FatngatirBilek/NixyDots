@@ -11,7 +11,8 @@
     bun
     fnm
     distrobox
-    # lunar-client
+    scrcpy
+    android-tools
     droidcam
     ubridge
     inetutils
