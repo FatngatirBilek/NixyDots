@@ -37,7 +37,7 @@ in {
     ../../nixos/fcitx.nix
     ../../nixos/overrides.nix
     ../../nixos/hyprland.nix
-    # ../../nixos/tabletdriver.nix
+    ../../nixos/tabletdriver.nix
     # ../../nixos/greeter.nix
     ../../nixos/lanzaboote.nix # Secure boot
     ../../nixos/games.nix

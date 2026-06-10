@@ -120,6 +120,7 @@ in {
       xclip
       android-tools
       scrcpy
+      audacity
     ]
     ++ lib.optionals isLaptop [
       xdg-desktop-portal-cosmic

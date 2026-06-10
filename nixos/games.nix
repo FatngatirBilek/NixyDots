@@ -2,6 +2,7 @@
   environment.systemPackages = with pkgs; [
     protonplus
     lunar-client
+    osu-lazer-bin
   ];
   programs.steam = {
     enable = true;
