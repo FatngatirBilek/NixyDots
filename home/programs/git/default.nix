@@ -4,7 +4,10 @@
 in {
   programs.git = {
     enable = true;
-    signing.format = null;
+    signing = {
+      key = "2F2D3964A92549D6";
+      signByDefault = true;
+    };
     ignores = [
       ".cache/"
       ".DS_Store"

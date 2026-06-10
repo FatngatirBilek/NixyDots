@@ -128,7 +128,10 @@ in {
     ++ lib.optionals isDesktop [
       xdg-desktop-portal-cosmic
     ];
-
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry-curses;
+  };
   security = {
     rtkit.enable = true;
     # polkit-agent-helper-1 is a setuid root binary that polkit authentication
