@@ -4,5 +4,6 @@
     dockerCompat = true;
     defaultNetwork.settings.dns_enabled = true; # Required for containers under podman-compose to be able to talk to each other.
   };
+  hardware.nvidia-container-toolkit.enable = true;
   users.users."${config.var.username}".extraGroups = ["podman"];
 }
