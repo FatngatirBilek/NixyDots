@@ -2,6 +2,7 @@
 {
   pkgs,
   lib,
+  nvidiaPackage,
   config,
   ...
 }: {
@@ -52,7 +53,7 @@
     #nix search nixpkgs nvidia_x11
     sessionVariables = {
       LD_LIBRARY_PATH = lib.concatStringsSep ":" [
-        "${config.hardware.nvidia.package}/lib"
+        "${nvidiaPackage}/lib"
         "$LD_LIBRARY_PATH"
       ];
     };
