@@ -66,7 +66,7 @@
 
       package =
         if config.var.hostname == "NixDesktop"
-        then config.boot.kernelPackages.nvidiaPackages.stable
+        then config.boot.kernelPackages.nvidiaPackages.legacy_580
         else if config.var.hostname == "nixos"
         then config.boot.kernelPackages.nvidiaPackages.stable
         else config.boot.kernelPackages.nvidiaPackages.stable;
