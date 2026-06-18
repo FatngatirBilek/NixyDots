@@ -52,7 +52,7 @@
     #nix search nixpkgs nvidia_x11
     sessionVariables = {
       LD_LIBRARY_PATH = lib.concatStringsSep ":" [
-        "${pkgs.linuxPackages_latest.nvidia_x11}/lib" # change the package name according to nix search result
+        "${config.hardware.nvidia.package}/lib"
         "$LD_LIBRARY_PATH"
       ];
     };
