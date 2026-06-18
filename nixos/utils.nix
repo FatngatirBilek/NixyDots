@@ -89,7 +89,7 @@ in {
     EDITOR = "nvim";
     TERMINAL = "ghostty";
     TERM = "ghostty";
-    BROWSER = "zen-beta";
+    BROWSER = "zen";
     GSK_RENDERER = "ngl";
   };
 
