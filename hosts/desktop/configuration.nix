@@ -103,6 +103,8 @@
     */
   };
 
+  networking.firewall.allowedTCPPorts = [11434];
+
   services.desktopManager.gnome.enable = true;
   # Cosmic Trouble
   services.displayManager.cosmic-greeter.enable = false;
