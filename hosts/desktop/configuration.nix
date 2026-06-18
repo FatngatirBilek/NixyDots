@@ -30,6 +30,7 @@
     ../../nixos/fcitx.nix
     ../../nixos/overrides.nix
     ../../nixos/hyprland.nix
+    ../../nixos/ollama.nix
     # ../../nixos/tabletdriver.nix
     # ../../nixos/greeter.nix
     # ../../nixos/lanzaboote.nix # Secure boot
