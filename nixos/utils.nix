@@ -71,7 +71,14 @@ in {
     upower.enable = true;
     power-profiles-daemon.enable = true;
     udisks2.enable = true;
-    openssh.enable = true;
+    openssh = {
+      enable = true;
+      openFirewall = true;
+      settings = {
+        PasswordAuthentication = true;
+        AllowUsers = ["fathirbimashabri"];
+      };
+    };
   };
 
   console.keyMap = keyboardLayout;
