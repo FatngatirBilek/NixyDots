@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   boot = {
-    bootspec.enable = true;
+    # bootspec.enable = true; no longer needed
     loader = {
       efi.canTouchEfiVariables = true;
       systemd-boot = {
@@ -24,8 +24,8 @@
     consoleLogLevel = 0;
     initrd.verbose = false;
   };
-  services.scx = {
-    enable = true;
-    scheduler = "scx_lavd";
-  };
+  # services.scx = {
+  #   enable = true;
+  #   scheduler = "scx_lavd";
+  # };
 }

@@ -117,6 +117,7 @@ in {
       xdg-utils
       wget
       curl
+      ngrok
       swayimg
       openconnect
       openssl
