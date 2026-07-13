@@ -5,6 +5,7 @@
   '';
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable"; # CHAOTIC IS BACKKKK`
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -73,9 +74,16 @@
       url = "github:winapps-org/winapps";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    woomer = {
+      url = "github:coffeeispower/woomer";
+    };
   };
 
-  outputs = inputs @ {nixpkgs, ...}: {
+  outputs = inputs @ {
+    nixpkgs,
+    chaotic,
+    ...
+  }: {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -96,6 +104,7 @@
             ];
             _module.args = {inherit inputs;};
           }
+          chaotic.nixosModules.default
           inputs.nixos-hardware.nixosModules.omen-16-n0005ne
           inputs.home-manager.nixosModules.home-manager
           inputs.lanzaboote.nixosModules.lanzaboote
@@ -120,6 +129,7 @@
             ];
             _module.args = {inherit inputs;};
           }
+          chaotic.nixosModules.default
           inputs.nixos-hardware.nixosModules.omen-16-n0005ne
           inputs.home-manager.nixosModules.home-manager
           inputs.lanzaboote.nixosModules.lanzaboote

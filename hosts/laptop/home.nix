@@ -30,6 +30,7 @@
     ../../home/programs/winapps
     ../../home/programs/antigravity
     ../../home/programs/dms
+    ../../home/programs/woomer
 
     # Hyprland window manager + quickshell shell
     ../../home/programs/hypr
