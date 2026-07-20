@@ -5,6 +5,7 @@
   '';
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/13b7595b146dc6efcc92abda25f41c90d7f1e355";
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable"; # IMPORTANT
     # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager = {
@@ -79,7 +80,11 @@
     };
   };
 
-  outputs = inputs @ {nixpkgs, ...}: {
+  outputs = inputs @ {
+    nixpkgs,
+    chaotic,
+    ...
+  }: {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -100,6 +105,7 @@
             ];
             _module.args = {inherit inputs;};
           }
+          chaotic.nixosModules.default
           inputs.nixos-hardware.nixosModules.omen-16-n0005ne
           inputs.home-manager.nixosModules.home-manager
           inputs.lanzaboote.nixosModules.lanzaboote
@@ -124,6 +130,7 @@
             ];
             _module.args = {inherit inputs;};
           }
+          chaotic.nixosModules.default
           inputs.nixos-hardware.nixosModules.omen-16-n0005ne
           inputs.home-manager.nixosModules.home-manager
           inputs.lanzaboote.nixosModules.lanzaboote
