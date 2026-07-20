@@ -10,6 +10,7 @@ in {
     "libxml2-2.13.8"
     "electron-39.8.10"
     "cisco-packet-tracer-8.2.2"
+    "pnpm-9.15.9"
   ];
 
   nix = {

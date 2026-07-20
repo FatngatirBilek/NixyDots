@@ -5,6 +5,6 @@
   ...
 }: {
   home.packages = [
-    inputs.woomer.packages.${pkgs.system}.default
+    inputs.woomer.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 }

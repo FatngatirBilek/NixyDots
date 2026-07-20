@@ -60,7 +60,6 @@
       bitwarden-desktop # Password manager
       vlc # Video player
       blanket # White-noise app
-      firefox
       nchat
       # Dev
       go
@@ -114,8 +113,8 @@
       cava
       discord
       # Backup
-      vscode
-      gnome-tweaks
+      # vscode
+      # gnome-tweaks
     ];
     file.".face.png" = {source = ./profile_picture.png;};
     stateVersion = "24.05";

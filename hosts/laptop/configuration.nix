@@ -99,8 +99,8 @@ in {
     # virtualbox = {
     #   host.enable = true;
     # };
-    vmware.host.enable = true;
-    vmware.guest.enable = true;
+    vmware.host.enable = false;
+    vmware.guest.enable = false;
     libvirtd = {
       enable = true;
       qemu = {
@@ -210,19 +210,19 @@ in {
       };
     };
 
-  services.displayManager.cosmic-greeter.enable = true;
-  environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
+  services.displayManager.cosmic-greeter.enable = false;
+  # environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
   # NOTE: __EGL_VENDOR_LIBRARY_FILENAMES, VK_DRIVER_FILES, and AQ_DRM_DEVICES
   # are intentionally NOT set here. They are managed exclusively by the
   # gpu-mode toggle script via ~/.config/environment.d/00-gpu-override.conf:
   #   rtd3 mode → Intel only (card1), Mesa EGL, Intel Vulkan → NVIDIA enters D3cold
   #   hdmi mode → Intel+NVIDIA (card1:card0), both EGL/Vulkan ICDs → HDMI works
-  services.desktopManager.cosmic.enable = true;
+  services.desktopManager.cosmic.enable = false;
   home-manager.users."${config.var.username}" = import ./home.nix {inherit pkgs config lib inputs;};
   services.flatpak.enable = true;
 
   # Game
-  programs.gamescope.enable = true;
+  # programs.gamescope.enable = true;
   programs.gamemode.enable = true;
 
   boot.extraModulePackages = [

@@ -9,5 +9,6 @@
     ./notification
     ./system
     ./stuff
+    ./cache-check
   ];
 }

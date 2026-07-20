@@ -205,6 +205,10 @@
               enable = true;
               settings = {
                 rust-analyzer = {
+                  checkOnSave = true;
+                  check = {
+                    command = "clippy";
+                  };
                   inlayHints = {
                     closureReturnTypeHints = {
                       enable = "always";
@@ -257,32 +261,13 @@
           typst.enable = true;
           rust = {
             enable = true;
-            lsp = {
-              enable = true;
-              opts = ''
-                ["rust-analyzer"] = {
-                  checkOnSave = true,
-                  check = {
-                    command = "clippy",
-                  },
-                  inlayHints = {
-                    closureReturnTypeHints = {
-                      enable = "always",
-                    },
-                    lifetimeElisionHints = {
-                      enable = "skip_trivial",
-                      useParameterNames = true,
-                    },
-                  },
-                },
-              '';
-            };
+            lsp.enable = true;
             extensions.crates-nvim.enable = true;
           };
 
           # Language modules that are not as common.
           assembly.enable = false;
-          astro.enable = true;
+          # astro.enable = true;
           nu.enable = false;
           csharp.enable = false;
           julia.enable = false;

@@ -5,6 +5,6 @@
   ...
 }: {
   home.packages = [
-    inputs.antigravity-nix.packages.${pkgs.system}.default
+    inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 }

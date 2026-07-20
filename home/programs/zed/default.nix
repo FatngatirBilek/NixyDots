@@ -74,7 +74,7 @@ in {
         dock = "right";
         default_model = {
           provider = "copilot_chat";
-          model = "gpt-5.1";
+          model = "auto";
         };
       };
       collaboration_panel = {
