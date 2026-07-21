@@ -78,6 +78,9 @@
     woomer = {
       url = "github:coffeeispower/woomer";
     };
+    zennotes = {
+      url = "github:ZenNotes/zennotes";
+    };
   };
 
   outputs = inputs @ {

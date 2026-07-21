@@ -31,6 +31,7 @@
     ../../home/programs/antigravity
     ../../home/programs/dms
     ../../home/programs/woomer
+    ../../home/programs/zen-notes
 
     # Hyprland window manager + quickshell shell
     ../../home/programs/hypr
