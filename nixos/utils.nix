@@ -129,6 +129,7 @@ in {
       android-tools
       scrcpy
       audacity
+      php
     ]
     ++ lib.optionals isLaptop [
       xdg-desktop-portal-cosmic

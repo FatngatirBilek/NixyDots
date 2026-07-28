@@ -62,6 +62,7 @@ in {
       "material-icon-theme"
       "catppuccin"
       "tokyo-night"
+      "php"
     ];
 
     userSettings = lib.mkForce {

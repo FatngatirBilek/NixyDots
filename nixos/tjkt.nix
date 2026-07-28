@@ -22,7 +22,7 @@
     app2unit
     zig
     lsof
-    mongodb-compass
+    # mongodb-compass
     mongosh
     postman
     docker-compose

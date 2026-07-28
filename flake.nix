@@ -4,7 +4,7 @@
     It includes various modules and overlays for a customized NixOS experience.
   '';
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/13b7595b146dc6efcc92abda25f41c90d7f1e355";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable"; # IMPORTANT
     # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
