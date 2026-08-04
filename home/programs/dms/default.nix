@@ -1,9 +1,4 @@
-{
-  pkgs,
-  inputs,
-  lib,
-  ...
-}: {
+{inputs, ...}: {
   imports = [
     inputs.dms.homeModules.dank-material-shell
     inputs.danksearch.homeModules.dsearch
