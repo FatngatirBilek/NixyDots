@@ -130,6 +130,7 @@ in {
       scrcpy
       audacity
       php
+      file-roller
     ]
     ++ lib.optionals isLaptop [
       xdg-desktop-portal-cosmic

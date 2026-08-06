@@ -1,4 +1,3 @@
-# Mime allows us to configure the default applications for each file type
 {
   xdg.mimeApps = {
     enable = true;
@@ -35,6 +34,49 @@
       "application/xhtml+xml" = "zen.desktop";
       "application/x-extension-xhtml" = "zen.desktop";
       "application/x-extension-xht" = "zen.desktop";
+
+      # --- Archive formats -> File Roller ---
+      # Tar family
+      "application/x-tar" = "org.gnome.FileRoller.desktop";
+      "application/x-compressed-tar" = "org.gnome.FileRoller.desktop"; # .tar.gz, .tgz
+      "application/x-bzip-compressed-tar" = "org.gnome.FileRoller.desktop"; # .tar.bz2, .tbz2, .tar.bz, .tbz
+      "application/x-lzma-compressed-tar" = "org.gnome.FileRoller.desktop";
+      "application/x-tzo" = "org.gnome.FileRoller.desktop"; # .tar.lzo, .tzo
+      "application/x-tarz" = "org.gnome.FileRoller.desktop"; # .tar.Z, .taz
+
+      # Zip & Java
+      "application/zip" = "org.gnome.FileRoller.desktop";
+      "application/java-archive" = "org.gnome.FileRoller.desktop"; # .jar, .ear, .war
+
+      # Popular formats
+      "application/x-7z-compressed" = "org.gnome.FileRoller.desktop";
+      "application/vnd.rar" = "org.gnome.FileRoller.desktop";
+      "application/x-rar" = "org.gnome.FileRoller.desktop";
+      "application/x-lha" = "org.gnome.FileRoller.desktop"; # .lzh, .lha
+      "application/x-arj" = "org.gnome.FileRoller.desktop";
+
+      # Single-file compression
+      "application/gzip" = "org.gnome.FileRoller.desktop";
+      "application/x-bzip" = "org.gnome.FileRoller.desktop";
+      "application/x-bzip2" = "org.gnome.FileRoller.desktop";
+      "application/x-compress" = "org.gnome.FileRoller.desktop"; # .Z
+      "application/x-lzop" = "org.gnome.FileRoller.desktop";
+      "application/zstd" = "org.gnome.FileRoller.desktop";
+      "application/x-bzip3" = "org.gnome.FileRoller.desktop";
+
+      # Extra read/extract-only formats
+      "application/x-ace" = "org.gnome.FileRoller.desktop";
+      "application/x-alz" = "org.gnome.FileRoller.desktop";
+      "application/x-archive" = "org.gnome.FileRoller.desktop"; # .ar
+      "application/x-cab" = "org.gnome.FileRoller.desktop";
+      "application/x-cpio" = "org.gnome.FileRoller.desktop";
+
+      # Install packages & disk images (read-only mode)
+      "application/vnd.debian.binary-package" = "org.gnome.FileRoller.desktop"; # .deb
+      "application/x-rpm" = "org.gnome.FileRoller.desktop";
+      "application/x-apple-diskimage" = "org.gnome.FileRoller.desktop"; # .dmg
+      "application/x-cd-image" = "org.gnome.FileRoller.desktop"; # .iso
+      "application/x-cbr" = "org.gnome.FileRoller.desktop"; # .cbr
     };
   };
 }
