@@ -314,6 +314,11 @@
         "$shiftMainMod CTRL, L, moveactive, 40 0"
         "$shiftMainMod CTRL, J, moveactive, 0 40"
         "$shiftMainMod CTRL, K, moveactive, 0 -40"
+
+        # Multimedia
+        ", XF86AudioPlay, exec, playerctl play-pause"
+        ", XF86AudioNext, exec, playerctl next"
+        ", XF86AudioPrev, exec, playerctl previous"
       ];
 
       bindm = [

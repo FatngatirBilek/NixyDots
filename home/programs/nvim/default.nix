@@ -350,7 +350,7 @@
         };
         minimap = {
           minimap-vim.enable = false;
-          codewindow.enable = false; # disabled: requires nvim-treesitter.ts_utils which breaks startup
+          # codewindow.enable = false; # disabled: requires nvim-treesitter.ts_utils which breaks startup
         };
         dashboard = {
           dashboard-nvim.enable = false;

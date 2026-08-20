@@ -113,6 +113,7 @@ in {
       xwayland-satellite
       bc
       gcc
+      playerctl
       git-ignore
       xdg-utils
       wget
