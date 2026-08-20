@@ -42,10 +42,10 @@ in {
   };
 
   services = {
-    xserver = {
-      xkb.layout = keyboardLayout;
-      xkb.variant = "";
-    };
+    # xserver = {
+    #   xkb.layout = keyboardLayout;
+    #   xkb.variant = "";
+    # };
 
     gnome.gnome-keyring.enable = true;
 
@@ -183,4 +183,35 @@ in {
   #     }
   #   });
   # '';
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    glib
+    libxkbcommon
+    nss
+    nspr
+    atk
+    at-spi2-atk
+    cups
+    dbus
+    gdk-pixbuf
+    gtk3
+    pango
+    cairo
+    xorg.libX11
+    xorg.libXcomposite
+    xorg.libXdamage
+    xorg.libXext
+    xorg.libXfixes
+    xorg.libXrandr
+    xorg.libXrender
+    xorg.libXtst
+    xorg.libXxf86vm
+    xorg.libxcb
+    xorg.libxshmfence
+    alsa-lib
+    mesa
+    libdrm
+    libgbm
+    expat
+  ];
 }

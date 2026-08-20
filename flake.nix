@@ -5,9 +5,14 @@
   '';
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable"; # IMPORTANT
-    # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    chaotic = {
+      url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -42,20 +47,20 @@
     };
     nvf = {
       url = "github:NotAShelf/nvf";
-      # You can override the input nixpkgs to follow your system's
-      # instance of nixpkgs. This is safe to do as nvf does not depend
-      # on a binary cache.
       inputs.nixpkgs.follows = "nixpkgs";
-      # Optionally, you can also override individual plugins
-      # for example:
-      # inputs.obsidian-nvim.follows = "obsidian-nvim"; # <- this will use the obsidian-nvim from your inputs
     };
-    apple-fonts.url = "github:Lyndeno/apple-fonts.nix";
+    apple-fonts = {
+      url = "github:Lyndeno/apple-fonts.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     zen-browser = {
       url = "github:youwen5/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    zed-editor-flake.url = "github:FatngatirBilek/zed-editor-flake";
+    zed-editor-flake = {
+      url = "github:FatngatirBilek/zed-editor-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Hyprland quickshell setup
     dms = {
@@ -77,9 +82,11 @@
     };
     woomer = {
       url = "github:coffeeispower/woomer";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     zennotes = {
       url = "github:ZenNotes/zennotes";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 

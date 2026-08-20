@@ -33,7 +33,7 @@ in {
     ../../nixos/podman.nix
     ../../nixos/warp.nix
     ../../nixos/tjkt.nix
-    #  ../../nixos/wine.nix
+    ../../nixos/wine.nix
     ../../nixos/fcitx.nix
     ../../nixos/overrides.nix
     ../../nixos/hyprland.nix

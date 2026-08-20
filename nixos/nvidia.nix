@@ -73,5 +73,5 @@
     };
   };
 
-  services.xserver.videoDrivers = ["nvidia" "displayLink" "vmware"];
+  services.xserver.videoDrivers = ["nvidia"];
 }

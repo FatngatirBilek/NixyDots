@@ -10,6 +10,8 @@
     portalPackage = null;
     # UWSM handles all systemd session integration; disable HM's own systemd unit.
     systemd.enable = false;
+    # Keep hyprlang (Nix attrset) config format; the HM default changed to "lua".
+    configType = "hyprlang";
 
     settings = {
       # ─── Catppuccin Frappé accent palette (dark-mode friendly) ───────────────

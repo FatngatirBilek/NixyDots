@@ -1,8 +1,4 @@
-{
-  pkgs,
-  lib,
-  ...
-}: {
+{pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     eww
     nixd
@@ -21,6 +17,7 @@
     alejandra
     app2unit
     zig
+    matugen
     lsof
     # mongodb-compass
     mongosh
