@@ -20,18 +20,6 @@
   security.polkit.enable = true;
   services.dbus.enable = true;
 
-  # PAM service for Quickshell's lock screen.
-  # LockContext.qml uses PamContext with config: "quickshell-lock".
-  # Without this entry /etc/pam.d/quickshell-lock doesn't exist and
-  # pam.start() errors immediately — making Enter do nothing on the lock screen.
-  security.pam.services.quickshell-lock = {
-    text = ''
-      auth      include   login
-      account   include   login
-      password  include   login
-      session   include   login
-    '';
-  };
 
   # Fonts required by the quickshell config
   fonts.packages = with pkgs; [

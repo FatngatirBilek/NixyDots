@@ -109,6 +109,7 @@ in {
 
   environment.systemPackages = with pkgs;
     [
+      psmisc
       fd
       xwayland-satellite
       bc

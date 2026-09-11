@@ -62,17 +62,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Hyprland quickshell setup
-    dms = {
-      url = "github:AvengeMedia/DankMaterialShell/stable";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    danksearch = {
-      url = "github:AvengeMedia/danksearch";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    dms-plugin-registry = {
-      url = "github:AvengeMedia/dms-plugin-registry";
+    # Noctalia shell setup
+    noctalia = {
+      url = "github:noctalia-dev/noctalia/cachix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -104,10 +96,12 @@
               substituters = [
                 "https://cuda-maintainers.cachix.org"
                 "https://nix-community.cachix.org"
+                "https://noctalia.cachix.org"
               ];
               trusted-public-keys = [
                 "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
                 "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+                "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
               ];
             };
 
@@ -130,9 +124,13 @@
         modules = [
           {
             nix.settings = {
-              substituters = ["https://cuda-maintainers.cachix.org"];
+              substituters = [
+                "https://cuda-maintainers.cachix.org"
+                "https://noctalia.cachix.org"
+              ];
               trusted-public-keys = [
                 "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+                "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
               ];
             };
 

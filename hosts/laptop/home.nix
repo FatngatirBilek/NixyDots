@@ -29,7 +29,7 @@
     ../../home/programs/obs
     ../../home/programs/winapps
     ../../home/programs/antigravity
-    ../../home/programs/dms
+    ../../home/programs/noctalia
     ../../home/programs/woomer
     ../../home/programs/zen-notes
 

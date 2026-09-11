@@ -88,7 +88,7 @@
           echo "  - nixpkgs commit is too fresh, Hydra hasn't finished caching it yet"
           echo "    -> try: nixy-cache try <older-commit-hash>"
           echo "  - unfree packages (steam, nvidia, discord, etc.) - never cached, unavoidable"
-          echo "  - third-party flakes (dms-shell, zen-browser, ghostty, etc.) - never cached upstream"
+          echo "  - third-party flakes (noctalia, zen-browser, ghostty, etc.) - never cached upstream"
           echo "  - a global overlay/packageOverride touching something low in the dep tree (e.g. stdenv, glibc, gnugrep)"
           echo ""
           echo "Run 'nixy-cache list' to see the actual list and eyeball which category dominates."
@@ -112,10 +112,10 @@
         echo "''${BOLD}Opening a quick categorized peek:''${RESET}"
         echo ""
         echo "''${YELLOW}--- likely unfree / third-party (expected, ignore) ---''${RESET}"
-        grep -E "\.drv$" "''${DRYBUILD_OUT}" | grep -iE "steam|nvidia|discord|lunarclient|chrome|bitwarden|cuda|dms-shell|zen-browser|ghostty|osu-lazer|electron|obsidian|antigravity|onlyoffice|mongodb" || echo "  (none matched)"
+        grep -E "\.drv$" "''${DRYBUILD_OUT}" | grep -iE "steam|nvidia|discord|lunarclient|chrome|bitwarden|cuda|noctalia|zen-browser|ghostty|osu-lazer|electron|obsidian|antigravity|onlyoffice|mongodb" || echo "  (none matched)"
         echo ""
         echo "''${RED}--- everything else in the build list (worth investigating if long) ---''${RESET}"
-        grep -E "\.drv$" "''${DRYBUILD_OUT}" | grep -ivE "steam|nvidia|discord|lunarclient|chrome|bitwarden|cuda|dms-shell|zen-browser|ghostty|osu-lazer|electron|obsidian|antigravity|onlyoffice|mongodb|unit-|etc-|hm_|X-Restart|X-Reload|dconf|activation-script|system-path|system-units|system-generators|user-generators|user-units|user-environment" || echo "  (none - looks like just config glue + unfree + 3rd party, that's normal)"
+        grep -E "\.drv$" "''${DRYBUILD_OUT}" | grep -ivE "steam|nvidia|discord|lunarclient|chrome|bitwarden|cuda|noctalia|zen-browser|ghostty|osu-lazer|electron|obsidian|antigravity|onlyoffice|mongodb|unit-|etc-|hm_|X-Restart|X-Reload|dconf|activation-script|system-path|system-units|system-generators|user-generators|user-units|user-environment" || echo "  (none - looks like just config glue + unfree + 3rd party, that's normal)"
       }
 
       function current_nixpkgs_rev() {

@@ -237,17 +237,15 @@
         # Screenshots using custom screenshot script
         ", Print, exec, screenshot"
 
-        # DMS keybindings
-        "$mainMod, D, exec, dms ipc call launcher toggle"
-        "$mainMod, space, layoutmsg, togglesplit"
-        "$mainMod, V, exec, dms ipc call clipboard toggle"
-        "$mainMod, M, exec, dms ipc call processlist focusOrToggle"
-        "$mainMod, comma, exec, dms ipc call settings focusOrToggle"
-        "$mainMod, N, exec, dms ipc call notifications toggle"
-        "$mainMod, Y, exec, dms ipc call dankdash wallpaper"
-        "$mainMod, TAB, exec, dms ipc call hypr toggleOverview"
-        "$mainMod, P, exec, dms ipc call powermenu open"
-        "$mainMod ALT, L, exec, dms ipc call lock lock"
+        # Noctalia keybindings
+        "$mainMod, D, exec, noctalia msg panel-toggle launcher"
+        "$mainMod, V, exec, noctalia msg panel-toggle clipboard"
+        "$mainMod, comma, exec, noctalia msg settings-toggle"
+        "$mainMod, N, exec, noctalia msg panel-toggle control-center"
+        "$mainMod, Y, exec, noctalia msg panel-toggle wallpaper"
+        "$mainMod, TAB, exec, noctalia msg window-switcher"
+        "$mainMod, P, exec, noctalia msg panel-toggle session"
+        "$mainMod ALT, L, exec, noctalia msg session lock"
 
         # Focus movement (arrow keys + HJKL)
         "$mainMod, left,  movefocus, l"
@@ -328,13 +326,13 @@
 
       # Volume / brightness (with repeat)
       bindel = [
-        ", XF86AudioRaiseVolume, exec, dms ipc call audio increment 3"
-        ", XF86AudioLowerVolume, exec, dms ipc call audio decrement 3"
+        ", XF86AudioRaiseVolume, exec, noctalia msg volume-up"
+        ", XF86AudioLowerVolume, exec, noctalia msg volume-down"
       ];
 
       # Media keys (passthrough even when screen is locked)
       bindl = [
-        ", XF86AudioMute, exec, dms ipc call audio mute"
+        ", XF86AudioMute, exec, noctalia msg volume-mute"
         ", XF86MonBrightnessUp, exec, brightness-up"
         ", XF86MonBrightnessDown, exec, brightness-down"
         # Lid close → suspend system + disable built-in display
@@ -357,7 +355,7 @@
         "float on, match:class ^(gnome-calculator)$"
         "float on, match:class ^(blueman-manager)$"
         "float on, match:class ^(org\\.gnome\\.Nautilus)$"
-        "float on, match:class ^(org.quickshell)$"
+        "float on, match:class ^(dev\\.noctalia\\.Noctalia)$, size 1080 920"
         "match:class ^(pavucontrol)$, float on"
         "match:title ^(Picture-in-Picture)$, float on"
         "match:class ^(nwg-look)$, float on"
