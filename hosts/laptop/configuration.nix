@@ -221,6 +221,9 @@ in {
   home-manager.users."${config.var.username}" = import ./home.nix {inherit pkgs config lib inputs;};
   services.flatpak.enable = true;
 
+  # Power Profile
+  services.power-profiles-daemon.enable = true;
+  services.upower.enable = true;
   # Game
   # programs.gamescope.enable = true;
   programs.gamemode.enable = true;
