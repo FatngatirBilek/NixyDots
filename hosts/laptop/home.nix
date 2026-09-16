@@ -32,7 +32,6 @@
     ../../home/programs/noctalia
     ../../home/programs/woomer
     ../../home/programs/zen-notes
-
     # Hyprland window manager + quickshell shell
     ../../home/programs/hypr
 

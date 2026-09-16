@@ -109,12 +109,11 @@
       # ─── Permissions ─────────────────────────────────────────────────────────
       "ecosystem:enforce_permissions" = true;
       permission = [
-        ".*quickshell.*, screencopy, allow"
         ".*grim.*, screencopy, allow"
         ".*slurp.*, screencopy, allow"
         ".*wayfreeze.*, screencopy, allow"
+        ".*noctalia.*, screencopy, allow"
       ];
-
       # ─── Autostart ───────────────────────────────────────────────────────────
       # Long-running daemons must be wrapped with `uwsm app --` so UWSM tracks
       # them in proper systemd scope/transient units. Without this they become
