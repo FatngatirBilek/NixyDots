@@ -21,19 +21,19 @@
       "image/jpeg" = "swayimg.desktop";
       "image/jpg" = "swayimg.desktop";
       "image/webp" = "swayimg.desktop";
-      "image/gif" = "zen.desktop";
-      "x-scheme-handler/http" = "zen.desktop";
-      "x-scheme-handler/https" = "zen.desktop";
-      "text/html" = "zen.desktop";
+      "image/gif" = "zen-beta-beta.desktop";
+      "x-scheme-handler/http" = "zen-beta.desktop";
+      "x-scheme-handler/https" = "zen-beta-beta.desktop";
+      "text/html" = "zen-beta-beta.desktop";
       "application/pdf" = "org.pwmt.zathura.desktop";
       "image/png" = "swayimg.desktop";
-      "x-scheme-handler/chrome" = "zen.desktop";
-      "application/x-extension-htm" = "zen.desktop";
-      "application/x-extension-html" = "zen.desktop";
-      "application/x-extension-shtml" = "zen.desktop";
-      "application/xhtml+xml" = "zen.desktop";
-      "application/x-extension-xhtml" = "zen.desktop";
-      "application/x-extension-xht" = "zen.desktop";
+      "x-scheme-handler/chrome" = "zen-beta-beta.desktop";
+      "application/x-extension-htm" = "zen-beta-beta.desktop";
+      "application/x-extension-html" = "zen-beta-beta.desktop";
+      "application/x-extension-shtml" = "zen-beta-beta.desktop";
+      "application/xhtml+xml" = "zen-beta-beta.desktop";
+      "application/x-extension-xhtml" = "zen-beta-beta.desktop";
+      "application/x-extension-xht" = "zen-beta-beta.desktop";
 
       # --- Archive formats -> File Roller ---
       # Tar family

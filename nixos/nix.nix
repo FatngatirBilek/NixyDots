@@ -18,7 +18,7 @@ in {
     daemonCPUSchedPolicy = "idle";
     daemonIOSchedClass = "idle";
 
-    nixPath = ["nixpkgs=${inputs.nixpkgs}"];
+    settings.nix-path = ["nixpkgs=${inputs.nixpkgs}"];
     channel.enable = false;
     extraOptions = ''
       warn-dirty = false
