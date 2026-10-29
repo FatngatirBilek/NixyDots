@@ -50,7 +50,7 @@ in {
   ];
   security.wrappers.ubridge = {
     # something for gns3
-    source = "/run/current-system/sw/bin/ubridge";
+    source = "${pkgs.ubridge}/bin/ubridge";
     capabilities = "cap_net_admin,cap_net_raw=ep";
     owner = "root";
     group = "ubridge";

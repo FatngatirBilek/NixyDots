@@ -22,7 +22,6 @@
       "usbcore.autosuspend=-1"
     ];
     consoleLogLevel = 0;
-    initrd.verbose = false;
   };
   # services.scx = {
   #   enable = true;
