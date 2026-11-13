@@ -4,10 +4,7 @@
   pkgs,
   lib,
   ...
-}: let
-  acermodule =
-    config.boot.kernelPackages.callPackage ../../nixos/acer-module.nix {};
-in {
+}: {
   environment.systemPackages = with pkgs; [
     # Enables v4l2loopback GUI utilities.
     v4l-utils
@@ -45,6 +42,7 @@ in {
     ../../nixos/onlyoffice.nix
     # ../../nixos/packettracer.nix
     ../../nixos/ollama.nix
+    ../../nixos/linux-sense.nix
     ./hardware-configuration.nix
     ./variables.nix
   ];
@@ -228,15 +226,16 @@ in {
   # programs.gamescope.enable = true;
   programs.gamemode.enable = true;
 
+  # Linux Sense (Acer Nitro/Predator profiles, fans, RGB keyboard and battery)
+  services.linux-sense.enable = true;
+
   boot.extraModulePackages = [
-    acermodule
     config.boot.kernelPackages.v4l2loopback
   ];
   boot.extraModprobeConfig = ''
     options v4l2loopback exclusive_caps=1
   '';
   boot.kernelModules = [
-    "facer"
     "wmi"
     "sparse-keymap"
     "video"

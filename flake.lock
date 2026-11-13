@@ -434,6 +434,26 @@
         "type": "github"
       }
     },
+    "linux-sense": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794590537,
+        "narHash": "sha256-nnR5rpiODzOOFMgkSxQwho0iyZGmY1MuB2oWVEECR4E=",
+        "ref": "refs/heads/main",
+        "rev": "d40257476f8fd64963b378ca5a875ed4195206cf",
+        "revCount": 17,
+        "type": "git",
+        "url": "file:///home/fathirbimashabri/Projects/linux-sense-nix"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///home/fathirbimashabri/Projects/linux-sense-nix"
+      }
+    },
     "mnw": {
       "locked": {
         "lastModified": 1784154424,
@@ -665,6 +685,7 @@
         "helium": "helium",
         "home-manager": "home-manager_3",
         "lanzaboote": "lanzaboote",
+        "linux-sense": "linux-sense",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",

@@ -83,6 +83,11 @@
       url = "github:schembriaiden/helium-browser-nix-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    linux-sense = {
+      url = "git+file:///home/fathirbimashabri/Projects/linux-sense-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -118,6 +123,7 @@
           inputs.lanzaboote.nixosModules.lanzaboote
 
           inputs.nix-index-database.nixosModules.nix-index
+          inputs.linux-sense.nixosModules.default
           ./hosts/laptop/configuration.nix
         ];
       };
