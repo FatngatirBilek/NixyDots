@@ -441,17 +441,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1794590537,
-        "narHash": "sha256-nnR5rpiODzOOFMgkSxQwho0iyZGmY1MuB2oWVEECR4E=",
-        "ref": "refs/heads/main",
-        "rev": "d40257476f8fd64963b378ca5a875ed4195206cf",
-        "revCount": 17,
-        "type": "git",
-        "url": "file:///home/fathirbimashabri/Projects/linux-sense-nix"
+        "lastModified": 1794590664,
+        "narHash": "sha256-KborvpfIkXCepSsqynp3WDus9eD2/HbkDSQ+QYpRsLQ=",
+        "owner": "FatngatirBilek",
+        "repo": "linux-sense-nix",
+        "rev": "6a55758cf916f88b04cff0c12152bb7d193319ef",
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/fathirbimashabri/Projects/linux-sense-nix"
+        "owner": "FatngatirBilek",
+        "repo": "linux-sense-nix",
+        "type": "github"
       }
     },
     "mnw": {

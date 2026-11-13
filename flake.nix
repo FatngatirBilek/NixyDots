@@ -85,7 +85,7 @@
     };
 
     linux-sense = {
-      url = "git+file:///home/fathirbimashabri/Projects/linux-sense-nix";
+      url = "github:FatngatirBilek/linux-sense-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
