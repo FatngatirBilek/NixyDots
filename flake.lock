@@ -441,11 +441,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794746487,
-        "narHash": "sha256-uz28vJ5a686iMHXEvMEPCkD+sKowfdATvOZRhRx7Cjs=",
+        "lastModified": 1794746752,
+        "narHash": "sha256-3oW/UlvUIRuih4TV1ssSBEbgxaYpN+RyoM7cL2izMfM=",
         "owner": "FatngatirBilek",
         "repo": "linux-sense-nix",
-        "rev": "aa9cbaa50f26fc5d52590d7648c4339dfcf01296",
+        "rev": "083cd8f5b3dda806837703c5b826a88b7fd41473",
         "type": "github"
       },
       "original": {
