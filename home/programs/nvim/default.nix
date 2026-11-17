@@ -175,10 +175,6 @@
             ui.enable = true;
           };
         };
-        # startPlugins = [
-        #   pkgs.vimPlugins.alpha-nvim
-        #   pkgs.vimPlugins.plenary-nvim
-        # ];
 
         lsp = {
           enable = true;
@@ -239,7 +235,6 @@
 
           markdown.enable = true;
 
-          # Languages that are enabled in the maximal configuration.
           bash.enable = true;
           clang.enable = true;
           css.enable = true;
@@ -265,9 +260,7 @@
             extensions.crates-nvim.enable = true;
           };
 
-          # Language modules that are not as common.
           assembly.enable = false;
-          # astro.enable = true;
           nu.enable = false;
           csharp.enable = false;
           julia.enable = false;
@@ -292,13 +285,17 @@
           highlight-undo.enable = true;
           indent-blankline.enable = true;
 
-          # Fun
           cellular-automaton.enable = false;
         };
 
         statusline = {
           lualine = {
             enable = true;
+            integrations = {
+              breadcrumbs = {
+                navbuddy.enable = true;
+              };
+            };
           };
         };
         theme = {
@@ -309,10 +306,6 @@
         };
         autopairs.nvim-autopairs.enable = true;
 
-        # nvf provides various autocomplete options. The tried and tested nvim-cmp
-        # is enabled in default package, because it does not trigger a build. We
-        # enable blink-cmp in maximal because it needs to build its rust fuzzy
-        # matcher library.
         autocomplete = {
           nvim-cmp.enable = false;
           blink-cmp.enable = true;
@@ -345,12 +338,11 @@
         git = {
           enable = true;
           gitsigns.enable = true;
-          gitsigns.codeActions.enable = false; # throws an annoying debug message
+          gitsigns.codeActions.enable = false;
           neogit.enable = true;
         };
         minimap = {
           minimap-vim.enable = false;
-          # codewindow.enable = false; # disabled: requires nvim-treesitter.ts_utils which breaks startup
         };
         dashboard = {
           dashboard-nvim.enable = false;
@@ -391,7 +383,7 @@
           registers = "unnamedplus";
         };
         notes = {
-          obsidian.enable = false; # FIXME: neovim fails to build if obsidian is enabled
+          obsidian.enable = false;
           neorg.enable = false;
           orgmode.enable = false;
           todo-comments.enable = true;
@@ -472,16 +464,11 @@
           borders.enable = true;
           noice.enable = true;
           colorizer.enable = true;
-          modes-nvim.enable = false; # the theme looks terrible with catppuccin
+          modes-nvim.enable = false;
           illuminate.enable = true;
-          breadcrumbs = {
-            enable = true;
-            navbuddy.enable = true;
-          };
           smartcolumn = {
             enable = true;
             setupOpts.custom_colorcolumn = {
-              # this is a freeform module, it's `buftype = int;` for configuring column position
               nix = "110";
               ruby = "120";
               java = "130";
