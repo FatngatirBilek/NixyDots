@@ -336,6 +336,7 @@
         ", XF86MonBrightnessDown, exec, brightness-down"
         # Lid close → suspend system + disable built-in display
         # Lid open  → re-enable built-in display
+        " , XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
         '', switch:on:Lid Switch,  exec, systemctl suspend && hyprctl keyword monitor "eDP-1, disable"''
         '', switch:off:Lid Switch, exec, hyprctl keyword monitor "eDP-1, 1920x1080@165, 0x0, 1"''
       ];
