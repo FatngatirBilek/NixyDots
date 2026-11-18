@@ -1,382 +1,349 @@
 # Hyprland home-manager configuration
-# Adapted from https://github.com/karol-broda/nixos-config
-# Keeps user's Bibata-Modern-Ice cursor, uses ghostty terminal, nautilus file manager
+# Fully migrated to native Hyprland Lua API via extraLuaFiles
+#
+# References:
+#   https://wiki.hypr.land/nix/configuring-hyprland-with-home-manager/
+#   https://nix-community.github.io/home-manager/options/home-manager/wayland.html#opt-wayland.windowManager.hyprland.enable
 {pkgs, ...}: {
   wayland.windowManager.hyprland = {
     enable = true;
-    # Use the system-installed hyprland package so the binary is in the user
-    # profile PATH — required by UWSM's env-preloader to find "hyprland".
     package = pkgs.hyprland;
     portalPackage = null;
-    # UWSM handles all systemd session integration; disable HM's own systemd unit.
     systemd.enable = false;
-    # Keep hyprlang (Nix attrset) config format; the HM default changed to "lua".
-    configType = "hyprlang";
+    configType = "lua";
 
-    settings = {
-      # ─── Catppuccin Frappé accent palette (dark-mode friendly) ───────────────
-      "$rosewater" = "rgb(f2d5cf)";
-      "$rosewaterAlpha" = "f2d5cf";
-      "$flamingo" = "rgb(eebebe)";
-      "$flamingoAlpha" = "eebebe";
-      "$pink" = "rgb(f4b8e4)";
-      "$pinkAlpha" = "f4b8e4";
-      "$mauve" = "rgb(ca9ee6)";
-      "$mauveAlpha" = "ca9ee6";
-      "$red" = "rgb(e78284)";
-      "$redAlpha" = "e78284";
-      "$maroon" = "rgb(ea999c)";
-      "$maroonAlpha" = "ea999c";
-      "$peach" = "rgb(ef9f76)";
-      "$peachAlpha" = "ef9f76";
-      "$yellow" = "rgb(e5c890)";
-      "$yellowAlpha" = "e5c890";
-      "$green" = "rgb(a6d189)";
-      "$greenAlpha" = "a6d189";
-      "$teal" = "rgb(81c8be)";
-      "$tealAlpha" = "81c8be";
-      "$sky" = "rgb(99d1db)";
-      "$skyAlpha" = "99d1db";
-      "$sapphire" = "rgb(85c1dc)";
-      "$sapphireAlpha" = "85c1dc";
-      "$blue" = "rgb(8caaee)";
-      "$blueAlpha" = "8caaee";
-      "$lavender" = "rgb(babbf1)";
-      "$lavenderAlpha" = "babbf1";
-      "$text" = "rgb(c6d0f5)";
-      "$textAlpha" = "c6d0f5";
-      "$subtext1" = "rgb(b5bfe2)";
-      "$subtext1Alpha" = "b5bfe2";
-      "$subtext0" = "rgb(a5adce)";
-      "$subtext0Alpha" = "a5adce";
-      "$overlay2" = "rgb(949cbb)";
-      "$overlay2Alpha" = "949cbb";
-      "$overlay1" = "rgb(838ba7)";
-      "$overlay1Alpha" = "838ba7";
-      "$overlay0" = "rgb(737994)";
-      "$overlay0Alpha" = "737994";
-      "$surface2" = "rgb(626880)";
-      "$surface2Alpha" = "626880";
-      "$surface1" = "rgb(51576d)";
-      "$surface1Alpha" = "51576d";
-      "$surface0" = "rgb(414559)";
-      "$surface0Alpha" = "414559";
-      "$base" = "rgb(303446)";
-      "$baseAlpha" = "303446";
-      "$mantle" = "rgb(292c3c)";
-      "$mantleAlpha" = "292c3c";
-      "$crust" = "rgb(232634)";
-      "$crustAlpha" = "232634";
+    # Leave settings empty so Home Manager doesn't generate invalid
+    # hl.<attribute>() calls (e.g. hl.ecosystem, hl.windowrule, etc.)
+    settings = {};
 
-      # ─── Variables ────────────────────────────────────────────────────────────
-      "$terminal" = "wezterm";
-      "$fileManager" = "nautilus";
-      "$menu" = "wofi --show drun";
-      "$mainMod" = "SUPER";
-      "$shiftMainMod" = "SUPER SHIFT";
+    extraLuaFiles = {
+      # ── config.lua: Monitors, Look & Feel, Ecosystem, Animations ──────────
+      "config" = {
+        autoLoad = true;
+        content = ''
+          -- ────────────────────────────────────────────────────────────────────
+          -- MONITORS
+          -- ────────────────────────────────────────────────────────────────────
+          hl.monitor({
+              output   = "eDP-1",
+              mode     = "1920x1080@165",
+              position = "0x0",
+              scale    = 1,
+          })
+          hl.monitor({
+              output   = "desc:HKC OVERSEAS LIMITED 24E4 0000000000001",
+              mode     = "1920x1080@144",
+              position = "1920x0",
+              scale    = 1,
+          })
+          hl.monitor({
+              output   = "",
+              mode     = "preferred",
+              position = "auto",
+              scale    = 1,
+              mirror   = "eDP-1",
+          })
 
-      # ─── Monitor ─────────────────────────────────────────────────────────────
-      # Monitor rules are matched top-to-bottom; the catch-all at the end handles
-      # any unknown display (projector, random monitor, etc.) with its native
-      # preferred resolution automatically — no manual tweaking needed.
-      #
-      # To find your home HDMI description, plug it in and run:
-      #   hyprctl monitors
-      # then copy the full "description" field into the rule below.
-      #
-      # CHANGEME: replace the desc: value with your actual home HDMI description,
-      #           and adjust the resolution/refresh if needed.
-      monitor = [
-        # Built-in display — 1920x1080 @ 165 Hz, always on the left
-        "eDP-1, 1920x1080@165, 0x0, 1"
+          -- ────────────────────────────────────────────────────────────────────
+          -- MAIN CONFIG (hl.config)
+          -- ────────────────────────────────────────────────────────────────────
+          hl.config({
+              ecosystem = {
+                  enforce_permissions = true,
+              },
 
-        # Home HDMI monitor (HKC 24E4 on HDMI-A-1) — matched by unique hardware
-        # description so it only activates for THIS physical monitor, never a
-        # projector or random screen. Positioned to the right of eDP-1 @ 144 Hz.
-        "desc:HKC OVERSEAS LIMITED 24E4 0000000000001, 1920x1080@144, 1920x0, 1"
+              general = {
+                  gaps_in          = 5,
+                  gaps_out         = 5,
+                  border_size      = 0,
+                  col = {
+                      active_border   = "rgba(707070ff)",
+                      inactive_border = "rgba(d0d0d0ff)",
+                  },
+                  layout           = "dwindle",
+                  resize_on_border = false,
+                  allow_tearing    = true,
+              },
 
-        # Fallback: any other display (projector, guest monitor, …) gets its
-        # own preferred/native resolution placed automatically. Safe by default.
-        ", preferred, auto, 1, mirror, eDP-1"
-      ];
+              decoration = {
+                  rounding       = 12,
+                  rounding_power = 2,
+                  active_opacity   = 1.0,
+                  inactive_opacity = 0.9,
 
-      # ─── Environment variables ────────────────────────────────────────────────
-      # With UWSM, all env vars are set via systemd.user.sessionVariables below
-      # (written to ~/.config/environment.d/) so that every app launched through
-      # `uwsm app` (transient systemd units) inherits them. Hyprland's `env`
-      # block is NOT inherited by UWSM-managed processes, so nothing belongs here.
+                  shadow = {
+                      enabled      = true,
+                      range        = 30,
+                      render_power = 4,      -- max allowed is 4
+                      offset       = { 0, 5 },-- vec2 requires 2-element array
+                      color        = 0x70000000,
+                  },
 
-      # ─── Permissions ─────────────────────────────────────────────────────────
-      "ecosystem:enforce_permissions" = true;
-      permission = [
-        ".*grim.*, screencopy, allow"
-        ".*slurp.*, screencopy, allow"
-        ".*wayfreeze.*, screencopy, allow"
-        ".*noctalia.*, screencopy, allow"
-      ];
-      # ─── Autostart ───────────────────────────────────────────────────────────
-      # Long-running daemons must be wrapped with `uwsm app --` so UWSM tracks
-      # them in proper systemd scope/transient units. Without this they become
-      # unmanaged children of the compositor and won't be cleaned up on logout.
-      exec-once = [
-        # Persist clipboard data after source apps close
-        "uwsm app -- wl-clip-persist --clipboard regular"
-      ];
+                  blur = {
+                      enabled        = true,
+                      size           = 8,
+                      passes         = 2,
+                      ignore_opacity = false,
+                      vibrancy       = 0.12,
+                  },
+              },
 
-      # ─── General ─────────────────────────────────────────────────────────────
-      general = {
-        gaps_in = 5;
-        gaps_out = 5;
-        border_size = 0;
-        "col.active_border" = "rgba(707070ff)";
-        "col.inactive_border" = "rgba(d0d0d0ff)";
-        layout = "dwindle";
-        resize_on_border = false;
-        allow_tearing = true;
+              animations = {
+                  enabled = true,
+              },
+
+              dwindle = {
+                  preserve_split = true,
+                  smart_split    = true,
+                  force_split    = 2,
+              },
+
+              master = {
+                  new_status             = "master",
+                  center_master_fallback = "right",
+              },
+
+              misc = {
+                  disable_hyprland_logo = true,
+                  focus_on_activate     = true,
+              },
+
+              input = {
+                  kb_layout    = "us",
+                  follow_mouse = 1,
+                  sensitivity  = 0,
+                  touchpad = {
+                      natural_scroll        = true,
+                      disable_while_typing  = true,
+                      tap_to_click          = true,
+                      clickfinger_behavior  = true,
+                  },
+              },
+
+              cursor = {
+                  hide_on_key_press = false,
+              },
+          })
+
+          -- ────────────────────────────────────────────────────────────────────
+          -- ANIMATIONS
+          -- ────────────────────────────────────────────────────────────────────
+          hl.curve("myBezier", { type = "bezier", points = { {0.05, 0.9}, {0.1, 1.05} } })
+
+          hl.animation({ leaf = "windows",    enabled = true, speed = 7, bezier = "myBezier" })
+          hl.animation({ leaf = "windowsIn",  enabled = true, speed = 7, bezier = "myBezier", style = "slide" })
+          hl.animation({ leaf = "windowsOut", enabled = true, speed = 7, bezier = "myBezier", style = "slide" })
+          hl.animation({ leaf = "border",     enabled = true, speed = 10, bezier = "default" })
+          hl.animation({ leaf = "borderangle",enabled = true, speed = 8,  bezier = "default" })
+          hl.animation({ leaf = "fade",       enabled = true, speed = 7,  bezier = "default" })
+          hl.animation({ leaf = "workspaces", enabled = true, speed = 6,  bezier = "myBezier", style = "slide" })
+        '';
       };
 
-      # ─── Decoration ──────────────────────────────────────────────────────────
-      decoration = {
-        rounding = 12;
-        rounding_power = 2;
-        active_opacity = 1.0;
-        inactive_opacity = 0.9;
+      # ── rules.lua: Permissions and Window Rules ───────────────────────────
+      "rules" = {
+        autoLoad = true;
+        content = ''
+          -- ────────────────────────────────────────────────────────────────────
+          -- PERMISSIONS
+          -- ────────────────────────────────────────────────────────────────────
+          hl.permission(".*grim.*", "screencopy", "allow")
+          hl.permission(".*slurp.*", "screencopy", "allow")
+          hl.permission(".*wayfreeze.*", "screencopy", "allow")
+          hl.permission(".*noctalia.*", "screencopy", "allow")
 
-        shadow = {
-          enabled = true;
-          range = 30;
-          render_power = 5;
-          offset = "0 5";
-          color = "rgba(00000070)";
-        };
+          -- ────────────────────────────────────────────────────────────────────
+          -- WINDOW RULES
+          -- ────────────────────────────────────────────────────────────────────
+          hl.window_rule({
+              name  = "suppress-maximize",
+              match = { class = ".*" },
+              suppress_event = "maximize",
+          })
 
-        blur = {
-          enabled = true;
-          size = 8;
-          passes = 2;
-          ignore_opacity = false;
-          vibrancy = 0.12;
-        };
+          hl.window_rule({
+              name  = "fix-xwayland-drags",
+              match = {
+                  class      = "^$",
+                  title      = "^$",
+                  xwayland   = true,
+                  float      = true,
+                  fullscreen = false,
+              },
+              no_focus = true,
+          })
+
+          hl.window_rule({
+              name  = "unfocused-opacity",
+              match = { float = false, focus = false },
+              opacity = "0.9 0.9",
+          })
+
+          hl.window_rule({
+              name  = "gnome-border",
+              match = { class = "^(org\\.gnome\\.)" },
+              rounding    = 12,
+              border_size = 0,
+          })
+
+          hl.window_rule({
+              name  = "terminals-border",
+              match = { class = "^(org\\.wezfurlong\\.wezterm|Alacritty|zen|com\\.mitchellh\\.ghostty|kitty)$" },
+              border_size = 0,
+          })
+
+          hl.window_rule({
+              name  = "floating-utilities",
+              match = { class = "^(gnome-calculator|blueman-manager|org\\.gnome\\.Nautilus|pavucontrol|nwg-look|gnome-disk-utility)$" },
+              float = true,
+          })
+
+          hl.window_rule({
+              name  = "picture-in-picture",
+              match = { title = "^(Picture-in-Picture)$" },
+              float = true,
+          })
+
+          hl.window_rule({
+              name  = "noctalia-panel",
+              match = { class = "^(dev\\.noctalia\\.Noctalia)$" },
+              float = true,
+              size  = { 1080, 920 },
+          })
+        '';
       };
 
-      # ─── Animations ─────────────────────────────────────────────────────────
-      animations = {
-        enabled = true;
+      # ── bindings.lua: Keybindings, Mouse Binds, Autostart ─────────────────
+      "bindings" = {
+        autoLoad = true;
+        content = ''
+          -- ────────────────────────────────────────────────────────────────────
+          -- BINDINGS
+          -- ────────────────────────────────────────────────────────────────────
+          local mainMod  = "SUPER"
+          local terminal = "wezterm"
+          local fileManager = "nautilus"
+          local menu     = "wofi --show drun"
 
-        bezier = [
-          "myBezier, 0.05, 0.9, 0.1, 1.05"
-        ];
+          -- ── Autostart ─────────────────────────────────────────────────────
+          hl.on("hyprland.start", function()
+              hl.exec_cmd("uwsm app -- wl-clip-persist --clipboard regular")
+          end)
 
-        animation = [
-          "windows, 1, 7, myBezier"
-          "windowsIn, 1, 7, myBezier, slide"
-          "windowsOut, 1, 7, myBezier, slide"
-          "border, 1, 10, default"
-          "borderangle, 1, 8, default"
-          "fade, 1, 7, default"
-          "workspaces, 1, 6, myBezier, slide"
-        ];
+          -- ── 3-finger swipe ────────────────────────────────────────────────
+          hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
+
+          -- ── Core ──────────────────────────────────────────────────────────
+          hl.bind(mainMod .. " + T",             hl.dsp.exec_cmd("uwsm app -- " .. terminal))
+          hl.bind(mainMod .. " + Q",             hl.dsp.window.close())
+          hl.bind(mainMod .. " + E",             hl.dsp.exec_cmd("uwsm app -- " .. fileManager))
+          hl.bind(mainMod .. " + SHIFT + V",     hl.dsp.window.float({ action = "toggle" }))
+          hl.bind(mainMod .. " + F",             hl.dsp.window.fullscreen())
+          hl.bind(mainMod .. " + SHIFT + F",     hl.dsp.window.fullscreen({ mode = "maximized" }))
+          hl.bind(mainMod .. " + R",             hl.dsp.exec_cmd("uwsm app -- " .. menu))
+          hl.bind(mainMod .. " + space",         hl.dsp.layout("togglesplit"))
+
+          -- ── Screenshot ────────────────────────────────────────────────────
+          hl.bind("Print",                       hl.dsp.exec_cmd("screenshot"))
+
+          -- ── Noctalia ──────────────────────────────────────────────────────
+          hl.bind(mainMod .. " + D",             hl.dsp.exec_cmd("noctalia msg panel-toggle launcher"))
+          hl.bind(mainMod .. " + V",             hl.dsp.exec_cmd("noctalia msg panel-toggle clipboard"))
+          hl.bind(mainMod .. " + comma",         hl.dsp.exec_cmd("noctalia msg settings-toggle"))
+          hl.bind(mainMod .. " + N",             hl.dsp.exec_cmd("noctalia msg panel-toggle control-center"))
+          hl.bind(mainMod .. " + Y",             hl.dsp.exec_cmd("noctalia msg panel-toggle wallpaper"))
+          hl.bind(mainMod .. " + TAB",           hl.dsp.exec_cmd("noctalia msg window-switcher"))
+          hl.bind(mainMod .. " + P",             hl.dsp.exec_cmd("noctalia msg panel-toggle session"))
+          hl.bind(mainMod .. " + ALT + L",       hl.dsp.exec_cmd("noctalia msg session lock"))
+
+          -- ── Focus (arrow keys + HJKL) ─────────────────────────────────────
+          hl.bind(mainMod .. " + left",          hl.dsp.focus({ direction = "left"  }))
+          hl.bind(mainMod .. " + right",         hl.dsp.focus({ direction = "right" }))
+          hl.bind(mainMod .. " + up",            hl.dsp.focus({ direction = "up"    }))
+          hl.bind(mainMod .. " + down",          hl.dsp.focus({ direction = "down"  }))
+          hl.bind(mainMod .. " + H",             hl.dsp.focus({ direction = "left"  }))
+          hl.bind(mainMod .. " + J",             hl.dsp.focus({ direction = "down"  }))
+          hl.bind(mainMod .. " + K",             hl.dsp.focus({ direction = "up"    }))
+          hl.bind(mainMod .. " + L",             hl.dsp.focus({ direction = "right" }))
+
+          -- ── Workspaces 1-10 ───────────────────────────────────────────────
+          for i = 1, 10 do
+              local key = i % 10  -- 10 → key 0
+              hl.bind(mainMod .. " + " .. key,               hl.dsp.focus({ workspace = i }))
+              hl.bind(mainMod .. " + SHIFT + " .. key,       hl.dsp.window.move({ workspace = i }))
+          end
+
+          -- ── Multi-monitor ─────────────────────────────────────────────────
+          hl.bind(mainMod .. " + period",                    hl.dsp.focus({ monitor = "+1" }))
+          hl.bind(mainMod .. " + SHIFT + period",            hl.dsp.workspace.move({ monitor = "+1" }))
+          hl.bind(mainMod .. " + SHIFT + comma",             hl.dsp.workspace.move({ monitor = "-1" }))
+
+          -- ── Special workspace (scratchpad) ────────────────────────────────
+          hl.bind(mainMod .. " + S",                         hl.dsp.workspace.toggle_special("magic"))
+          hl.bind(mainMod .. " + SHIFT + S",                 hl.dsp.window.move({ workspace = "special:magic" }))
+
+          -- ── Mouse scroll through workspaces ───────────────────────────────
+          hl.bind(mainMod .. " + mouse_down",                hl.dsp.focus({ workspace = "e+1" }))
+          hl.bind(mainMod .. " + mouse_up",                  hl.dsp.focus({ workspace = "e-1" }))
+
+          -- ── Window swap (SUPER + SHIFT + HJKL) ───────────────────────────
+          hl.bind(mainMod .. " + SHIFT + H",                 hl.dsp.window.swap({ direction = "left"  }))
+          hl.bind(mainMod .. " + SHIFT + J",                 hl.dsp.window.swap({ direction = "down"  }))
+          hl.bind(mainMod .. " + SHIFT + K",                 hl.dsp.window.swap({ direction = "up"    }))
+          hl.bind(mainMod .. " + SHIFT + L",                 hl.dsp.window.swap({ direction = "right" }))
+
+          -- ── Window resize (SUPER + CTRL + HJKL) ──────────────────────────
+          hl.bind(mainMod .. " + CTRL + H",                  hl.dsp.window.resize({ x = -30, y =   0, relative = true }))
+          hl.bind(mainMod .. " + CTRL + L",                  hl.dsp.window.resize({ x =  30, y =   0, relative = true }))
+          hl.bind(mainMod .. " + CTRL + J",                  hl.dsp.window.resize({ x =   0, y =  30, relative = true }))
+          hl.bind(mainMod .. " + CTRL + K",                  hl.dsp.window.resize({ x =   0, y = -30, relative = true }))
+
+          -- ── Floating window move (SUPER + CTRL + SHIFT + HJKL) ───────────
+          hl.bind(mainMod .. " + CTRL + SHIFT + H",          hl.dsp.window.move({ x = -40, y =   0, relative = true }))
+          hl.bind(mainMod .. " + CTRL + SHIFT + L",          hl.dsp.window.move({ x =  40, y =   0, relative = true }))
+          hl.bind(mainMod .. " + CTRL + SHIFT + J",          hl.dsp.window.move({ x =   0, y =  40, relative = true }))
+          hl.bind(mainMod .. " + CTRL + SHIFT + K",          hl.dsp.window.move({ x =   0, y = -40, relative = true }))
+
+          -- ── Mouse drag / resize ───────────────────────────────────────────
+          hl.bind(mainMod .. " + mouse:272",                 hl.dsp.window.drag(),   { mouse = true })
+          hl.bind(mainMod .. " + mouse:273",                 hl.dsp.window.resize(), { mouse = true })
+
+          -- ── Multimedia ────────────────────────────────────────────────────
+          hl.bind("XF86AudioPlay",    hl.dsp.exec_cmd("playerctl play-pause"))
+          hl.bind("XF86AudioNext",    hl.dsp.exec_cmd("playerctl next"))
+          hl.bind("XF86AudioPrev",    hl.dsp.exec_cmd("playerctl previous"))
+
+          -- ── Volume (locked + repeating) ───────────────────────────────────
+          hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("noctalia msg volume-up"),
+              { locked = true, repeating = true })
+          hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("noctalia msg volume-down"),
+              { locked = true, repeating = true })
+
+          -- ── Locked keys ───────────────────────────────────────────────────
+          hl.bind("XF86AudioMute",
+              hl.dsp.exec_cmd("noctalia msg volume-mute"),    { locked = true })
+          hl.bind("XF86AudioMicMute",
+              hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), { locked = true })
+          hl.bind("XF86MonBrightnessUp",
+              hl.dsp.exec_cmd("brightness-up"),               { locked = true })
+          hl.bind("XF86MonBrightnessDown",
+              hl.dsp.exec_cmd("brightness-down"),             { locked = true })
+
+          -- ── Lid switch ────────────────────────────────────────────────────
+          hl.bind("switch:on:Lid Switch",
+              hl.dsp.exec_cmd('systemctl suspend && hyprctl keyword monitor "eDP-1, disable"'),
+              { locked = true })
+          hl.bind("switch:off:Lid Switch",
+              hl.dsp.exec_cmd('hyprctl keyword monitor "eDP-1, 1920x1080@165, 0x0, 1"'),
+              { locked = true })
+        '';
       };
-
-      # ─── Layouts ─────────────────────────────────────────────────────────────
-      dwindle = {
-        preserve_split = true;
-        smart_split = true;
-        force_split = 2;
-      };
-
-      master = {
-        new_status = "master";
-        center_master_fallback = "right";
-      };
-
-      # ─── Misc ────────────────────────────────────────────────────────────────
-      misc = {
-        disable_hyprland_logo = true;
-        focus_on_activate = true;
-      };
-
-      # ─── Input ───────────────────────────────────────────────────────────────
-      input = {
-        kb_layout = "us";
-        follow_mouse = 1;
-        sensitivity = 0;
-        touchpad = {
-          natural_scroll = true;
-          disable_while_typing = true;
-          tap-to-click = true;
-          clickfinger_behavior = true;
-        };
-      };
-
-      cursor = {
-        hide_on_key_press = false;
-      };
-
-      # 3-finger horizontal swipe switches workspaces
-      gesture = [
-        "3, horizontal, workspace"
-      ];
-
-      # ─── Keybinds ────────────────────────────────────────────────────────────
-      # GUI apps use `uwsm app --` so UWSM launches them as transient systemd
-      # units with proper cgroup tracking, env inheritance, and clean shutdown.
-      # One-shot / instant commands (killactive, wpctl, etc.) do NOT need it.
-      bind = [
-        # Core
-        "$mainMod, T, exec, uwsm app -- $terminal"
-        "$mainMod, Q, killactive,"
-        "$mainMod, E, exec, uwsm app -- $fileManager"
-        "$shiftMainMod, V, togglefloating,"
-        "$mainMod, F, fullscreenstate, 1 1"
-        "$shiftMainMod, F, fullscreenstate, 2"
-        "$mainMod, R, exec, uwsm app -- $menu"
-        "$mainMod, space, layoutmsg, togglesplit"
-
-        # Screenshots using custom screenshot script
-        ", Print, exec, screenshot"
-
-        # Noctalia keybindings
-        "$mainMod, D, exec, noctalia msg panel-toggle launcher"
-        "$mainMod, V, exec, noctalia msg panel-toggle clipboard"
-        "$mainMod, comma, exec, noctalia msg settings-toggle"
-        "$mainMod, N, exec, noctalia msg panel-toggle control-center"
-        "$mainMod, Y, exec, noctalia msg panel-toggle wallpaper"
-        "$mainMod, TAB, exec, noctalia msg window-switcher"
-        "$mainMod, P, exec, noctalia msg panel-toggle session"
-        "$mainMod ALT, L, exec, noctalia msg session lock"
-
-        # Focus movement (arrow keys + HJKL)
-        "$mainMod, left,  movefocus, l"
-        "$mainMod, right, movefocus, r"
-        "$mainMod, up,    movefocus, u"
-        "$mainMod, down,  movefocus, d"
-        "$mainMod, H, movefocus, l"
-        "$mainMod, J, movefocus, d"
-        "$mainMod, K, movefocus, u"
-        "$mainMod, L, movefocus, r"
-
-        # Workspaces
-        "$mainMod, 1, workspace, 1"
-        "$mainMod, 2, workspace, 2"
-        "$mainMod, 3, workspace, 3"
-        "$mainMod, 4, workspace, 4"
-        "$mainMod, 5, workspace, 5"
-        "$mainMod, 6, workspace, 6"
-        "$mainMod, 7, workspace, 7"
-        "$mainMod, 8, workspace, 8"
-        "$mainMod, 9, workspace, 9"
-        "$mainMod, 0, workspace, 10"
-
-        # Move window to workspace
-        "$shiftMainMod, 1, movetoworkspace, 1"
-        "$shiftMainMod, 2, movetoworkspace, 2"
-        "$shiftMainMod, 3, movetoworkspace, 3"
-        "$shiftMainMod, 4, movetoworkspace, 4"
-        "$shiftMainMod, 5, movetoworkspace, 5"
-        "$shiftMainMod, 6, movetoworkspace, 6"
-        "$shiftMainMod, 7, movetoworkspace, 7"
-        "$shiftMainMod, 8, movetoworkspace, 8"
-        "$shiftMainMod, 9, movetoworkspace, 9"
-        "$shiftMainMod, 0, movetoworkspace, 10"
-
-        # Multi-monitor
-        "$mainMod, period,      focusmonitor, +1"
-        "$mainMod, comma,       focusmonitor, -1"
-        "$shiftMainMod, period, movecurrentworkspacetomonitor, +1"
-        "$shiftMainMod, comma,  movecurrentworkspacetomonitor, -1"
-
-        # Special workspace (scratchpad)
-        "$mainMod, S, togglespecialworkspace, magic"
-        "$shiftMainMod, S, movetoworkspace, special:magic"
-
-        # Scroll through workspaces with mousewheel
-        "$mainMod, mouse_down, workspace, e+1"
-        "$mainMod, mouse_up,   workspace, e-1"
-
-        # Window swapping (HJKL with shift)
-        "$shiftMainMod, H, swapwindow, l"
-        "$shiftMainMod, J, swapwindow, d"
-        "$shiftMainMod, K, swapwindow, u"
-        "$shiftMainMod, L, swapwindow, r"
-
-        # Window resize (HJKL with ctrl)
-        "$mainMod CTRL, H, resizeactive, -30 0"
-        "$mainMod CTRL, L, resizeactive, 30 0"
-        "$mainMod CTRL, J, resizeactive, 0 30"
-        "$mainMod CTRL, K, resizeactive, 0 -30"
-
-        # Window move when floating (HJKL with ctrl+shift)
-        "$shiftMainMod CTRL, H, moveactive, -40 0"
-        "$shiftMainMod CTRL, L, moveactive, 40 0"
-        "$shiftMainMod CTRL, J, moveactive, 0 40"
-        "$shiftMainMod CTRL, K, moveactive, 0 -40"
-
-        # Multimedia
-        ", XF86AudioPlay, exec, playerctl play-pause"
-        ", XF86AudioNext, exec, playerctl next"
-        ", XF86AudioPrev, exec, playerctl previous"
-      ];
-
-      bindm = [
-        "$mainMod, mouse:272, movewindow"
-        "$mainMod, mouse:273, resizewindow"
-      ];
-
-      # Volume / brightness (with repeat)
-      bindel = [
-        ", XF86AudioRaiseVolume, exec, noctalia msg volume-up"
-        ", XF86AudioLowerVolume, exec, noctalia msg volume-down"
-      ];
-
-      # Media keys (passthrough even when screen is locked)
-      bindl = [
-        ", XF86AudioMute, exec, noctalia msg volume-mute"
-        ", XF86MonBrightnessUp, exec, brightness-up"
-        ", XF86MonBrightnessDown, exec, brightness-down"
-        # Lid close → suspend system + disable built-in display
-        # Lid open  → re-enable built-in display
-        " , XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-        '', switch:on:Lid Switch,  exec, systemctl suspend && hyprctl keyword monitor "eDP-1, disable"''
-        '', switch:off:Lid Switch, exec, hyprctl keyword monitor "eDP-1, 1920x1080@165, 0x0, 1"''
-      ];
-
-      # ─── Window rules ────────────────────────────────────────────────────────
-      windowrule = [
-        "match:class .*, suppress_event maximize"
-        "match:class ^$, match:title ^$, match:xwayland true, match:float true, match:fullscreen false, no_initial_focus on"
-        "opacity 0.9 0.9, match:float 0, match:focus 0"
-        "rounding 12, border_size 0, match:class ^(org\\.gnome\\.)"
-        "border_size 0, match:class ^(org\\.wezfurlong\\.wezterm)$"
-        "border_size 0, match:class ^(Alacritty)$"
-        "border_size 0, match:class ^(zen)$"
-        "border_size 0, match:class ^(com\\.mitchellh\\.ghostty)$"
-        "border_size 0, match:class ^(kitty)$"
-        "float on, match:class ^(gnome-calculator)$"
-        "float on, match:class ^(blueman-manager)$"
-        "float on, match:class ^(org\\.gnome\\.Nautilus)$"
-        "float on, match:class ^(dev\\.noctalia\\.Noctalia)$, size 1080 920"
-        "match:class ^(pavucontrol)$, float on"
-        "match:title ^(Picture-in-Picture)$, float on"
-        "match:class ^(nwg-look)$, float on"
-        "match:class ^(gnome-disk-utility)$, float on"
-      ];
     };
   };
 
-  # Polkit agent for hyprland (needed for privilege escalation prompts)
   services.hyprpolkitagent.enable = true;
 
-  # ─── Session-wide environment (environment.d) ────────────────────────────
-  # UWSM launches apps as transient systemd user units, so they do NOT inherit
-  # Hyprland's `env` block. These vars are written to ~/.config/environment.d/
-  # which systemd reads at user-session start — every unit (and `uwsm app`)
-  # inherits them automatically.
-  #
-  # Cursor, toolkit backends, and GTK theming vars that used to live in the
-  # Hyprland env block are placed here instead.
   systemd.user.sessionVariables = {
-    # Cursor
     HYPRCURSOR_SIZE = "24";
     HYPRCURSOR_THEME = "Bibata-Modern-Ice";
     XCURSOR_SIZE = "24";
