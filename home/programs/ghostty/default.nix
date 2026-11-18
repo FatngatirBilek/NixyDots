@@ -4,7 +4,7 @@
   ...
 }: {
   programs.ghostty = {
-    enable = true;
+    enable = false;
     package = inputs.ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default;
     settings = {
       command = "zsh";

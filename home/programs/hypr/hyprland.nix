@@ -69,7 +69,7 @@
       "$crustAlpha" = "232634";
 
       # ─── Variables ────────────────────────────────────────────────────────────
-      "$terminal" = "ghostty";
+      "$terminal" = "wezterm";
       "$fileManager" = "nautilus";
       "$menu" = "wofi --show drun";
       "$mainMod" = "SUPER";
