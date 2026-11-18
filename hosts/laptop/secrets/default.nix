@@ -3,6 +3,7 @@
 {
   pkgs,
   inputs,
+  config,
   ...
 }: {
   imports = [inputs.sops-nix.homeManagerModules.sops];
@@ -14,6 +15,7 @@
       sshkeyprivate = {path = "/home/fathirbimashabri/.ssh/id_ed25519";};
       sshkeypublic = {path = "/home/fathirbimashabri/.ssh/id_ed25519.pub";};
       gpgkeyprivate = {path = "/home/fathirbimashabri/.config/sops/gpg/private_key.asc";};
+      nix-access-tokens = {};
     };
   };
   systemd.user.services.import-gpg-key = {
@@ -53,6 +55,9 @@
         key_groups:
           - age:
             - *primary
+  '';
+  xdg.configFile."nix/nix.conf".text = ''
+    !include ${config.sops.secrets.nix-access-tokens.path}
   '';
 
   systemd.user.services.mbsync.Unit.After = ["sops-nix.service"];
