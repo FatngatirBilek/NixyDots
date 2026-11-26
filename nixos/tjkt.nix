@@ -30,7 +30,9 @@
     icu
     libcxx
     clang-tools
-    # jetbrains-toolbox
+    jetbrains-toolbox
+    python3
+    platformio
   ];
 
   # Winbox setup
