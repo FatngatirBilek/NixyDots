@@ -33,6 +33,7 @@
     jetbrains-toolbox
     python3
     platformio
+    mosquitto
   ];
 
   # Winbox setup
